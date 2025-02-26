@@ -7,7 +7,7 @@ export const Route = createFileRoute("/home/category")({
 function RouteComponent() {
   return (
     <div className="flex flex-auto items-center justify-center">
-      Hello "/index/category"!
+      <span className="text-[14px]"> Hello "/index/category"!</span>
     </div>
   );
 }

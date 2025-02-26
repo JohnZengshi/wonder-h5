@@ -1,6 +1,12 @@
 import { css } from "@/lib/emotion";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import logo from "@/assets/logo.svg";
+import {
+  useAppKit,
+  useAppKitAccount,
+  useAppKitEvents,
+  useDisconnect,
+} from "@reown/appkit/react";
 
 export const Route = createFileRoute("/home")({
   component: RouteComponent,
@@ -28,6 +34,10 @@ const activeTabStyle = css`
 `;
 
 function RouteComponent() {
+  const { open, close } = useAppKit();
+  const { isConnected, status } = useAppKitAccount();
+  const events = useAppKitEvents();
+  const { disconnect } = useDisconnect();
   return (
     <div className="h-full flex flex-col min-h-[100vh]">
       <div className="flex items-center gap-[14px] h-[44px] px-[14px]">
@@ -37,11 +47,24 @@ function RouteComponent() {
           <NavTab to="/home/category" text="分类" />
           <NavTab to="/home/shop" text="购物车" />
         </div>
-        <div className="flex items-center ml-auto gap-[8px] px-[15px] py-[6px] rounded-[76px] bg-white bg-opacity-10">
-          <img src={logo} className="w-[26px] h-[26px]" alt="" />
-          <span className="i-material-symbols-keyboard-arrow-down text-[26px]"></span>
+
+        <div
+          className="flex items-center ml-auto gap-[8px] px-[15px] py-[6px] rounded-[76px] bg-white bg-opacity-10"
+          onClick={() => {
+            open();
+          }}
+        >
+          {isConnected ? (
+            <>
+              <img src={logo} className="w-[26px] h-[26px]" alt="" />
+              <span className="i-material-symbols-keyboard-arrow-down text-[22px] opacity-80"></span>
+            </>
+          ) : (
+            <span className="i-mdi-wallet text-[22px] opacity-80"></span>
+          )}
         </div>
-        <span className="i-material-symbols-language text-[22px]"></span>
+
+        <span className="i-material-symbols-language text-[22px] opacity-80"></span>
       </div>
       <Outlet />
     </div>
