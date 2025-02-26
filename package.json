@@ -1,0 +1,45 @@
+{
+  "name": "wonder-h5",
+  "private": true,
+  "version": "0.0.2",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "release": "standard-version && git push --follow-tags"
+  },
+  "dependencies": {
+    "@reown/appkit": "^1.6.3",
+    "@reown/appkit-adapter-wagmi": "^1.6.3",
+    "@tanstack/react-query": "^5.62.11",
+    "antd": "^5.22.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "viem": "^2.21.60",
+    "wagmi": "^2.14.6"
+  },
+  "devDependencies": {
+    "@emotion/css": "^11.13.5",
+    "@eslint/js": "^9.17.0",
+    "@types/node": "^22.10.3",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "clsx": "^2.1.1",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "globals": "^15.14.0",
+    "postcss": "^8.4.49",
+    "postcss-pxtorem": "^6.1.0",
+    "standard-version": "^9.5.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.6.2",
+    "typescript-eslint": "^8.18.2",
+    "vite": "^6.0.5"
+  },
+  "packageManager": "yarn@1.22.21+sha1.1959a18351b811cdeedbd484a8f86c3cc3bbaf72"
+}
