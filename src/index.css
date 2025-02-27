@@ -1,13 +1,4 @@
 :root:root{
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: 0em;
-  font-variation-settings: "opsz" auto;
-  color: #FFFFFF;
-
-
   --adm-color-primary: #893AF6;
   --adm-color-success: #00b578;
   --adm-color-warning: #ff8f1f;
@@ -23,6 +14,18 @@
   --adm-color-background: #141414;
 
   --adm-font-size-main: var(--adm-font-size-5);
+  --adm-font-family: "Alibaba PuHuiTi 2.0",Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --w3m-font-family: "Alibaba PuHuiTi 2.0",Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+:root{
+  font-family: "Alibaba PuHuiTi 2.0",Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0em;
+  font-variation-settings: "opsz" auto;
+  color: #FFFFFF;
 }
 
 @tailwind base;
