@@ -31,6 +31,7 @@ const activeIndicator = css`
 const activeTabStyle = css`
   ${activeIndicator}
   background: rgba(137, 58, 246, 0.2);
+  color: #893af6;
 `;
 
 function RouteComponent() {
@@ -85,7 +86,7 @@ const NavTab = ({
     to={to}
     activeOptions={{ exact }}
     activeProps={{ className: activeTabStyle }}
-    className="flex h-full items-center justify-center px-[8px] relative"
+    className="flex h-full items-center justify-center px-[8px] relative text-white"
   >
     <span className="text-[14px]">{text}</span>
   </Link>

@@ -1,7 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Autoplay from "embla-carousel-autoplay";
-import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Swiper } from "antd-mobile";
 
 export const Route = createFileRoute("/home/")({
   component: RouteComponent,
@@ -12,64 +10,29 @@ const slides = [
   { id: 2, bg: "#893AF6", text: "Banner 2" },
   { id: 3, bg: "#45B7D1", text: "Banner 3" },
 ];
+
+const colors = ["#ace0ff", "#bcffbd", "#e4fabd", "#ffcfac"];
+
+const items = colors.map((color, index) => (
+  <Swiper.Item key={index}>
+    <div
+      className="h-[220px] flex items-center justify-center"
+      style={{ background: color }}
+      onClick={() => {}}
+    >
+      {index + 1}
+    </div>
+  </Swiper.Item>
+));
+
 function RouteComponent() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false }, [Autoplay()]);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  // 更新当前选中索引
-  const updateIndex = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  // 监听轮播切换事件
-  useEffect(() => {
-    if (!emblaApi) return () => {};
-    emblaApi.on("select", updateIndex);
-    return () => emblaApi.off("select", updateIndex);
-  }, [emblaApi, updateIndex]);
-
-  // 初始化时设置正确索引
-  useEffect(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
   return (
     <div className="flex flex-auto flex-col items-center px-[14px] py-[12px] gap-[16px]">
       {/* banner */}
-      <div className="relative">
-        <div
-          className="w-[347px] h-[220px] rounded-[15px] bg-[#3C3C3C] overflow-hidden"
-          ref={emblaRef}
-        >
-          <div className="flex h-full">
-            {slides.map((slide) => (
-              <div
-                key={slide.id}
-                className="embla__slide flex-[0_0_100%] min-w-0 h-full flex items-center justify-center"
-                style={{ backgroundColor: slide.bg }}
-              >
-                <span className="text-white text-[24px]">{slide.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        {/* 圆形指示器 */}
-        <div className="flex gap-[2px] absolute bottom-[16px] left-1/2 -translate-x-1/2">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              className={`w-[5px] h-[5px] rounded-full transition-all ${
-                index === selectedIndex
-                  ? "w-[7px] bg-white rounded-[35px]"
-                  : "bg-[#D8D8D8] bg-opacity-60"
-              }`}
-              onClick={() => emblaApi?.scrollTo(index)}
-              aria-label={`跳转到第 ${index + 1} 张幻灯片`}
-            />
-          ))}
-        </div>
+      <div className="relative w-[347px] rounded-[15px] overflow-hidden">
+        <Swiper autoplay>{items}</Swiper>
       </div>
+
       {/* 公告 */}
       <div className="w-full flex items-center gap-[14px] px-[14px] h-[54px] rounded-[10px] bg-[#1F1F1F]">
         <span className="i-mdi-bullhorn-outline text-[#893AF6] text-[24px]"></span>
