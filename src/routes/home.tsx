@@ -7,6 +7,7 @@ import {
   useAppKitEvents,
   useDisconnect,
 } from "@reown/appkit/react";
+import { SafeArea } from "antd-mobile";
 
 export const Route = createFileRoute("/home")({
   component: RouteComponent,
@@ -40,8 +41,8 @@ function RouteComponent() {
   const events = useAppKitEvents();
   const { disconnect } = useDisconnect();
   return (
-    <div className="h-full flex flex-col min-h-[100vh]">
-      <div className="flex items-center gap-[14px] h-[44px] px-[14px]">
+    <div className="h-full flex flex-col min-h-[100vh] relative">
+      <div className="flex items-center gap-[14px] w-full h-[44px] px-[14px] fixed top-0 left-0 bg-[#141414] z-50">
         <img src={logo} className="w-[36px] h-[36px]" alt="" />
         <div className="flex items-center h-full">
           <NavTab to="/home" text="首页" exact />
@@ -67,6 +68,10 @@ function RouteComponent() {
 
         <span className="i-material-symbols-language text-[22px] opacity-80"></span>
       </div>
+
+      <div className="h-[44px]"></div>
+      <SafeArea position="top" />
+
       <Outlet />
     </div>
   );
