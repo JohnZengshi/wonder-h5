@@ -18,4 +18,10 @@ export default defineConfig({
   server: {
     host: "0.0.0.0", // 允许局域网访问
   },
+  define: {
+    // 兼容旧式 process 写法
+    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+    // 注入其他必要变量
+    global: {},
+  },
 });
