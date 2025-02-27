@@ -53,10 +53,10 @@ function RouteComponent() {
         {Array.from({ length: 5 }).map((_, i) => (
           <li className="p-[10px] h-[213px] flex flex-col justify-between bg-[#1F1F1F] rounded-[10px]">
             <div className="w-[145px] h-[164px] rounded-[12.75px] bg-[#3C3C3C]"></div>
-            <div className="flex justify-between w-full">
+            <div className="flex justify-between w-full items-center">
               <span className="text-[12px]">产品名称</span>
               <span className="text-[18px]">
-                <span className="text-[#9E9E9E] text-[10.62px]">$</span>999
+                <span className="text-[#9E9E9E] text-[10.62px]">$ </span>999
               </span>
             </div>
           </li>
