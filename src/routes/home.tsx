@@ -36,8 +36,8 @@ const activeTabStyle = css`
 `;
 
 function RouteComponent() {
-  const { open, close } = useAppKit();
-  const { isConnected, status } = useAppKitAccount();
+  // const { open, close } = useAppKit();
+  // const { isConnected, status } = useAppKitAccount();
   const events = useAppKitEvents();
   const { disconnect } = useDisconnect();
   return (
@@ -50,21 +50,20 @@ function RouteComponent() {
           <NavTab to="/home/shop" text="购物车" />
         </div>
 
-        <div
-          className="flex items-center ml-auto gap-[8px] px-[15px] py-[6px] rounded-[76px] bg-white bg-opacity-10"
-          onClick={() => {
-            open();
-          }}
-        >
-          {isConnected ? (
+        <Link to="/mine">
+          <div className="flex items-center ml-auto gap-[8px] px-[15px] py-[6px] rounded-[76px] bg-white bg-opacity-10">
+            {/* {isConnected ? (
             <>
               <img src={logo} className="w-[26px] h-[26px]" alt="" />
               <span className="i-material-symbols-keyboard-arrow-down text-[22px] opacity-80"></span>
             </>
           ) : (
             <span className="i-mdi-wallet text-[22px] opacity-80"></span>
-          )}
-        </div>
+          )} */}
+            <img src={logo} className="w-[26px] h-[26px]" alt="" />
+            <span className="i-material-symbols-keyboard-arrow-down text-[22px] opacity-80"></span>
+          </div>
+        </Link>
 
         <span className="i-material-symbols-language text-[22px] opacity-80"></span>
       </div>
