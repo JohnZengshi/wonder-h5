@@ -1,6 +1,7 @@
 import { css } from "@/lib/emotion";
 import { createFileRoute } from "@tanstack/react-router";
-import { SafeArea, Stepper } from "antd-mobile";
+import { Button, Popup, SafeArea, Stepper } from "antd-mobile";
+import { useState } from "react";
 
 export const Route = createFileRoute("/home/shop")({
   component: RouteComponent,
@@ -13,6 +14,7 @@ const btnBg = css`
 `;
 
 function RouteComponent() {
+  const [visible, setVisible] = useState(false);
   return (
     <div className="flex flex-col flex-auto p-[14px] relative">
       <ul className="bg-[#1F1F1F] rounded-[10px] px-[14px] py-[13px] flex flex-col gap-[24px]">
@@ -48,7 +50,7 @@ function RouteComponent() {
           </li>
         ))}
       </ul>
-      <span>推荐</span>
+      <span className="text-[18px]">推荐</span>
       <ul className="flex flex-wrap justify-between gap-[16px]">
         {Array.from({ length: 5 }).map((_, i) => (
           <li className="p-[10px] h-[213px] flex flex-col justify-between bg-[#1F1F1F] rounded-[10px]">
@@ -69,7 +71,11 @@ function RouteComponent() {
         <div className="flex items-center gap-[7px] px-[14px] h-[56px]">
           <span className="i-mdi-check-circle text-[18px] text-[#893AF6]"></span>
           <span className="text-[16px]">全选</span>
-          <div className="flex items-start ml-auto">
+
+          <div
+            className="flex items-start ml-auto"
+            onClick={() => setVisible(true)}
+          >
             <span className="text-[12px]">总计：</span>
             <div className="flex flex-col gap-[4px]">
               <span className="text-[16px] text-[#893AF6]">$999</span>
@@ -87,6 +93,43 @@ function RouteComponent() {
         </div>
         <SafeArea position="bottom" />
       </div>
+
+      <Popup
+        visible={visible}
+        onMaskClick={() => {
+          setVisible(false);
+        }}
+        onClose={() => {
+          setVisible(false);
+        }}
+      >
+        <div className="rounded-t-[18px] p-[14px] flex flex-col pb-[254px]">
+          <div className="flex items-center justify-between">
+            <span className="text-[18px]">金额明细</span>
+            <span className="i-mdi-close-circle text-[22px] text-[#3D3D3D]"></span>
+          </div>
+          <ul className="flex gap-[20px] flex-wrap mt-[25px]">
+            {Array.from({ length: 5 }).map((v) => (
+              <li className="relative w-[69px] h-[69px] rounded-[10px] bg-[#3C3C3C]">
+                <span className="i-mdi-check-circle text-[#893AF6] text-[12px] absolute right-[7px] top-[8px]"></span>
+              </li>
+            ))}
+          </ul>
+
+          <ul className="flex flex-col gap-[10px] mt-[22px]">
+            {[
+              { label: "商品总价", value: "$999" },
+              { label: "平台代币", value: "899/个" },
+              { label: "平台积分", value: "$100" },
+            ].map((v) => (
+              <li className="flex items-center justify-between">
+                <span className="text-[14px] ">{v.label}</span>
+                <span className="text-[14px]">{v.value}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Popup>
     </div>
   );
 }
