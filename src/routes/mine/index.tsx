@@ -1,7 +1,6 @@
 import { css } from "@/lib/emotion";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Button, NavBar, SafeArea } from "antd-mobile";
-import logo from "@/assets/logo.svg";
 import jifeng from "@/assets/jifeng.svg";
 import clsx from "clsx";
 import { PropsWithChildren, ReactNode } from "react";
@@ -128,6 +127,7 @@ function RouteComponent() {
             <LabelItem
               label="推荐好友"
               icon={<span className="i-mdi-invite" />}
+              onClick={() => navigate({ to: "/mine/intive" })}
             />
           </LabelWrap>
           <LabelWrap>
@@ -178,14 +178,16 @@ function LabelItem({
   label,
   showArrow = true,
   icon,
+  onClick,
 }: {
   showLine?: boolean;
   label: string;
   showArrow?: boolean;
   icon?: ReactNode;
+  onClick?: () => void;
 }) {
   return (
-    <div className="flex items-center gap-[13px] px-[17px]">
+    <div className="flex items-center gap-[13px] px-[17px]" onClick={onClick}>
       <div
         className={clsx(
           css`
