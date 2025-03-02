@@ -18,6 +18,7 @@ import { Route as MineIndexImport } from './routes/mine/index'
 import { Route as HomeIndexImport } from './routes/home/index'
 import { Route as MineOrderImport } from './routes/mine/order'
 import { Route as MineIntiveImport } from './routes/mine/intive'
+import { Route as MineCardSecretsImport } from './routes/mine/card-secrets'
 import { Route as HomeShopImport } from './routes/home/shop'
 import { Route as HomeCategoryImport } from './routes/home/category'
 
@@ -62,6 +63,12 @@ const MineOrderRoute = MineOrderImport.update({
 const MineIntiveRoute = MineIntiveImport.update({
   id: '/mine/intive',
   path: '/mine/intive',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MineCardSecretsRoute = MineCardSecretsImport.update({
+  id: '/mine/card-secrets',
+  path: '/mine/card-secrets',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -116,6 +123,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeShopImport
       parentRoute: typeof HomeImport
     }
+    '/mine/card-secrets': {
+      id: '/mine/card-secrets'
+      path: '/mine/card-secrets'
+      fullPath: '/mine/card-secrets'
+      preLoaderRoute: typeof MineCardSecretsImport
+      parentRoute: typeof rootRoute
+    }
     '/mine/intive': {
       id: '/mine/intive'
       path: '/mine/intive'
@@ -169,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/product': typeof ProductRoute
   '/home/category': typeof HomeCategoryRoute
   '/home/shop': typeof HomeShopRoute
+  '/mine/card-secrets': typeof MineCardSecretsRoute
   '/mine/intive': typeof MineIntiveRoute
   '/mine/order': typeof MineOrderRoute
   '/home/': typeof HomeIndexRoute
@@ -180,6 +195,7 @@ export interface FileRoutesByTo {
   '/product': typeof ProductRoute
   '/home/category': typeof HomeCategoryRoute
   '/home/shop': typeof HomeShopRoute
+  '/mine/card-secrets': typeof MineCardSecretsRoute
   '/mine/intive': typeof MineIntiveRoute
   '/mine/order': typeof MineOrderRoute
   '/home': typeof HomeIndexRoute
@@ -193,6 +209,7 @@ export interface FileRoutesById {
   '/product': typeof ProductRoute
   '/home/category': typeof HomeCategoryRoute
   '/home/shop': typeof HomeShopRoute
+  '/mine/card-secrets': typeof MineCardSecretsRoute
   '/mine/intive': typeof MineIntiveRoute
   '/mine/order': typeof MineOrderRoute
   '/home/': typeof HomeIndexRoute
@@ -207,6 +224,7 @@ export interface FileRouteTypes {
     | '/product'
     | '/home/category'
     | '/home/shop'
+    | '/mine/card-secrets'
     | '/mine/intive'
     | '/mine/order'
     | '/home/'
@@ -217,6 +235,7 @@ export interface FileRouteTypes {
     | '/product'
     | '/home/category'
     | '/home/shop'
+    | '/mine/card-secrets'
     | '/mine/intive'
     | '/mine/order'
     | '/home'
@@ -228,6 +247,7 @@ export interface FileRouteTypes {
     | '/product'
     | '/home/category'
     | '/home/shop'
+    | '/mine/card-secrets'
     | '/mine/intive'
     | '/mine/order'
     | '/home/'
@@ -239,6 +259,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HomeRoute: typeof HomeRouteWithChildren
   ProductRoute: typeof ProductRoute
+  MineCardSecretsRoute: typeof MineCardSecretsRoute
   MineIntiveRoute: typeof MineIntiveRoute
   MineOrderRoute: typeof MineOrderRoute
   MineIndexRoute: typeof MineIndexRoute
@@ -248,6 +269,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HomeRoute: HomeRouteWithChildren,
   ProductRoute: ProductRoute,
+  MineCardSecretsRoute: MineCardSecretsRoute,
   MineIntiveRoute: MineIntiveRoute,
   MineOrderRoute: MineOrderRoute,
   MineIndexRoute: MineIndexRoute,
@@ -266,6 +288,7 @@ export const routeTree = rootRoute
         "/",
         "/home",
         "/product",
+        "/mine/card-secrets",
         "/mine/intive",
         "/mine/order",
         "/mine/"
@@ -292,6 +315,9 @@ export const routeTree = rootRoute
     "/home/shop": {
       "filePath": "home/shop.tsx",
       "parent": "/home"
+    },
+    "/mine/card-secrets": {
+      "filePath": "mine/card-secrets.tsx"
     },
     "/mine/intive": {
       "filePath": "mine/intive.tsx"

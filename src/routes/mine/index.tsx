@@ -175,11 +175,13 @@ function RouteComponent() {
               label="我的订单"
               showArrow={false}
               icon={<span className="i-mdi-order-numeric-ascending" />}
+              onClick={() => navigate({ to: "/mine/order" })}
             />
             <LabelItem
               label="我的卡密"
               showArrow={false}
               icon={<span className="i-mdi-password-outline" />}
+              onClick={() => navigate({ to: "/mine/card-secrets" })}
             />
           </LabelWrap>
           <LabelWrap>
