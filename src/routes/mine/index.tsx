@@ -34,8 +34,47 @@ function RouteComponent() {
             #893af6 0%,
             rgba(81, 27, 124, 0) 100%
           );
+          overflow: hidden;
         `}
-      ></div>
+      >
+        <div
+          className={css`
+            position: absolute;
+            left: -31px;
+            top: -27px;
+            width: 125px;
+            height: 125px;
+            opacity: 1;
+            background: #8639ef;
+            border-radius: 50%;
+          `}
+        ></div>
+        <div
+          className={css`
+            position: absolute;
+            left: 304px;
+            top: -44px;
+            width: 125px;
+            height: 125px;
+            opacity: 1;
+            background: #8639ef;
+            border-radius: 50%;
+          `}
+        ></div>
+        <div
+          className={css`
+            position: absolute;
+            left: 241px;
+            top: 130px;
+            width: 105px;
+            height: 105px;
+            opacity: 1;
+            background: #8639ef;
+            filter: blur(10px);
+            border-radius: 50%;
+          `}
+        ></div>
+      </div>
       <NavBar
         className="relative z-50 !h-[44px]"
         onBack={() => {
