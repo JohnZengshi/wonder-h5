@@ -1,5 +1,6 @@
 import { PopupTitle } from "@/components/PopupTitle";
 import { css } from "@/lib/emotion";
+import { showPaymentPassword } from "@/utils/payment";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Button,
@@ -103,11 +104,14 @@ function RouteComponent() {
           </div>
           <button
             className={`w-[125px] h-[44px] ml-[20px] flex items-center justify-center ${btnBg}`}
-            onClick={() => {
-              setEntryPwVisble(true);
-              setTimeout(() => {
-                passcodeInputRef.current?.focus();
-              }, 500);
+            onClick={async () => {
+              const password = await new Promise<string>((resolve, reject) => {
+                showPaymentPassword({
+                  amount: 999,
+                  onConfirm: resolve,
+                  onCancel: () => reject("cancel"),
+                });
+              });
             }}
           >
             <span className="text-[16px] font-[600]">结算（1）</span>
@@ -156,7 +160,7 @@ function RouteComponent() {
         </div>
       </Popup>
 
-      <Popup
+      {/* <Popup
         visible={entryPwVisble}
         onMaskClick={() => setEntryPwVisble(false)}
       >
@@ -184,7 +188,7 @@ function RouteComponent() {
 
           <SafeArea position="bottom" />
         </div>
-      </Popup>
+      </Popup> */}
     </div>
   );
 }

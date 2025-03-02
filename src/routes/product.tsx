@@ -4,6 +4,7 @@ import peoductExample from "@/assets/product-example.png";
 import clsx from "clsx";
 import { css } from "@/lib/emotion";
 import { useEffect } from "react";
+import { showPaymentPassword } from "@/utils/payment";
 
 export const Route = createFileRoute("/product")({
   component: RouteComponent,
@@ -109,6 +110,17 @@ function RouteComponent() {
                 `
               )}
               fill="none"
+              onClick={async () => {
+                const password = await new Promise<string>(
+                  (resolve, reject) => {
+                    showPaymentPassword({
+                      amount: 999,
+                      onConfirm: resolve,
+                      onCancel: () => reject("cancel"),
+                    });
+                  }
+                );
+              }}
             >
               <span>立即购买</span>
             </Button>
