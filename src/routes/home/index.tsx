@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Swiper } from "antd-mobile";
 
 export const Route = createFileRoute("/home/")({
@@ -26,6 +26,7 @@ const items = colors.map((color, index) => (
 ));
 
 function RouteComponent() {
+  const { navigate } = useRouter();
   return (
     <div className="flex flex-auto flex-col items-center px-[14px] py-[12px] gap-[16px]">
       {/* banner */}
@@ -66,7 +67,13 @@ function RouteComponent() {
         </div>
         <ul className="w-full px-[26px] pt-[13px] pb-[27px] gap-[18px] flex justify-between flex-wrap">
           {Array.from({ length: 4 }).map((_, i) => (
-            <li key={i} className="flex flex-col gap-[6px]">
+            <li
+              key={i}
+              className="flex flex-col gap-[6px]"
+              onClick={() => {
+                navigate({ to: "/product" });
+              }}
+            >
               <div className="w-[130px] h-[130px] rounded-[12px] bg-[#3C3C3C]"></div>
               <div className="flex items-center justify-between">
                 <span className="text-[12px]">产品名称</span>

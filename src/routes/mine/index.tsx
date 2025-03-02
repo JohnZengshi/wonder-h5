@@ -9,14 +9,6 @@ export const Route = createFileRoute("/mine/")({
   component: RouteComponent,
 });
 
-const btn = css`
-  font-size: 16px;
-  color: white;
-  height: 44px;
-  border-radius: 10px;
-  opacity: 1;
-`;
-
 function RouteComponent() {
   const { navigate } = useRouter();
   return (
@@ -125,7 +117,7 @@ function RouteComponent() {
               block
               color="primary"
               className={clsx(
-                btn,
+                Styles.btn,
                 css`
                   background: linear-gradient(0deg, #511b7c, #511b7c), #1f1f1f;
                 `
@@ -138,7 +130,7 @@ function RouteComponent() {
               block
               color="primary"
               className={clsx(
-                btn,
+                Styles.btn,
                 css`
                   background:
                     linear-gradient(180deg, #893af6 0%, #511b7c 100%), #1f1f1f;
@@ -258,3 +250,13 @@ function LabelItem({
     </div>
   );
 }
+
+const Styles = {
+  btn: css`
+    font-size: 16px;
+    color: white;
+    height: 44px;
+    border-radius: 10px;
+    opacity: 1;
+  `,
+};
