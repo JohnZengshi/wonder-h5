@@ -4,6 +4,7 @@ import { Button, NavBar, Popup, SafeArea, Toast } from "antd-mobile";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
+import { PopupTitle } from "@/components/PopupTitle";
 
 export const Route = createFileRoute("/mine/intive")({
   component: RouteComponent,
@@ -188,13 +189,7 @@ function RouteComponent() {
       </div>
 
       <Popup visible={visible} onMaskClick={() => setVisible(!visible)}>
-        <div className="flex items-center justify-center h-[58px] relative">
-          <span
-            className="i-mdi-close text-[24px] text-[#A7A9AC] absolute left-[14px] top-[50%] -translate-y-1/2"
-            onClick={() => setVisible(false)}
-          ></span>
-          <span className="text-[18px]">邀请码</span>
-        </div>
+        <PopupTitle title="邀请码" onClick={() => setVisible(false)} />
 
         <div className="flex flex-col items-center px-[28px] pb-[28px]">
           <div className="w-[230px] h-[230px] bg-white mt-[44px] p-[10px] rounded-[10px]">
