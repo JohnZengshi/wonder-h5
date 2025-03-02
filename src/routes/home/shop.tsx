@@ -1,7 +1,16 @@
+import { PopupTitle } from "@/components/PopupTitle";
 import { css } from "@/lib/emotion";
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Popup, SafeArea, Stepper } from "antd-mobile";
-import { useState } from "react";
+import {
+  Button,
+  NumberKeyboard,
+  PasscodeInput,
+  PasscodeInputRef,
+  Popup,
+  SafeArea,
+  Stepper,
+} from "antd-mobile";
+import { useRef, useState } from "react";
 
 export const Route = createFileRoute("/home/shop")({
   component: RouteComponent,
@@ -15,11 +24,15 @@ const btnBg = css`
 
 function RouteComponent() {
   const [visible, setVisible] = useState(false);
+  const [entryPwVisble, setEntryPwVisble] = useState(false);
+  const passcodeInputRef = useRef<PasscodeInputRef>(null);
+  const [password, setPassword] = useState("");
+
   return (
     <div className="flex flex-col flex-auto p-[14px] relative">
       <ul className="bg-[#1F1F1F] rounded-[10px] px-[14px] py-[13px] flex flex-col gap-[24px]">
         {Array.from({ length: 4 }).map((_, i) => (
-          <li className="flex flex-col gap-[8px]">
+          <li className="flex flex-col gap-[8px]" key={i}>
             <div className="flex items-center gap-[10px]">
               <div>
                 <span className="i-mdi-check-circle text-[18px] text-[#893AF6]"></span>
@@ -53,7 +66,10 @@ function RouteComponent() {
       <span className="text-[18px]">推荐</span>
       <ul className="flex flex-wrap justify-between gap-[16px]">
         {Array.from({ length: 5 }).map((_, i) => (
-          <li className="p-[10px] h-[213px] flex flex-col justify-between bg-[#1F1F1F] rounded-[10px]">
+          <li
+            className="p-[10px] h-[213px] flex flex-col justify-between bg-[#1F1F1F] rounded-[10px]"
+            key={i}
+          >
             <div className="w-[145px] h-[164px] rounded-[12.75px] bg-[#3C3C3C]"></div>
             <div className="flex justify-between w-full items-center">
               <span className="text-[12px]">产品名称</span>
@@ -87,6 +103,12 @@ function RouteComponent() {
           </div>
           <button
             className={`w-[125px] h-[44px] ml-[20px] flex items-center justify-center ${btnBg}`}
+            onClick={() => {
+              setEntryPwVisble(true);
+              setTimeout(() => {
+                passcodeInputRef.current?.focus();
+              }, 500);
+            }}
           >
             <span className="text-[16px] font-[600]">结算（1）</span>
           </button>
@@ -109,8 +131,11 @@ function RouteComponent() {
             <span className="i-mdi-close-circle text-[22px] text-[#3D3D3D]"></span>
           </div>
           <ul className="flex gap-[20px] flex-wrap mt-[25px]">
-            {Array.from({ length: 5 }).map((v) => (
-              <li className="relative w-[69px] h-[69px] rounded-[10px] bg-[#3C3C3C]">
+            {Array.from({ length: 5 }).map((v, i) => (
+              <li
+                className="relative w-[69px] h-[69px] rounded-[10px] bg-[#3C3C3C]"
+                key={i}
+              >
                 <span className="i-mdi-check-circle text-[#893AF6] text-[12px] absolute right-[7px] top-[8px]"></span>
               </li>
             ))}
@@ -121,13 +146,43 @@ function RouteComponent() {
               { label: "商品总价", value: "$999" },
               { label: "平台代币", value: "899/个" },
               { label: "平台积分", value: "$100" },
-            ].map((v) => (
-              <li className="flex items-center justify-between">
+            ].map((v, i) => (
+              <li className="flex items-center justify-between" key={i}>
                 <span className="text-[14px] ">{v.label}</span>
                 <span className="text-[14px]">{v.value}</span>
               </li>
             ))}
           </ul>
+        </div>
+      </Popup>
+
+      <Popup
+        visible={entryPwVisble}
+        onMaskClick={() => setEntryPwVisble(false)}
+      >
+        <PopupTitle title="支付密码" onClick={() => setEntryPwVisble(false)} />
+        <div className="flex flex-col items-center pb-[25px]">
+          <span className="text-[56px] flex items-center font-[500] gap-[6px] mt-[49px]">
+            {" "}
+            <span className="text-[12px]">$</span> 999
+          </span>
+          <PasscodeInput
+            ref={passcodeInputRef}
+            seperated
+            className="mt-[31px]"
+            value={password}
+            onChange={(value) => setPassword(value)}
+            keyboard={
+              <NumberKeyboard
+                visible={entryPwVisble}
+                confirmText={"确认"}
+                onConfirm={() => setEntryPwVisble(false)}
+              />
+            }
+          />
+          {entryPwVisble ? <div className="w-full h-[240px]"></div> : null}
+
+          <SafeArea position="bottom" />
         </div>
       </Popup>
     </div>
