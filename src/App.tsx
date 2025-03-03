@@ -1,6 +1,9 @@
 import { AppKitProvider } from "./AppKitProvider";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
+import { useAsyncEffect } from "ahooks";
+import FetchClient from "./server";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
 // Create a new router instance
 const router = createRouter({ routeTree });
@@ -13,6 +16,17 @@ declare module "@tanstack/react-router" {
 }
 
 function App() {
+  useAsyncEffect(async () => {
+    const fp = await FingerprintJS.load();
+    const { visitorId } = await fp.get();
+    FetchClient.GET("/api/account/exist", {
+      params: {
+        query: {
+          account: visitorId,
+        },
+      },
+    });
+  }, []);
   return (
     <>
       <AppKitProvider>
