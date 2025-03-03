@@ -1,12 +1,7 @@
 import { css } from "@/lib/emotion";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import logo from "@/assets/logo.svg";
-import {
-  useAppKit,
-  useAppKitAccount,
-  useAppKitEvents,
-  useDisconnect,
-} from "@reown/appkit/react";
+import { useAppKitEvents, useDisconnect } from "@reown/appkit/react";
 import { SafeArea } from "antd-mobile";
 
 export const Route = createFileRoute("/home")({
