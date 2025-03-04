@@ -4,6 +4,7 @@ import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import { useState } from "react";
 import { Md5 } from "ts-md5";
 import useStore from "@/store/useStore";
+import FetchClient from "@/server";
 
 export default function () {
   const [visitorId, setVisitorId] = useState("");

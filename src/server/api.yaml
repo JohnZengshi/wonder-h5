@@ -38,7 +38,15 @@ paths:
             type: string
       responses:
         "200":
-          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/BaseResponse"
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/UserPasswordVo'
         "201":
           description: Created
         "401":
@@ -1023,6 +1031,21 @@ components:
       description: 资源不存在
   
   schemas:
+    BaseResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+        msg:
+          type: string
+          example: "Success"
+        timeMillis:
+          type: integer
+          format: int64
+          example: 1741101832125
+        data:
+          type: object
     AccountSignUpReq:
       type: object
       properties:
@@ -1567,7 +1590,14 @@ components:
       required:
         - id
         - imageUrl
-
+    UserPasswordVo:
+      type: object
+      properties:
+        password:
+          type: string
+        account:
+          type: string
+      
 
   parameters:
     Authorization:
