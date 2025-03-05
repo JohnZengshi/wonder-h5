@@ -2,7 +2,7 @@ import FetchClient from "@/server";
 import { components } from "@/server/api";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useAsyncEffect } from "ahooks";
-import { Swiper } from "antd-mobile";
+import { Empty, ErrorBlock, Swiper, Image } from "antd-mobile";
 import { useState } from "react";
 
 export const Route = createFileRoute("/home/")({
@@ -10,22 +10,29 @@ export const Route = createFileRoute("/home/")({
 });
 
 function RouteComponent() {
-  const { navigate } = useRouter();
   const [banner, setBanner] = useState<components["schemas"]["Banner"][]>();
   const [notice, setNotice] = useState<components["schemas"]["Notice"]>();
+  const [zoneList, setZoneList] =
+    useState<components["schemas"]["CommodityType"][]>();
+  const [menberPackage, setMenberPackage] =
+    useState<components["schemas"]["Commodity"]>();
+
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/banner");
     setBanner(data?.data);
   }, []);
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/common/notice/list");
-    setNotice(data?.data?.[0]);
+    setNotice(data?.data?.records?.[0]);
   }, []);
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET(
       "/api/frontPage/findCommodityTypeOrMember"
     );
+    setZoneList(data?.data?.commodityTypeList);
+    setMenberPackage(data?.data?.member ?? undefined);
   }, []);
+
   return (
     <div className="flex flex-auto flex-col items-center px-[14px] py-[12px] gap-[16px]">
       {/* banner */}
@@ -37,7 +44,7 @@ function RouteComponent() {
                 className="h-[220px] flex items-center justify-center"
                 onClick={() => {}}
               >
-                <img className="w-full h-full" src={v.imageUrl} alt="" />
+                <Image className="w-full h-full" src={v.imageUrl} alt="" />
               </div>
             </Swiper.Item>
           ))}
@@ -53,7 +60,9 @@ function RouteComponent() {
         </span>
       </div>
 
-      <div className="w-[347px] h-[200px] rounded-[10px] bg-[#1F1F1F]"></div>
+      <div className="w-[347px] h-[200px] rounded-[10px] bg-[#1F1F1F]">
+        <Image src={menberPackage?.commodityImg} />
+      </div>
 
       <ul className="w-full h-[108px] flex gap-[10px]">
         {[
@@ -72,12 +81,45 @@ function RouteComponent() {
         ))}
       </ul>
 
-      <div className="bg-[#1F1F1F] rounded-[10px]">
-        <div className="py-[16px]">
-          <span className="ml-[14px] text-[18px] font-bold">会员专区</span>
+      {zoneList?.map((v, i) => (
+        <div className="w-full bg-[#1F1F1F] rounded-[10px]" key={i}>
+          <div className="py-[16px]">
+            <span className="ml-[14px] text-[18px] font-bold">
+              {v.typeName}
+            </span>
+          </div>
+          <ZoneGoodsList commodityTypeId={v.id} />
         </div>
+      ))}
+    </div>
+  );
+}
+
+function ZoneGoodsList({ commodityTypeId }: { commodityTypeId: number }) {
+  const { navigate } = useRouter();
+
+  const [goodsList, setGoodsList] =
+    useState<components["schemas"]["CommodityPage"]>();
+
+  useAsyncEffect(async () => {
+    const { data } = await FetchClient.GET("/api/frontPage/pageCommodity", {
+      params: {
+        query: {
+          commodityTypeId: commodityTypeId,
+          pageNum: 1,
+          pageSize: 99,
+        },
+      },
+    });
+
+    setGoodsList(data?.data);
+  }, []);
+
+  return (
+    <>
+      {goodsList?.records?.length ? (
         <ul className="w-full px-[26px] pt-[13px] pb-[27px] gap-[18px] flex justify-between flex-wrap">
-          {Array.from({ length: 4 }).map((_, i) => (
+          {goodsList?.records?.map((v, i) => (
             <li
               key={i}
               className="flex flex-col gap-[6px]"
@@ -85,17 +127,22 @@ function RouteComponent() {
                 navigate({ to: "/product" });
               }}
             >
-              <div className="w-[130px] h-[130px] rounded-[12px] bg-[#3C3C3C]"></div>
+              <div className="w-[130px] h-[130px] rounded-[12px] bg-[#3C3C3C]">
+                <Image src={v.commodityImg} className="w-full h-full" alt="" />
+              </div>
               <div className="flex items-center justify-between">
-                <span className="text-[12px]">产品名称</span>
+                <span className="text-[12px]">{v.commodityName}</span>
                 <span className="text-[12px]">
-                  <span className="text-[10px] text-[#9E9E9E]">$ </span>999
+                  <span className="text-[10px] text-[#9E9E9E]">$ </span>
+                  {v.prices}
                 </span>
               </div>
             </li>
           ))}
         </ul>
-      </div>
-    </div>
+      ) : (
+        <Empty />
+      )}
+    </>
   );
 }

@@ -2,7 +2,6 @@ openapi: 3.0.3
 info:
   title: Account API
   version: 1.0.0
-
 paths:
   /api/account/signUp:
     post:
@@ -16,7 +15,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AccountSignUpReq"
+              $ref: '#/components/schemas/AccountSignUpReq'
       parameters:
         - name: Authorization
           in: header
@@ -37,23 +36,23 @@ paths:
           schema:
             type: string
       responses:
-        "200":
+        '200':
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: "#/components/schemas/BaseResponse"
+                  - $ref: '#/components/schemas/BaseResponse'
                   - type: object
                     properties:
                       data:
                         $ref: '#/components/schemas/UserPasswordVo'
-        "201":
+        '201':
           description: Created
-        "401":
+        '401':
           description: Unauthorized
-        "403":
+        '403':
           description: Forbidden
-        "404":
+        '404':
           description: Not Found
   /api/account/signIn:
     post:
@@ -93,7 +92,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountSignInResp'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/AccountSignInResp'
         '201':
           description: Created
         '401':
@@ -191,7 +195,12 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
         '401':
           description: Unauthorized
         '403':
@@ -238,14 +247,19 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    description: 业务状态码
-                  message:
-                    type: string
-                    description: 操作结果描述
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          code:
+                            type: integer
+                            description: 业务状态码
+                          message:
+                            type: string
+                            description: 操作结果描述
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -269,7 +283,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserVo'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/UserVo'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -293,11 +312,16 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  hasPassword: 
-                    type: boolean
-                    description: 是否已设置支付密码
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          hasPassword:
+                            type: boolean
+                            description: 是否已设置支付密码
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -329,11 +353,16 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  exist:
-                    type: boolean
-                    description: 账号是否存在(true/false)
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          exist:
+                            type: boolean
+                            description: 账号是否存在(true/false)
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -374,7 +403,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Page'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -415,7 +449,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Page'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -445,7 +484,12 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
         '201':
           description: 资源创建成功
         '401':
@@ -471,7 +515,24 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          commodityTypeList:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/CommodityType'
+                          member:
+                            oneOf:  # 更规范的null处理
+                              - $ref: '#/components/schemas/Commodity'
+                              - type: "null"
+                        required:
+                          - commodityTypeList
+                          - member
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -516,7 +577,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/CommodityPage'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -547,7 +613,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Commodity'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Commodity'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -577,7 +648,12 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
         '201':
           description: 提币交易已创建
         '401':
@@ -609,7 +685,12 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -657,7 +738,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Page'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -687,7 +773,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrderReq'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/OrderReq'
         '201':
           description: 订单已生成
         '401':
@@ -720,7 +811,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommodityOrder'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/CommodityOrder'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -753,7 +849,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseResultOfFileModel'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/BaseResultOfFileModel'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -788,9 +889,14 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/FileModel'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/FileModel'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -821,7 +927,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Notice'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Notice'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -853,7 +964,7 @@ paths:
             text/html:
               schema:
                 type: string
-                example: "<div class='notice-content'>示例公告内容</div>"
+                example: <div class='notice-content'>示例公告内容</div>
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -896,7 +1007,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/NoticePage'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -939,7 +1055,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Page'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -963,9 +1084,14 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Banner'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Banner'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
@@ -1013,14 +1139,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page'
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Page'
         '401':
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
-
 components:
   responses:
     Unauthorized:
@@ -1029,7 +1159,6 @@ components:
       description: 缺少访问权限
     NotFound:
       description: 资源不存在
-  
   schemas:
     BaseResponse:
       type: object
@@ -1039,7 +1168,7 @@ components:
           example: 0
         msg:
           type: string
-          example: "Success"
+          example: Success
         timeMillis:
           type: integer
           format: int64
@@ -1056,7 +1185,12 @@ components:
           type: integer
           format: int32
           description: 链类型（1=Bitcoin 2=Ethereum 3=Polygon 4=BNB Chain 5=Arbitrum One）
-          enum: [1, 2, 3, 4, 5]
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
         publicKey:
           type: string
           description: 公钥
@@ -1074,7 +1208,12 @@ components:
           type: integer
           format: int32
           description: 链类型（1=Bitcoin 2=Ethereum 3=Polygon 4=BNB Chain 5=Arbitrum One）
-          enum: [1, 2, 3, 4, 5]
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
         password:
           type: string
           description: MD5加密后的密码
@@ -1187,10 +1326,6 @@ components:
         pages:
           type: integer
           format: int64
-        records:
-          type: array
-          items:  # 补充缺失的 array 类型定义
-            type: object  # 根据实际情况替换为具体类型
         searchCount:
           type: boolean
         size:
@@ -1223,7 +1358,9 @@ components:
           type: integer
           format: int32
           description: 操作类型（0=删除 1=添加）
-          enum: [0, 1]
+          enum:
+            - 0
+            - 1
         number:
           type: integer
           format: int32
@@ -1236,7 +1373,9 @@ components:
           type: integer
           format: int32
           description: 发货方式（1-自动发卡 2-手动确认）
-          enum: [1, 2]
+          enum:
+            - 1
+            - 2
         award:
           type: integer
           format: int32
@@ -1297,12 +1436,14 @@ components:
         amount:
           type: string
           description: 提币金额（支持小数）
-          example: "100.5"
+          example: '100.5'
         chain:
           type: integer
           format: int32
           description: 链类型（1=BSC 2=TRX）
-          enum: [1, 2]
+          enum:
+            - 1
+            - 2
         paymentPassword:
           type: string
           description: MD5加密后的支付密码
@@ -1311,7 +1452,7 @@ components:
         toAddress:
           type: string
           description: 接收地址
-          pattern: '^0x[a-fA-F0-9]{40}$|^T[a-zA-Z0-9]{33}$'
+          pattern: ^0x[a-fA-F0-9]{40}$|^T[a-zA-Z0-9]{33}$
       required:
         - amount
         - chain
@@ -1323,8 +1464,8 @@ components:
         orderNumber:
           type: string
           description: 需要取消的订单号
-          pattern: '^[A-Z0-9]{8}-[A-Z0-9]{4}$'
-          example: "ABCD1234-5678"
+          pattern: ^[A-Z0-9]{8}-[A-Z0-9]{4}$
+          example: ABCD1234-5678
       required:
         - orderNumber
     CommodiryReq:
@@ -1334,7 +1475,9 @@ components:
           type: integer
           format: int32
           description: 区块链类型（10=BSC 20=TRX）
-          enum: [10, 20]
+          enum:
+            - 10
+            - 20
         commoditys:
           type: array
           items:
@@ -1374,7 +1517,7 @@ components:
         orderNumber:
           type: string
           description: 系统生成的订单号
-          pattern: '^(10|20)\d+'
+          pattern: ^(10|20)\d+
       required:
         - orderNumber
     CommodityOrder:
@@ -1384,7 +1527,9 @@ components:
           type: integer
           format: int32
           description: 分润奖励状态（1-有奖励 2-无奖励）
-          enum: [1, 2]
+          enum:
+            - 1
+            - 2
         cardNumber:
           type: integer
           format: int32
@@ -1443,12 +1588,19 @@ components:
           type: integer
           format: int32
           description: 支付链类型（1-BSC 2-TRX）
-          enum: [1, 2]
+          enum:
+            - 1
+            - 2
         payType:
           type: integer
           format: int32
           description: 支付状态（1-待支付 2-确认中 3-已取消 4-待人工 5-已完成）
-          enum: [1, 2, 3, 4, 5]
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
         prices:
           type: string
           description: USDT实际支付金额
@@ -1512,7 +1664,9 @@ components:
           type: integer
           format: int32
           description: 删除标记（0-正常 1-删除）
-          enum: [0, 1]
+          enum:
+            - 0
+            - 1
         noticeContent:
           type: string
           description: 公告正文内容
@@ -1527,7 +1681,9 @@ components:
           type: integer
           format: int32
           description: 公告类型（1-通知 2-公告）
-          enum: [1, 2]
+          enum:
+            - 1
+            - 2
         publishTime:
           type: string
           format: date-time
@@ -1539,7 +1695,9 @@ components:
           type: integer
           format: int32
           description: 发布状态（0-正常 1-关闭）
-          enum: [0, 1]
+          enum:
+            - 0
+            - 1
         updateTime:
           type: string
           format: date-time
@@ -1558,7 +1716,9 @@ components:
           type: integer
           format: int32
           description: 删除标记（0-正常 1-删除）
-          enum: [0, 1]
+          enum:
+            - 0
+            - 1
         id:
           type: integer
           format: int32
@@ -1570,12 +1730,14 @@ components:
         lang:
           type: string
           description: 语言标识
-          example: "zh-CN"
+          example: zh-CN
         state:
           type: integer
           format: int32
           description: 显示状态（0-隐藏 1-显示）
-          enum: [0, 1]
+          enum:
+            - 0
+            - 1
         targetUrl:
           type: string
           format: uri
@@ -1597,7 +1759,57 @@ components:
           type: string
         account:
           type: string
-      
+    CommodityType:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        createTime:
+          type: string
+          format: date-time
+        createBy:
+          type: string
+          nullable: true
+        updateTime:
+          type: string
+          format: date-time
+        updateBy:
+          type: string
+          nullable: true
+        flag:
+          type: integer
+          format: int32
+        typeName:
+          type: string
+        type:
+          type: integer
+          format: int32
+      required:
+        - id
+        - createTime
+        - updateTime
+        - flag
+        - typeName
+        - type
+    CommodityPage:
+      allOf:
+        - $ref: '#/components/schemas/Page'
+        - type: object
+          properties:
+            records:
+              type: array
+              items:
+                $ref: '#/components/schemas/Commodity'
+    NoticePage:
+      allOf:
+        - $ref: '#/components/schemas/Page'
+        - type: object
+          properties:
+            records:
+              type: array
+              items:
+                $ref: '#/components/schemas/Notice'
 
   parameters:
     Authorization:
@@ -1614,7 +1826,9 @@ components:
       required: false
       schema:
         type: string
-        enum: [en, zh-CN]
+        enum:
+          - en
+          - zh-CN
     Address:
       name: address
       in: header

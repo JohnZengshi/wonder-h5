@@ -26,6 +26,7 @@ export default function () {
       body: {
         account: visitorId,
         password: Md5.hashStr(password),
+        chainType: 2,
       },
     });
     setAccount(visitorId);

@@ -17,7 +17,7 @@ const middleware: Middleware = {
     const data: components["schemas"]["BaseResponse"] = await response
       .clone()
       .json();
-    if (data.code !== 200) {
+    if (data.code !== 0) {
       if (data.msg) Toast.show(data.msg);
       throw new Error(data.msg);
     }

@@ -671,7 +671,6 @@ export interface components {
             orders?: components["schemas"]["OrderItem"][];
             /** Format: int64 */
             pages?: number;
-            records?: Record<string, never>[];
             searchCount?: boolean;
             /** Format: int64 */
             size?: number;
@@ -1041,6 +1040,27 @@ export interface components {
         UserPasswordVo: {
             password?: string;
             account?: string;
+        };
+        CommodityType: {
+            /** Format: int64 */
+            id: number;
+            /** Format: date-time */
+            createTime: string;
+            createBy?: string | null;
+            /** Format: date-time */
+            updateTime: string;
+            updateBy?: string | null;
+            /** Format: int32 */
+            flag: number;
+            typeName: string;
+            /** Format: int32 */
+            type: number;
+        };
+        CommodityPage: components["schemas"]["Page"] & {
+            records?: components["schemas"]["Commodity"][];
+        };
+        NoticePage: components["schemas"]["Page"] & {
+            records?: components["schemas"]["Notice"][];
         };
     };
     responses: {
@@ -1598,7 +1618,10 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: Record<string, never>;
+                        data?: {
+                            commodityTypeList: components["schemas"]["CommodityType"][];
+                            member: components["schemas"]["Commodity"] | null;
+                        };
                     };
                 };
             };
@@ -1634,7 +1657,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["Page"];
+                        data?: components["schemas"]["CommodityPage"];
                     };
                 };
             };
@@ -2034,7 +2057,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["Page"];
+                        data?: components["schemas"]["NoticePage"];
                     };
                 };
             };

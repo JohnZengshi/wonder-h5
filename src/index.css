@@ -16,6 +16,9 @@
   --adm-font-size-main: var(--adm-font-size-5);
   --adm-font-family: "Alibaba PuHuiTi 2.0",Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   --w3m-font-family: "Alibaba PuHuiTi 2.0",Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  --adm-image-width: 100%;
+  --adm-image-height: 100%;
 }
 
 :root{
