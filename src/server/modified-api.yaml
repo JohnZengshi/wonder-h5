@@ -1,0 +1,1778 @@
+openapi: 3.0.3
+info:
+  title: Account API
+  version: 1.0.0
+paths:
+  /api/account/signUp:
+    post:
+      tags:
+        - Account
+      summary: 注册
+      description: 用户注册接口
+      operationId: signUp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountSignUpReq'
+      parameters:
+        - name: Authorization
+          in: header
+          description: 全局参数，token
+          required: false
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          description: 全局参数，语言（en, zh-CN）
+          required: false
+          schema:
+            type: string
+        - name: address
+          in: header
+          description: 全局参数，地址
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/UserPasswordVo'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/account/signIn:
+    post:
+      tags:
+        - Account
+      summary: 登录
+      description: 用户登录接口
+      operationId: signIn
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountSignInReq'
+      parameters:
+        - name: Authorization
+          in: header
+          description: 全局参数，token
+          required: false
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          description: 全局参数，语言（en, zh-CN）
+          required: false
+          schema:
+            type: string
+        - name: address
+          in: header
+          description: 全局参数，地址
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/AccountSignInResp'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/account/renewPasswordPay:
+    post:
+      tags:
+        - Account
+      summary: 设置或者修改支付密码
+      description: 支付密码设置/修改接口
+      operationId: renewPasswordPay
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordPayReq'
+      parameters:
+        - name: Authorization
+          in: header
+          description: 全局参数，token
+          required: false
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          description: 全局参数，语言（en, zh-CN）
+          required: false
+          schema:
+            type: string
+        - name: address
+          in: header
+          description: 全局参数，地址
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/account/recommender:
+    get:
+      tags:
+        - Account
+      summary: 推荐人页面
+      description: 获取推荐人列表接口
+      operationId: getRecommender
+      parameters:
+        - name: Authorization
+          in: header
+          description: 全局参数，token
+          required: false
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          description: 全局参数，语言（en, zh-CN）
+          required: false
+          schema:
+            type: string
+        - name: address
+          in: header
+          description: 全局参数，地址
+          required: false
+          schema:
+            type: string
+        - name: pageNum
+          in: query
+          description: 页码
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          description: 每页数量
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/account/modifyTheName:
+    get:
+      tags:
+        - Account
+      summary: 修改名称
+      description: 用户名称修改接口
+      operationId: modifyUserName
+      parameters:
+        - name: Authorization
+          in: header
+          description: 全局参数，token
+          required: false
+          schema:
+            type: string
+        - name: Accept-Language
+          in: header
+          description: 全局参数，语言（en, zh-CN）
+          required: false
+          schema:
+            type: string
+        - name: address
+          in: header
+          description: 全局参数，地址
+          required: false
+          schema:
+            type: string
+        - name: userName
+          in: query
+          description: 用户新名称
+          required: false
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 20
+      responses:
+        '200':
+          description: 名称修改成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          code:
+                            type: integer
+                            description: 业务状态码
+                          message:
+                            type: string
+                            description: 操作结果描述
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/account/findUser:
+    get:
+      tags:
+        - Account
+      summary: 查询用户个人信息
+      description: 获取用户详细信息接口
+      operationId: getUserProfile
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+      responses:
+        '200':
+          description: 用户数据获取成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/UserVo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/account/findPasswordPay:
+    get:
+      tags:
+        - Account
+      summary: 查询支付密码设置状态
+      description: 检查用户是否已设置支付密码
+      operationId: checkPaymentPassword
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          hasPassword:
+                            type: boolean
+                            description: 是否已设置支付密码
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/account/exist:
+    get:
+      tags:
+        - Account
+      summary: 检查账号是否注册
+      description: 验证账号注册状态接口
+      operationId: checkAccountExist
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: account
+          in: query
+          description: 待验证的账号
+          required: false
+          schema:
+            type: string
+            minLength: 6
+            maxLength: 20
+      responses:
+        '200':
+          description: 验证结果返回成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          exist:
+                            type: boolean
+                            description: 账号是否存在(true/false)
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/key-card/page:
+    get:
+      tags:
+        - KeyCard
+      summary: 分页查询卡密表
+      description: 获取卡密分页列表接口
+      operationId: getKeyCardPage
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: pageNum
+          in: query
+          description: 当前页码
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: pageSize
+          in: query
+          description: 每页数量
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+      responses:
+        '200':
+          description: 分页数据获取成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Page'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/cart/page:
+    get:
+      tags:
+        - Cart
+      summary: 分页查询购物车
+      description: 获取购物车分页数据接口
+      operationId: getCartPage
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: pageNum
+          in: query
+          description: 当前页码
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: pageSize
+          in: query
+          description: 每页数量
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+      responses:
+        '200':
+          description: 购物车数据获取成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Page'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/cart:
+    post:
+      tags:
+        - Cart
+      summary: 添加或更新购物车
+      description: 购物车增删操作接口
+      operationId: updateCart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartReq'
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+      responses:
+        '200':
+          description: 操作成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+        '201':
+          description: 资源创建成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/frontPage/findCommodityTypeOrMember:
+    get:
+      tags:
+        - FrontPage
+      summary: 查询商品专区/会员信息
+      description: 获取商品分类及会员专区数据接口
+      operationId: getCommodityTypeOrMemberInfo
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+      responses:
+        '200':
+          description: 数据获取成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/frontPage/pageCommodity:
+    get:
+      tags:
+        - FrontPage
+      summary: 专区商品分页查询
+      description: 根据专区ID获取商品分页列表
+      operationId: getCommodityByType
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: pageNum
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+        - name: commodityTypeId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 商品分页数据
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Page'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/frontPage/{id}:
+    get:
+      tags:
+        - FrontPage
+      summary: 商品详情查询
+      description: 根据商品ID获取详细信息
+      operationId: getCommodityDetail
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+          description: 商品唯一标识
+      responses:
+        '200':
+          description: 商品详细信息
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Commodity'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/user-wallet/withdrawCoins:
+    post:
+      tags:
+        - Wallet
+      summary: 发起提币
+      description: 用户提币操作接口
+      operationId: withdrawCoins
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletReq'
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+      responses:
+        '200':
+          description: 提币请求已受理
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+        '201':
+          description: 提币交易已创建
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/commodity-order/cancelAnOrder:
+    post:
+      tags:
+        - Order
+      summary: 取消订单
+      description: 订单取消/过期操作接口
+      operationId: cancelOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelAnOrderReq'
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+      responses:
+        '200':
+          description: 订单状态更新成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/commodity-order/page:
+    get:
+      tags:
+        - Order
+      summary: 分页查询商品订单
+      description: 获取订单分页列表接口
+      operationId: getOrderPage
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: pageNum
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+          description: 当前页码
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+          description: 每页数量
+        - name: payType
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          description: 支付类型（具体值需参照业务文档）
+      responses:
+        '200':
+          description: 订单分页数据
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Page'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/commodity-order/payOrderNumber:
+    post:
+      tags:
+        - Order
+      summary: 创建商品订单
+      description: 商品下单支付接口
+      operationId: createOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommodiryReq'
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+      responses:
+        '200':
+          description: 订单创建成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/OrderReq'
+        '201':
+          description: 订单已生成
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/commodity-order/{id}:
+    get:
+      tags:
+        - Order
+      summary: 订单详情查询
+      description: 根据订单ID获取详细信息
+      operationId: getOrderDetail
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+          description: 订单唯一标识
+      responses:
+        '200':
+          description: 订单详细信息
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/CommodityOrder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/file/upload:
+    post:
+      tags:
+        - File
+      summary: 文件上传
+      description: 单文件上传接口
+      operationId: uploadFile
+      consumes:
+        - multipart/form-data
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: file
+          in: formData
+          description: 上传的文件内容
+          required: false
+          schema:
+            type: string
+            format: binary
+      responses:
+        '200':
+          description: 文件上传成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/BaseResultOfFileModel'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/file/uploads:
+    post:
+      tags:
+        - File
+      summary: 多文件上传
+      description: 批量文件上传接口
+      operationId: uploadFiles
+      consumes:
+        - multipart/form-data
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: files
+          in: formData
+          description: 多文件内容
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: 文件批量上传成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/FileModel'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/common/notice/detail:
+    get:
+      tags:
+        - Common
+      summary: 公告详情查询
+      description: 根据公告ID获取详细信息
+      operationId: getNoticeDetail
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: id
+          in: query
+          description: 公告唯一标识
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: 公告详细信息
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Notice'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/common/notice/html:
+    get:
+      tags:
+        - Common
+      summary: 网页版公告详情
+      description: 获取HTML格式的公告内容
+      operationId: getNoticeHtml
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: id
+          in: query
+          description: 公告唯一标识
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: HTML格式的公告内容
+          content:
+            text/html:
+              schema:
+                type: string
+                example: <div class='notice-content'>示例公告内容</div>
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/common/notice/list:
+    get:
+      tags:
+        - Common
+      summary: 公告分页列表
+      description: 获取公告分页数据接口
+      operationId: getNoticeList
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: page
+          in: query
+          description: 分页页码
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            default: 1
+        - name: size
+          in: query
+          description: 分页大小
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 500
+            default: 20
+      responses:
+        '200':
+          description: 公告分页数据
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Page'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/common/popUps/list:
+    get:
+      tags:
+        - Common
+      summary: 弹窗公告分页列表
+      description: 获取弹窗公告分页数据接口
+      operationId: getPopUpList
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: page
+          in: query
+          description: 分页页码
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            default: 1
+        - name: size
+          in: query
+          description: 分页大小
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 500
+            default: 20
+      responses:
+        '200':
+          description: 弹窗公告分页数据
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Page'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/banner:
+    get:
+      tags:
+        - Banner
+      summary: 获取Banner列表
+      description: 查询所有有效Banner信息
+      operationId: getBannerList
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+      responses:
+        '200':
+          description: Banner列表获取成功
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Banner'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/user-wallet-log/page:
+    get:
+      tags:
+        - Wallet
+      summary: 分页查询资产流水
+      description: 获取用户资产变动记录分页列表
+      operationId: getWalletLogPage
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - $ref: '#/components/parameters/AcceptLanguage'
+        - $ref: '#/components/parameters/Address'
+        - name: pageNum
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+          description: 当前页码
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+          description: 每页数量
+        - name: walletId
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+          description: 钱包唯一标识
+      responses:
+        '200':
+          description: 资产流水数据
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Page'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: 身份认证失败
+    Forbidden:
+      description: 缺少访问权限
+    NotFound:
+      description: 资源不存在
+  schemas:
+    BaseResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 0
+        msg:
+          type: string
+          example: Success
+        timeMillis:
+          type: integer
+          format: int64
+          example: 1741101832125
+        data:
+          type: object
+    AccountSignUpReq:
+      type: object
+      properties:
+        account:
+          type: string
+          description: 账号
+        chainType:
+          type: integer
+          format: int32
+          description: 链类型（1=Bitcoin 2=Ethereum 3=Polygon 4=BNB Chain 5=Arbitrum One）
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        publicKey:
+          type: string
+          description: 公钥
+        shareCode:
+          type: string
+          description: 邀请码
+      required: []
+    AccountSignInReq:
+      type: object
+      properties:
+        account:
+          type: string
+          description: 设备窜
+        chainType:
+          type: integer
+          format: int32
+          description: 链类型（1=Bitcoin 2=Ethereum 3=Polygon 4=BNB Chain 5=Arbitrum One）
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        password:
+          type: string
+          description: MD5加密后的密码
+      required: []
+    AccountSignInResp:
+      type: object
+      properties:
+        token:
+          type: string
+          description: 认证令牌
+      required: []
+    PasswordPayReq:
+      type: object
+      properties:
+        fromPassword:
+          type: string
+          description: 原密码（首次设置可不传）
+        toPassword:
+          type: string
+          description: 新密码
+      required: []
+    UserVo:
+      type: object
+      properties:
+        account:
+          type: string
+          description: 用户账号
+        address:
+          type: string
+          description: 充值地址
+        id:
+          type: integer
+          format: int32
+          description: 用户ID
+        level:
+          type: integer
+          format: int32
+          description: 会员等级
+        shareCode:
+          type: string
+          description: 邀请码
+        uid:
+          type: string
+          description: 8位唯一标识
+        userImg:
+          type: string
+          description: 用户头像URL
+        userName:
+          type: string
+          description: 用户显示名称
+        userTime:
+          type: string
+          format: date-time
+          description: 会员有效期
+        userWallets:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserWallet'
+      required: []
+    UserWallet:
+      type: object
+      properties:
+        balance:
+          type: string
+          description: 可用余额
+        coinId:
+          type: integer
+          format: int32
+          description: 币种ID
+        createTime:
+          type: string
+          format: date-time
+          description: 创建时间
+        flag:
+          type: integer
+          format: int32
+          description: 删除标记（0-正常 1-删除）
+        frozen:
+          type: string
+          description: 冻结资金
+        id:
+          type: integer
+          format: int32
+          description: 钱包ID
+        memberId:
+          type: integer
+          format: int32
+          description: 关联用户ID
+        updateTime:
+          type: string
+          format: date-time
+          description: 最后更新时间
+      required: []
+    Page:
+      type: object
+      properties:
+        countId:
+          type: string
+        current:
+          type: integer
+          format: int64
+        maxLimit:
+          type: string
+        optimizeCountSql:
+          type: boolean
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        pages:
+          type: integer
+          format: int64
+        records:
+          type: array
+          items:
+            type: object
+        searchCount:
+          type: boolean
+        size:
+          type: integer
+          format: int64
+        total:
+          type: integer
+          format: int64
+      required: []
+    OrderItem:
+      type: object
+      properties:
+        asc:
+          type: boolean
+        column:
+          type: string
+      required: []
+    CartReq:
+      type: object
+      properties:
+        cartId:
+          type: integer
+          format: int32
+          description: 购物车ID（删除时必传）
+        commodityId:
+          type: integer
+          format: int32
+          description: 商品ID（添加时必传）
+        flag:
+          type: integer
+          format: int32
+          description: 操作类型（0=删除 1=添加）
+          enum:
+            - 0
+            - 1
+        number:
+          type: integer
+          format: int32
+          description: 商品数量（添加时必传）
+      required: []
+    Commodity:
+      type: object
+      properties:
+        automatic:
+          type: integer
+          format: int32
+          description: 发货方式（1-自动发卡 2-手动确认）
+          enum:
+            - 1
+            - 2
+        award:
+          type: integer
+          format: int32
+          description: 奖励类型（1-有分润奖励 2-无奖励）
+        commodityImg:
+          type: string
+          format: uri
+          description: 商品封面图URL
+        commodityImgs:
+          type: string
+          description: 商品图JSON数组
+        commodityName:
+          type: string
+          description: 商品名称
+        commodityTrait:
+          type: string
+          description: 商品特点描述
+        commodityTypeId:
+          type: integer
+          format: int32
+          description: 所属专区ID
+        createTime:
+          type: string
+          format: date-time
+          description: 创建时间
+        flag:
+          type: integer
+          format: int32
+          description: 删除标记（0-正常 1-删除）
+        highlight:
+          type: integer
+          format: int32
+          description: 突出显示标识（1-突出 0-普通）
+        id:
+          type: integer
+          format: int32
+          description: 商品ID
+        illustrate:
+          type: string
+          description: 商品详细说明
+        integral:
+          type: string
+          description: 积分价格
+        number:
+          type: integer
+          format: int32
+          description: 库存数量
+        prices:
+          type: string
+          description: USDT标价
+        status:
+          type: integer
+          format: int32
+          description: 商品状态（1-销售中 2-已
+    WalletReq:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: 提币金额（支持小数）
+          example: '100.5'
+        chain:
+          type: integer
+          format: int32
+          description: 链类型（1=BSC 2=TRX）
+          enum:
+            - 1
+            - 2
+        paymentPassword:
+          type: string
+          description: MD5加密后的支付密码
+          minLength: 32
+          maxLength: 32
+        toAddress:
+          type: string
+          description: 接收地址
+          pattern: ^0x[a-fA-F0-9]{40}$|^T[a-zA-Z0-9]{33}$
+      required:
+        - amount
+        - chain
+        - paymentPassword
+        - toAddress
+    CancelAnOrderReq:
+      type: object
+      properties:
+        orderNumber:
+          type: string
+          description: 需要取消的订单号
+          pattern: ^[A-Z0-9]{8}-[A-Z0-9]{4}$
+          example: ABCD1234-5678
+      required:
+        - orderNumber
+    CommodiryReq:
+      type: object
+      properties:
+        chain:
+          type: integer
+          format: int32
+          description: 区块链类型（10=BSC 20=TRX）
+          enum:
+            - 10
+            - 20
+        commoditys:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommodiryPayReq'
+          description: 商品购买清单
+        paymentOfPoints:
+          type: string
+          description: 积分支付总额
+      required:
+        - chain
+        - commoditys
+    CommodiryPayReq:
+      type: object
+      properties:
+        commodityId:
+          type: integer
+          format: int32
+          description: 商品唯一标识
+        number:
+          type: integer
+          format: int32
+          description: 购买数量
+          minimum: 1
+      required:
+        - commodityId
+        - number
+    OrderReq:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: 实际支付金额
+        chain:
+          type: integer
+          format: int32
+          description: 区块链类型（10=BSC 20=TRX）
+        orderNumber:
+          type: string
+          description: 系统生成的订单号
+          pattern: ^(10|20)\d+
+      required:
+        - orderNumber
+    CommodityOrder:
+      type: object
+      properties:
+        award:
+          type: integer
+          format: int32
+          description: 分润奖励状态（1-有奖励 2-无奖励）
+          enum:
+            - 1
+            - 2
+        cardNumber:
+          type: integer
+          format: int32
+          description: 卡密到账数量
+        commodityId:
+          type: integer
+          format: int32
+          description: 关联商品ID
+        commodityImg:
+          type: string
+          format: uri
+          description: 商品封面图URL
+        commodityName:
+          type: string
+          description: 商品名称
+        commodityNumber:
+          type: integer
+          format: int32
+          description: 购买商品数量
+        commodityTrait:
+          type: string
+          description: 商品特点描述
+        createTime:
+          type: string
+          format: date-time
+          description: 订单创建时间
+        expiredTime:
+          type: string
+          format: date-time
+          description: 订单过期时间
+        flag:
+          type: integer
+          format: int32
+          description: 删除标记（0-正常 1-删除）
+        id:
+          type: integer
+          format: int32
+          description: 订单主键ID
+        illustrate:
+          type: string
+          description: 订单备注说明
+        integral:
+          type: string
+          description: 积分支付金额
+        number:
+          type: integer
+          format: int32
+          description: 实际获得卡密数量
+        orderHash:
+          type: string
+          description: 区块链交易哈希
+        orderNumber:
+          type: string
+          description: 系统订单编号
+        payStatus:
+          type: integer
+          format: int32
+          description: 支付链类型（1-BSC 2-TRX）
+          enum:
+            - 1
+            - 2
+        payType:
+          type: integer
+          format: int32
+          description: 支付状态（1-待支付 2-确认中 3-已取消 4-待人工 5-已完成）
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        prices:
+          type: string
+          description: USDT实际支付金额
+        type:
+          type: integer
+          format: int32
+          description: 商品类型（1-卡密 2-会员）
+        userId:
+          type: integer
+          format: int32
+          description: 关联用户ID
+      required:
+        - id
+        - orderNumber
+        - payType
+    BaseResultOfFileModel:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: 业务状态码
+        data:
+          $ref: '#/components/schemas/FileModel'
+        msg:
+          type: string
+          description: 操作结果描述
+        timeMillis:
+          type: integer
+          format: int64
+          description: 服务器时间戳
+      required:
+        - code
+    FileModel:
+      type: object
+      properties:
+        fileName:
+          type: string
+          description: 服务器存储文件名
+        filePath:
+          type: string
+          description: 文件存储相对路径
+        fullUrl:
+          type: string
+          format: uri
+          description: 文件完整访问URL
+        originFileName:
+          type: string
+          description: 原始文件名
+      required:
+        - fileName
+        - filePath
+    Notice:
+      type: object
+      properties:
+        createTime:
+          type: string
+          format: date-time
+          description: 记录创建时间
+        flag:
+          type: integer
+          format: int32
+          description: 删除标记（0-正常 1-删除）
+          enum:
+            - 0
+            - 1
+        noticeContent:
+          type: string
+          description: 公告正文内容
+        noticeId:
+          type: integer
+          format: int32
+          description: 公告唯一ID
+        noticeTitle:
+          type: string
+          description: 公告标题
+        noticeType:
+          type: integer
+          format: int32
+          description: 公告类型（1-通知 2-公告）
+          enum:
+            - 1
+            - 2
+        publishTime:
+          type: string
+          format: date-time
+          description: 发布时间
+        remark:
+          type: string
+          description: 备注信息
+        status:
+          type: integer
+          format: int32
+          description: 发布状态（0-正常 1-关闭）
+          enum:
+            - 0
+            - 1
+        updateTime:
+          type: string
+          format: date-time
+          description: 最后更新时间
+      required:
+        - noticeId
+        - noticeTitle
+    Banner:
+      type: object
+      properties:
+        createTime:
+          type: string
+          format: date-time
+          description: 创建时间
+        flag:
+          type: integer
+          format: int32
+          description: 删除标记（0-正常 1-删除）
+          enum:
+            - 0
+            - 1
+        id:
+          type: integer
+          format: int32
+          description: Banner唯一ID
+        imageUrl:
+          type: string
+          format: uri
+          description: 图片访问地址
+        lang:
+          type: string
+          description: 语言标识
+          example: zh-CN
+        state:
+          type: integer
+          format: int32
+          description: 显示状态（0-隐藏 1-显示）
+          enum:
+            - 0
+            - 1
+        targetUrl:
+          type: string
+          format: uri
+          description: 跳转链接地址
+        title:
+          type: string
+          description: Banner标题
+        updateTime:
+          type: string
+          format: date-time
+          description: 最后更新时间
+      required:
+        - id
+        - imageUrl
+    UserPasswordVo:
+      type: object
+      properties:
+        password:
+          type: string
+        account:
+          type: string
+  parameters:
+    Authorization:
+      name: Authorization
+      in: header
+      description: 身份验证令牌
+      required: false
+      schema:
+        type: string
+    AcceptLanguage:
+      name: Accept-Language
+      in: header
+      description: 语言偏好（en, zh-CN）
+      required: false
+      schema:
+        type: string
+        enum:
+          - en
+          - zh-CN
+    Address:
+      name: address
+      in: header
+      description: 地理位置信息
+      required: false
+      schema:
+        type: string

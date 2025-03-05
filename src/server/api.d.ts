@@ -1166,7 +1166,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["AccountSignInResp"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["AccountSignInResp"];
+                    };
                 };
             };
             /** @description Created */
@@ -1283,7 +1285,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: Record<string, never>;
+                    };
                 };
             };
             /** @description Unauthorized */
@@ -1334,11 +1338,13 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @description 业务状态码 */
-                        code?: number;
-                        /** @description 操作结果描述 */
-                        message?: string;
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: {
+                            /** @description 业务状态码 */
+                            code?: number;
+                            /** @description 操作结果描述 */
+                            message?: string;
+                        };
                     };
                 };
             };
@@ -1369,7 +1375,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["UserVo"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["UserVo"];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -1399,9 +1407,11 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @description 是否已设置支付密码 */
-                        hasPassword?: boolean;
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: {
+                            /** @description 是否已设置支付密码 */
+                            hasPassword?: boolean;
+                        };
                     };
                 };
             };
@@ -1435,9 +1445,11 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @description 账号是否存在(true/false) */
-                        exist?: boolean;
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: {
+                            /** @description 账号是否存在(true/false) */
+                            exist?: boolean;
+                        };
                     };
                 };
             };
@@ -1473,7 +1485,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Page"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Page"];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -1508,7 +1522,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Page"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Page"];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -1542,7 +1558,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: Record<string, never>;
+                    };
                 };
             };
             /** @description 资源创建成功 */
@@ -1579,7 +1597,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: Record<string, never>;
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -1613,7 +1633,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Page"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Page"];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -1646,7 +1668,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Commodity"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Commodity"];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -1680,7 +1704,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: Record<string, never>;
+                    };
                 };
             };
             /** @description 提币交易已创建 */
@@ -1721,7 +1747,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: Record<string, never>;
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -1758,7 +1786,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Page"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Page"];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -1792,7 +1822,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["OrderReq"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["OrderReq"];
+                    };
                 };
             };
             /** @description 订单已生成 */
@@ -1832,7 +1864,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["CommodityOrder"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["CommodityOrder"];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -1862,7 +1896,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["BaseResultOfFileModel"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["BaseResultOfFileModel"];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -1892,7 +1928,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["FileModel"][];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["FileModel"][];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -1925,7 +1963,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Notice"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Notice"];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -1993,7 +2033,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Page"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Page"];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -2028,7 +2070,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Page"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Page"];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -2058,7 +2102,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Banner"][];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Banner"][];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
@@ -2095,7 +2141,9 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["Page"];
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Page"];
+                    };
                 };
             };
             401: components["responses"]["Unauthorized"];
