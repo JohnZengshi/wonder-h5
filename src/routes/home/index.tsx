@@ -1,44 +1,55 @@
+import FetchClient from "@/server";
+import { components } from "@/server/api";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { useAsyncEffect } from "ahooks";
 import { Swiper } from "antd-mobile";
+import { useState } from "react";
 
 export const Route = createFileRoute("/home/")({
   component: RouteComponent,
 });
 
-const slides = [
-  { id: 1, bg: "#3C3C3C", text: "Banner 1" },
-  { id: 2, bg: "#893AF6", text: "Banner 2" },
-  { id: 3, bg: "#45B7D1", text: "Banner 3" },
-];
-
-const colors = ["#ace0ff", "#bcffbd", "#e4fabd", "#ffcfac"];
-
-const items = colors.map((color, index) => (
-  <Swiper.Item key={index}>
-    <div
-      className="h-[220px] flex items-center justify-center"
-      style={{ background: color }}
-      onClick={() => {}}
-    >
-      {index + 1}
-    </div>
-  </Swiper.Item>
-));
-
 function RouteComponent() {
   const { navigate } = useRouter();
+  const [banner, setBanner] = useState<components["schemas"]["Banner"][]>();
+  const [notice, setNotice] = useState<components["schemas"]["Notice"]>();
+  useAsyncEffect(async () => {
+    const { data } = await FetchClient.GET("/api/banner");
+    setBanner(data?.data);
+  }, []);
+  useAsyncEffect(async () => {
+    const { data } = await FetchClient.GET("/api/common/notice/list");
+    setNotice(data?.data?.[0]);
+  }, []);
+  useAsyncEffect(async () => {
+    const { data } = await FetchClient.GET(
+      "/api/frontPage/findCommodityTypeOrMember"
+    );
+  }, []);
   return (
     <div className="flex flex-auto flex-col items-center px-[14px] py-[12px] gap-[16px]">
       {/* banner */}
       <div className="relative w-[347px] rounded-[15px] overflow-hidden">
-        <Swiper autoplay>{items}</Swiper>
+        <Swiper autoplay>
+          {banner?.map((v, i) => (
+            <Swiper.Item key={i}>
+              <div
+                className="h-[220px] flex items-center justify-center"
+                onClick={() => {}}
+              >
+                <img className="w-full h-full" src={v.imageUrl} alt="" />
+              </div>
+            </Swiper.Item>
+          ))}
+        </Swiper>
       </div>
 
       {/* 公告 */}
       <div className="w-full flex items-center gap-[14px] px-[14px] h-[54px] rounded-[10px] bg-[#1F1F1F]">
         <span className="i-mdi-bullhorn-outline text-[#893AF6] text-[24px]"></span>
         <span className="text-[14px]">
-          这里是很长很长的一句话可以滚动的公告内容
+          {/* 这里是很长很长的一句话可以滚动的公告内容 */}
+          {notice?.noticeTitle}
         </span>
       </div>
 
