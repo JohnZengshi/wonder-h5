@@ -1,6 +1,7 @@
+import { components } from "@/server/api";
 import { useState, useEffect } from "react";
 
-class StorageManager<T extends string> {
+class StorageManager<T> {
   private key: string;
   private value: T;
   private listeners: Array<() => void> = [];
@@ -35,9 +36,11 @@ class StorageManager<T extends string> {
   }
 
   public setValue(newValue: T) {
+    // 修改参数类型
     if (this.value !== newValue) {
       this.value = newValue;
-      localStorage.setItem(this.key, newValue);
+      // 存储时序列化
+      localStorage.setItem(this.key, JSON.stringify(newValue));
       this.notifyListeners();
     }
   }
@@ -51,8 +54,8 @@ class StorageManager<T extends string> {
 }
 
 // 配套的 React Hook
-function useStorage(storageInstance: StorageManager<string>) {
-  const [value, setValue] = useState(storageInstance.getValue());
+function useStorage<T>(storageInstance: StorageManager<T>) {
+  const [value, setValue] = useState<T>(storageInstance.getValue());
 
   useEffect(() => {
     const unsubscribe = storageInstance.subscribe(() => {
@@ -63,7 +66,7 @@ function useStorage(storageInstance: StorageManager<string>) {
 
   return {
     value,
-    setValue: (newValue: string) => storageInstance.setValue(newValue),
+    setValue: (newValue: T) => storageInstance.setValue(newValue),
   };
 }
 
@@ -72,14 +75,51 @@ export const TokenStorage = new StorageManager<string>(
   ""
 );
 export const AccountStorage = new StorageManager<string>("USER_ACCOUNT", "");
+
+type CartItem = {
+  info: components["schemas"]["Commodity"];
+  quantity: number;
+  selected?: boolean;
+  // 可根据需要添加更多商品属性
+};
+// 添加购物车存储实例（在原有存储实例下方）
+export const CartStorage = new StorageManager<CartItem[]>("SHOPPING_CART", []);
+
 export default function () {
   const { value: token, setValue: setToken } = useStorage(TokenStorage);
   const { value: account, setValue: setAccount } = useStorage(AccountStorage);
+  const { value: cart, setValue: setCart } = useStorage(CartStorage);
+
+  // 购物车操作方法
+  const addToCart = (item: CartItem) => {
+    const existingItem = cart.find((i) => i.info.id === item.info.id);
+    if (existingItem) {
+      existingItem.quantity += item.quantity;
+    } else {
+      cart.push(item);
+    }
+    setCart([...cart]);
+  };
+  const removeFromCart = (goodsId: number) => {
+    setCart(cart.filter((item) => item.info.id !== goodsId));
+  };
+
+  const updateQuantity = (goodsId: number, newQuantity: number) => {
+    setCart(
+      cart.map((item) =>
+        item.info.id === goodsId ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
 
   return {
     token,
     setToken,
     account,
     setAccount,
+    cart,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
   };
 }
