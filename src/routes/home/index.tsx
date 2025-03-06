@@ -124,7 +124,7 @@ function ZoneGoodsList({ commodityTypeId }: { commodityTypeId: number }) {
               key={i}
               className="flex flex-col gap-[6px]"
               onClick={() => {
-                navigate({ to: "/product" });
+                navigate({ to: "/product", search: { goodsId: v.id } });
               }}
             >
               <div className="w-[130px] h-[130px] rounded-[12px] bg-[#3C3C3C]">

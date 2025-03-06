@@ -12,6 +12,8 @@ import {
   Stepper,
 } from "antd-mobile";
 import { useRef, useState } from "react";
+import gouwuchekong from "@/assets/gouwuchekong.svg";
+import useStore from "@/store/useStore";
 
 export const Route = createFileRoute("/home/shop")({
   component: RouteComponent,
@@ -28,43 +30,60 @@ function RouteComponent() {
   const [entryPwVisble, setEntryPwVisble] = useState(false);
   const passcodeInputRef = useRef<PasscodeInputRef>(null);
   const [password, setPassword] = useState("");
+  const { cart } = useStore();
 
   return (
     <div className="flex flex-col flex-auto p-[14px] relative">
       <ul className="bg-[#1F1F1F] rounded-[10px] px-[14px] py-[13px] flex flex-col gap-[24px]">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <li className="flex flex-col gap-[8px]" key={i}>
-            <div className="flex items-center gap-[10px]">
-              <div>
-                <span className="i-mdi-check-circle text-[18px] text-[#893AF6]"></span>
-              </div>
-              <div className="w-[74px] h-[74px] min-w-[74px] rounded-[9.37px] bg-[#3C3C3C]"></div>
-              <div className="flex-auto flex flex-col gap-[3.75px]">
-                <span className="text-ellipsis line-clamp-2 text-[14px] text-white">
-                  名称名称名称名称名称名称名称名称名称名称名称
-                </span>
-                <span className="text-ellipsis line-clamp-2 text-[12px] text-[#999999]">
-                  商品信息商品信息商品信息商品信息商品信息商品信息
-                </span>
-              </div>
+        {cart.length ? (
+          <>
+            {cart.map((v, i) => (
+              <li className="flex flex-col gap-[8px]" key={i}>
+                <div className="flex items-center gap-[10px]">
+                  <div>
+                    <span className="i-mdi-check-circle text-[18px] text-[#893AF6]"></span>
+                  </div>
+                  <div className="w-[74px] h-[74px] min-w-[74px] rounded-[9.37px] bg-[#3C3C3C]"></div>
+                  <div className="flex-auto flex flex-col gap-[3.75px]">
+                    <span className="text-ellipsis line-clamp-2 text-[14px] text-white">
+                      {v.info.commodityName}
+                    </span>
+                    <span className="text-ellipsis line-clamp-2 text-[12px] text-[#999999]">
+                      {v.info.commodityTrait}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex gap-[8px]">
+                  <div className="w-[19px] min-w-[19x]"></div>
+                  <div className="w-[74px] min-w-[74px]"></div>
+                  <div className="flex-auto flex justify-between items-center">
+                    <span className="text-[14px]">${v.info.prices}</span>
+                    <Stepper
+                      defaultValue={v.quantity}
+                      onChange={(value) => {
+                        console.log(value);
+                      }}
+                    />
+                  </div>
+                </div>
+              </li>
+            ))}
+          </>
+        ) : (
+          <>
+            <div className="flex flex-col items-center">
+              <img src={gouwuchekong} className="w-[120px] h-[147px]" alt="" />
+              <span className="text-[14px] mt-[16px] mb-[28px]">
+                您的购物车暂时没有商品
+              </span>
+              <Button className="" color="primary">
+                <span>去购物</span>
+              </Button>
             </div>
-            <div className="flex gap-[8px]">
-              <div className="w-[19px] min-w-[19x]"></div>
-              <div className="w-[74px] min-w-[74px]"></div>
-              <div className="flex-auto flex justify-between items-center">
-                <span className="text-[14px]">$999</span>
-                <Stepper
-                  defaultValue={1}
-                  onChange={(value) => {
-                    console.log(value);
-                  }}
-                />
-              </div>
-            </div>
-          </li>
-        ))}
+          </>
+        )}
       </ul>
-      <span className="text-[18px]">推荐</span>
+      <span className="text-[18px] mt-[42px] mb-[10px]">推荐</span>
       <ul className="flex flex-wrap justify-between gap-[16px]">
         {Array.from({ length: 5 }).map((_, i) => (
           <li
