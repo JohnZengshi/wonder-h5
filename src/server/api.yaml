@@ -577,6 +577,8 @@ paths:
           schema:
             type: integer
             format: int32
+            enum:
+              - 3
       responses:
         '200':
           description: 商品分页数据
