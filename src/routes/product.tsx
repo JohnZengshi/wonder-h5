@@ -1,33 +1,73 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { Button, NavBar, SafeArea, Stepper, Swiper } from "antd-mobile";
+import { createFileRoute, useRouter, useSearch } from "@tanstack/react-router";
+import {
+  Button,
+  Image,
+  NavBar,
+  SafeArea,
+  Stepper,
+  Swiper,
+  Toast,
+} from "antd-mobile";
 import peoductExample from "@/assets/product-example.png";
 import clsx from "clsx";
 import { css } from "@/lib/emotion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { showPaymentPassword } from "@/utils/payment";
+import { useAsyncEffect } from "ahooks";
+import FetchClient from "@/server";
+import { components } from "@/server/api";
+import useStore from "@/store/useStore";
+
+type ProductSearch = {
+  goodsId?: number;
+};
 
 export const Route = createFileRoute("/product")({
+  validateSearch: (search): ProductSearch => search,
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const { navigate } = useRouter();
+  const search = useSearch({ from: "/product" });
+  const [goodsDetail, setGoodsDetail] =
+    useState<components["schemas"]["Commodity"]>();
+
+  const [packages, setPackages] =
+    useState<components["schemas"]["Commodity"][]>();
+
+  const { addToCart } = useStore();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []); // 空依赖数组表示只执行一次
-  const { navigate } = useRouter();
+
+  useAsyncEffect(async () => {
+    if (!search.goodsId) return;
+    const { data } = await FetchClient.GET("/api/frontPage/{id}", {
+      params: { path: { id: search.goodsId } },
+    });
+
+    setGoodsDetail(data?.data);
+  }, []);
+
+  useAsyncEffect(async () => {
+    const { data } = await FetchClient.GET("/api/frontPage/pageCommodity", {
+      params: {
+        query: { type: 3, pageNum: 1, pageSize: 99 },
+      },
+    });
+    setPackages(data?.data?.records);
+  }, []);
   return (
     <div className="flex flex-col min-h-[100vh]">
       <NavBar onBack={() => navigate({ to: ".." })}></NavBar>
       <div className="flex flex-col flex-auto relative">
         <Swiper>
-          {Array.from({ length: 4 }).map((v) => (
-            <Swiper.Item>
+          {[goodsDetail?.commodityImg].map((v, i) => (
+            <Swiper.Item key={i}>
               <div className="h-[296px] w-full flex items-start justify-center">
-                <img
-                  src={peoductExample}
-                  className="w-[247px] h-[247px]"
-                  alt=""
-                />
+                <Image src={v} className="!w-[247px] !h-[247px]" alt="" />
               </div>
             </Swiper.Item>
           ))}
@@ -43,10 +83,10 @@ function RouteComponent() {
           )}
         >
           <div className="flex items-center justify-between">
-            <span className="text-[22px]">商品名称</span>
+            <span className="text-[22px]">{goodsDetail?.commodityName}</span>
             <span className="text-[28px] text-[#893AF6] font-bold flex items-center gap-[4px]">
               <span className="text-[12px] text-white font-bold">$</span>
-              999
+              {goodsDetail?.prices}
             </span>
           </div>
           <span
@@ -60,7 +100,7 @@ function RouteComponent() {
               `
             )}
           >
-            这里是商品介绍这里是商品介绍这里是商品介绍这里是商品介绍这里是商品介绍这里是商品介绍这里是商品介绍这里是商品介绍这里是商品介绍
+            {goodsDetail?.commodityTrait}
           </span>
 
           <div className="flex items-center justify-between mt-[20px]">
@@ -75,8 +115,13 @@ function RouteComponent() {
 
           <span className="text-[16px] mt-[24px]">套餐包</span>
           <ul className="bg-[#141414] px-[14px] py-[11px] rounded-[10px] flex items-center gap-[10px] overflow-x-auto mt-[8px]">
-            {Array.from({ length: 10 }).map((v) => (
-              <li className="w-[56px] min-w-[56px] h-[56px] rounded-[10px] bg-[#3C3C3C]"></li>
+            {packages?.map((v, i) => (
+              <li
+                key={i}
+                className="w-[56px] min-w-[56px] h-[56px] rounded-[10px] bg-[#3C3C3C]"
+              >
+                <Image src={v.commodityImg} className="w-full h-full" alt="" />
+              </li>
             ))}
           </ul>
 
@@ -96,6 +141,11 @@ function RouteComponent() {
                 `
               )}
               fill="none"
+              onClick={() => {
+                if (!goodsDetail) return;
+                addToCart({ info: goodsDetail, quantity: 1 });
+                Toast.show("添加成功！");
+              }}
             >
               <span>加入购物车</span>
             </Button>
