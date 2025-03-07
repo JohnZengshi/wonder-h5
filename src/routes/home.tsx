@@ -3,6 +3,7 @@ import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import logo from "@/assets/logo.svg";
 import { useAppKitEvents, useDisconnect } from "@reown/appkit/react";
 import { SafeArea } from "antd-mobile";
+import { FileRouteTypes } from "@/routeTree.gen";
 
 export const Route = createFileRoute("/home")({
   component: RouteComponent,
@@ -39,8 +40,8 @@ function RouteComponent() {
         <img src={logo} className="w-[36px] h-[36px]" alt="" />
         <div className="flex items-center h-full">
           <NavTab to="/home" text="首页" exact />
-          <NavTab to="/home/category" text="分类" />
-          <NavTab to="/home/shop" text="购物车" />
+          <NavTab to="/home/category" text="分类" exact />
+          <NavTab to="/home/cart" text="购物车" exact />
         </div>
 
         <Link to="/mine">
@@ -67,13 +68,13 @@ const NavTab = ({
   text,
   exact = false,
 }: {
-  to: string;
+  to: FileRouteTypes["to"];
   text: string;
   exact?: boolean;
 }) => (
   <Link
     to={to}
-    activeOptions={{ exact }}
+    activeOptions={{ exact: exact }}
     activeProps={{ className: activeTabStyle }}
     className="flex h-full items-center justify-center px-[8px] relative text-white"
   >

@@ -1,7 +1,7 @@
 import { css } from "@/lib/emotion";
 import FetchClient from "@/server";
 import { components } from "@/server/api";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useAsyncEffect } from "ahooks";
 import { Empty, SideBar } from "antd-mobile";
 import clsx from "clsx";
@@ -60,6 +60,7 @@ function RouteComponent() {
 }
 
 function GoodsList({ categoryId }: { categoryId: number }) {
+  const { navigate } = useRouter();
   const [goodsList, setGoodsList] =
     useState<components["schemas"]["Commodity"][]>();
   useAsyncEffect(async () => {
@@ -86,7 +87,13 @@ function GoodsList({ categoryId }: { categoryId: number }) {
             {goodsList?.length ? (
               <>
                 {goodsList?.map((v, i) => (
-                  <li className="flex flex-col items-center gap-[4px]" key={i}>
+                  <li
+                    className="flex flex-col items-center gap-[4px]"
+                    key={i}
+                    onClick={() => {
+                      navigate({ to: "/product", search: { goodsId: v.id } });
+                    }}
+                  >
                     <div className="w-[56px] h-[56px] rounded-[10px] bg-[#3C3C3C]"></div>
                     <span className="text-[12px]">{v.commodityName}</span>
                   </li>

@@ -38,6 +38,8 @@ function RouteComponent() {
 
   const { addToCart } = useStore();
 
+  const [goodsNum, setGoodsNum] = useState(1);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []); // 空依赖数组表示只执行一次
@@ -54,7 +56,7 @@ function RouteComponent() {
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/frontPage/pageCommodity", {
       params: {
-        query: { type: 3, pageNum: 1, pageSize: 99 },
+        query: { type: 6, pageNum: 1, pageSize: 99 },
       },
     });
     setPackages(data?.data?.records);
@@ -106,9 +108,9 @@ function RouteComponent() {
           <div className="flex items-center justify-between mt-[20px]">
             <span className="text-[16px]">购买数量/张</span>
             <Stepper
-              defaultValue={1}
+              defaultValue={goodsNum}
               onChange={(value) => {
-                console.log(value);
+                setGoodsNum(value);
               }}
             />
           </div>
@@ -143,7 +145,7 @@ function RouteComponent() {
               fill="none"
               onClick={() => {
                 if (!goodsDetail) return;
-                addToCart({ info: goodsDetail, quantity: 1 });
+                addToCart({ info: goodsDetail, quantity: goodsNum });
                 Toast.show("添加成功！");
               }}
             >

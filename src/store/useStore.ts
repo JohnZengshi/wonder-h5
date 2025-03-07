@@ -13,7 +13,11 @@ class StorageManager<T> {
     if (typeof window !== "undefined") {
       // 初始化时读取本地存储
       const storedValue = localStorage.getItem(this.key);
-      this.value = (storedValue as T) || defaultValue;
+      try {
+        this.value = storedValue ? JSON.parse(storedValue) : defaultValue;
+      } catch (e) {
+        this.value = defaultValue;
+      }
 
       // 监听存储变化
       window.addEventListener("storage", this.handleStorageChange);
@@ -22,7 +26,11 @@ class StorageManager<T> {
 
   private handleStorageChange = (event: StorageEvent) => {
     if (event.key === this.key) {
-      this.value = (event.newValue as T) || this.value;
+      try {
+        this.value = event.newValue ? JSON.parse(event.newValue) : this.value;
+      } catch (e) {
+        this.value = this.value;
+      }
       this.notifyListeners();
     }
   };
@@ -112,6 +120,27 @@ export default function () {
     );
   };
 
+  const toggleItemSelection = (goodsId: number) => {
+    setCart(
+      cart.map((item) =>
+        item.info.id === goodsId ? { ...item, selected: !item.selected } : item
+      )
+    );
+  };
+
+  // 切换全选状态
+  const toggleSelectAll = () => {
+    // 检查当前是否全选
+    const isAllSelected = cart.every((item) => item.selected);
+    // 根据当前状态设置相反的全选状态
+    setCart(
+      cart.map((item) => ({
+        ...item,
+        selected: !isAllSelected,
+      }))
+    );
+  };
+
   return {
     token,
     setToken,
@@ -121,5 +150,7 @@ export default function () {
     addToCart,
     removeFromCart,
     updateQuantity,
+    toggleItemSelection,
+    toggleSelectAll,
   };
 }

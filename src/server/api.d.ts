@@ -1636,7 +1636,7 @@ export interface operations {
                 pageNum: number;
                 pageSize: number;
                 commodityTypeId?: number;
-                type?: 3;
+                type?: 3 | 6;
             };
             header?: {
                 /** @description 身份验证令牌 */

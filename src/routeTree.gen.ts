@@ -19,8 +19,8 @@ import { Route as HomeIndexImport } from './routes/home/index'
 import { Route as MineOrderImport } from './routes/mine/order'
 import { Route as MineIntiveImport } from './routes/mine/intive'
 import { Route as MineCardSecretsImport } from './routes/mine/card-secrets'
-import { Route as HomeShopImport } from './routes/home/shop'
 import { Route as HomeCategoryImport } from './routes/home/category'
+import { Route as HomeCartImport } from './routes/home/cart'
 
 // Create/Update Routes
 
@@ -72,15 +72,15 @@ const MineCardSecretsRoute = MineCardSecretsImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const HomeShopRoute = HomeShopImport.update({
-  id: '/shop',
-  path: '/shop',
-  getParentRoute: () => HomeRoute,
-} as any)
-
 const HomeCategoryRoute = HomeCategoryImport.update({
   id: '/category',
   path: '/category',
+  getParentRoute: () => HomeRoute,
+} as any)
+
+const HomeCartRoute = HomeCartImport.update({
+  id: '/cart',
+  path: '/cart',
   getParentRoute: () => HomeRoute,
 } as any)
 
@@ -109,18 +109,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductImport
       parentRoute: typeof rootRoute
     }
+    '/home/cart': {
+      id: '/home/cart'
+      path: '/cart'
+      fullPath: '/home/cart'
+      preLoaderRoute: typeof HomeCartImport
+      parentRoute: typeof HomeImport
+    }
     '/home/category': {
       id: '/home/category'
       path: '/category'
       fullPath: '/home/category'
       preLoaderRoute: typeof HomeCategoryImport
-      parentRoute: typeof HomeImport
-    }
-    '/home/shop': {
-      id: '/home/shop'
-      path: '/shop'
-      fullPath: '/home/shop'
-      preLoaderRoute: typeof HomeShopImport
       parentRoute: typeof HomeImport
     }
     '/mine/card-secrets': {
@@ -164,14 +164,14 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface HomeRouteChildren {
+  HomeCartRoute: typeof HomeCartRoute
   HomeCategoryRoute: typeof HomeCategoryRoute
-  HomeShopRoute: typeof HomeShopRoute
   HomeIndexRoute: typeof HomeIndexRoute
 }
 
 const HomeRouteChildren: HomeRouteChildren = {
+  HomeCartRoute: HomeCartRoute,
   HomeCategoryRoute: HomeCategoryRoute,
-  HomeShopRoute: HomeShopRoute,
   HomeIndexRoute: HomeIndexRoute,
 }
 
@@ -181,8 +181,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/home': typeof HomeRouteWithChildren
   '/product': typeof ProductRoute
+  '/home/cart': typeof HomeCartRoute
   '/home/category': typeof HomeCategoryRoute
-  '/home/shop': typeof HomeShopRoute
   '/mine/card-secrets': typeof MineCardSecretsRoute
   '/mine/intive': typeof MineIntiveRoute
   '/mine/order': typeof MineOrderRoute
@@ -193,8 +193,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/product': typeof ProductRoute
+  '/home/cart': typeof HomeCartRoute
   '/home/category': typeof HomeCategoryRoute
-  '/home/shop': typeof HomeShopRoute
   '/mine/card-secrets': typeof MineCardSecretsRoute
   '/mine/intive': typeof MineIntiveRoute
   '/mine/order': typeof MineOrderRoute
@@ -207,8 +207,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/home': typeof HomeRouteWithChildren
   '/product': typeof ProductRoute
+  '/home/cart': typeof HomeCartRoute
   '/home/category': typeof HomeCategoryRoute
-  '/home/shop': typeof HomeShopRoute
   '/mine/card-secrets': typeof MineCardSecretsRoute
   '/mine/intive': typeof MineIntiveRoute
   '/mine/order': typeof MineOrderRoute
@@ -222,8 +222,8 @@ export interface FileRouteTypes {
     | '/'
     | '/home'
     | '/product'
+    | '/home/cart'
     | '/home/category'
-    | '/home/shop'
     | '/mine/card-secrets'
     | '/mine/intive'
     | '/mine/order'
@@ -233,8 +233,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/product'
+    | '/home/cart'
     | '/home/category'
-    | '/home/shop'
     | '/mine/card-secrets'
     | '/mine/intive'
     | '/mine/order'
@@ -245,8 +245,8 @@ export interface FileRouteTypes {
     | '/'
     | '/home'
     | '/product'
+    | '/home/cart'
     | '/home/category'
-    | '/home/shop'
     | '/mine/card-secrets'
     | '/mine/intive'
     | '/mine/order'
@@ -300,20 +300,20 @@ export const routeTree = rootRoute
     "/home": {
       "filePath": "home.tsx",
       "children": [
+        "/home/cart",
         "/home/category",
-        "/home/shop",
         "/home/"
       ]
     },
     "/product": {
       "filePath": "product.tsx"
     },
-    "/home/category": {
-      "filePath": "home/category.tsx",
+    "/home/cart": {
+      "filePath": "home/cart.tsx",
       "parent": "/home"
     },
-    "/home/shop": {
-      "filePath": "home/shop.tsx",
+    "/home/category": {
+      "filePath": "home/category.tsx",
       "parent": "/home"
     },
     "/mine/card-secrets": {

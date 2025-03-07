@@ -25,7 +25,7 @@ function RouteComponent() {
         <span className="text-[18px]">我的订单</span>
       </NavBar>
       <Tabs
-        activeKey={tabItems[activeIndex].key}
+        activeKey={tabItems[activeIndex]?.key}
         onChange={(key) => {
           const index = tabItems.findIndex((item) => item.key === key);
           setActiveIndex(index);

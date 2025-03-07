@@ -15,7 +15,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountSignUpReq'
+              $ref: "#/components/schemas/AccountSignUpReq"
       parameters:
         - name: Authorization
           in: header
@@ -36,23 +36,23 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/UserPasswordVo'
-        '201':
+                        $ref: "#/components/schemas/UserPasswordVo"
+        "201":
           description: Created
-        '401':
+        "401":
           description: Unauthorized
-        '403':
+        "403":
           description: Forbidden
-        '404':
+        "404":
           description: Not Found
   /api/account/signIn:
     post:
@@ -66,7 +66,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountSignInReq'
+              $ref: "#/components/schemas/AccountSignInReq"
       parameters:
         - name: Authorization
           in: header
@@ -87,24 +87,24 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/AccountSignInResp'
-        '201':
+                        $ref: "#/components/schemas/AccountSignInResp"
+        "201":
           description: Created
-        '401':
+        "401":
           description: Unauthorized
-        '403':
+        "403":
           description: Forbidden
-        '404':
+        "404":
           description: Not Found
   /api/account/renewPasswordPay:
     post:
@@ -118,7 +118,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PasswordPayReq'
+              $ref: "#/components/schemas/PasswordPayReq"
       parameters:
         - name: Authorization
           in: header
@@ -139,15 +139,15 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
-        '201':
+        "201":
           description: Created
-        '401':
+        "401":
           description: Unauthorized
-        '403':
+        "403":
           description: Forbidden
-        '404':
+        "404":
           description: Not Found
   /api/account/recommender:
     get:
@@ -190,22 +190,22 @@ paths:
             type: integer
             format: int32
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
                         type: object
-        '401':
+        "401":
           description: Unauthorized
-        '403':
+        "403":
           description: Forbidden
-        '404':
+        "404":
           description: Not Found
   /api/account/modifyTheName:
     get:
@@ -242,13 +242,13 @@ paths:
             minLength: 1
             maxLength: 20
       responses:
-        '200':
+        "200":
           description: 名称修改成功
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
@@ -260,12 +260,12 @@ paths:
                           message:
                             type: string
                             description: 操作结果描述
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/account/findUser:
     get:
       tags:
@@ -274,27 +274,27 @@ paths:
       description: 获取用户详细信息接口
       operationId: getUserProfile
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
       responses:
-        '200':
+        "200":
           description: 用户数据获取成功
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/UserVo'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                        $ref: "#/components/schemas/UserVo"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/account/findPasswordPay:
     get:
       tags:
@@ -303,17 +303,17 @@ paths:
       description: 检查用户是否已设置支付密码
       operationId: checkPaymentPassword
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
       responses:
-        '200':
+        "200":
           description: 查询成功
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
@@ -322,12 +322,12 @@ paths:
                           hasPassword:
                             type: boolean
                             description: 是否已设置支付密码
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/account/exist:
     get:
       tags:
@@ -336,9 +336,9 @@ paths:
       description: 验证账号注册状态接口
       operationId: checkAccountExist
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: account
           in: query
           description: 待验证的账号
@@ -348,13 +348,13 @@ paths:
             minLength: 6
             maxLength: 20
       responses:
-        '200':
+        "200":
           description: 验证结果返回成功
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
@@ -363,12 +363,12 @@ paths:
                           exist:
                             type: boolean
                             description: 账号是否存在(true/false)
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/key-card/page:
     get:
       tags:
@@ -377,9 +377,9 @@ paths:
       description: 获取卡密分页列表接口
       operationId: getKeyCardPage
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: pageNum
           in: query
           description: 当前页码
@@ -398,23 +398,23 @@ paths:
             minimum: 1
             maximum: 100
       responses:
-        '200':
+        "200":
           description: 分页数据获取成功
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/Page'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                        $ref: "#/components/schemas/Page"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/cart/page:
     get:
       tags:
@@ -423,9 +423,9 @@ paths:
       description: 获取购物车分页数据接口
       operationId: getCartPage
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: pageNum
           in: query
           description: 当前页码
@@ -444,23 +444,23 @@ paths:
             minimum: 1
             maximum: 100
       responses:
-        '200':
+        "200":
           description: 购物车数据获取成功
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/Page'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                        $ref: "#/components/schemas/Page"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/cart:
     post:
       tags:
@@ -473,31 +473,31 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CartReq'
+              $ref: "#/components/schemas/CartReq"
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
       responses:
-        '200':
+        "200":
           description: 操作成功
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
                         type: object
-        '201':
+        "201":
           description: 资源创建成功
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/frontPage/findCommodityTypeOrMember:
     get:
       tags:
@@ -506,17 +506,17 @@ paths:
       description: 获取商品分类及会员专区数据接口
       operationId: getCommodityTypeOrMemberInfo
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
       responses:
-        '200':
+        "200":
           description: 数据获取成功
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
@@ -525,20 +525,20 @@ paths:
                           commodityTypeList:
                             type: array
                             items:
-                              $ref: '#/components/schemas/CommodityType'
+                              $ref: "#/components/schemas/CommodityType"
                           member:
-                            oneOf:  # 更规范的null处理
-                              - $ref: '#/components/schemas/Commodity'
+                            oneOf: # 更规范的null处理
+                              - $ref: "#/components/schemas/Commodity"
                               - type: "null"
                         required:
                           - commodityTypeList
                           - member
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/frontPage/pageCommodity:
     get:
       tags:
@@ -547,9 +547,9 @@ paths:
       description: 根据专区ID获取商品分页列表
       operationId: getCommodityByType
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: pageNum
           in: query
           required: true
@@ -579,24 +579,25 @@ paths:
             format: int32
             enum:
               - 3
+              - 6
       responses:
-        '200':
+        "200":
           description: 商品分页数据
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/CommodityPage'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                        $ref: "#/components/schemas/CommodityPage"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/frontPage/{id}:
     get:
       tags:
@@ -605,9 +606,9 @@ paths:
       description: 根据商品ID获取详细信息
       operationId: getCommodityDetail
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: id
           in: path
           required: true
@@ -616,23 +617,23 @@ paths:
             format: int32
           description: 商品唯一标识
       responses:
-        '200':
+        "200":
           description: 商品详细信息
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/Commodity'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                        $ref: "#/components/schemas/Commodity"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/user-wallet/withdrawCoins:
     post:
       tags:
@@ -645,31 +646,31 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/WalletReq'
+              $ref: "#/components/schemas/WalletReq"
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
       responses:
-        '200':
+        "200":
           description: 提币请求已受理
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
                         type: object
-        '201':
+        "201":
           description: 提币交易已创建
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/commodity-order/cancelAnOrder:
     post:
       tags:
@@ -682,29 +683,29 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CancelAnOrderReq'
+              $ref: "#/components/schemas/CancelAnOrderReq"
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
       responses:
-        '200':
+        "200":
           description: 订单状态更新成功
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
                         type: object
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/commodity-order/page:
     get:
       tags:
@@ -713,9 +714,9 @@ paths:
       description: 获取订单分页列表接口
       operationId: getOrderPage
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: pageNum
           in: query
           required: true
@@ -741,23 +742,23 @@ paths:
             format: int32
           description: 支付类型（具体值需参照业务文档）
       responses:
-        '200':
+        "200":
           description: 订单分页数据
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/Page'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                        $ref: "#/components/schemas/Page"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/commodity-order/payOrderNumber:
     post:
       tags:
@@ -770,31 +771,31 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CommodiryReq'
+              $ref: "#/components/schemas/CommodiryReq"
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
       responses:
-        '200':
+        "200":
           description: 订单创建成功
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/OrderReq'
-        '201':
+                        $ref: "#/components/schemas/OrderReq"
+        "201":
           description: 订单已生成
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/commodity-order/{id}:
     get:
       tags:
@@ -803,9 +804,9 @@ paths:
       description: 根据订单ID获取详细信息
       operationId: getOrderDetail
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: id
           in: path
           required: true
@@ -814,23 +815,23 @@ paths:
             format: int32
           description: 订单唯一标识
       responses:
-        '200':
+        "200":
           description: 订单详细信息
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/CommodityOrder'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                        $ref: "#/components/schemas/CommodityOrder"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/file/upload:
     post:
       tags:
@@ -841,9 +842,9 @@ paths:
       consumes:
         - multipart/form-data
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: file
           in: formData
           description: 上传的文件内容
@@ -852,23 +853,23 @@ paths:
             type: string
             format: binary
       responses:
-        '200':
+        "200":
           description: 文件上传成功
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/BaseResultOfFileModel'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                        $ref: "#/components/schemas/BaseResultOfFileModel"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/file/uploads:
     post:
       tags:
@@ -879,9 +880,9 @@ paths:
       consumes:
         - multipart/form-data
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: files
           in: formData
           description: 多文件内容
@@ -892,25 +893,25 @@ paths:
               type: string
               format: binary
       responses:
-        '200':
+        "200":
           description: 文件批量上传成功
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/FileModel'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                          $ref: "#/components/schemas/FileModel"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/common/notice/detail:
     get:
       tags:
@@ -919,9 +920,9 @@ paths:
       description: 根据公告ID获取详细信息
       operationId: getNoticeDetail
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: id
           in: query
           description: 公告唯一标识
@@ -930,23 +931,23 @@ paths:
             type: integer
             format: int32
       responses:
-        '200':
+        "200":
           description: 公告详细信息
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/Notice'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                        $ref: "#/components/schemas/Notice"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/common/notice/html:
     get:
       tags:
@@ -955,9 +956,9 @@ paths:
       description: 获取HTML格式的公告内容
       operationId: getNoticeHtml
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: id
           in: query
           description: 公告唯一标识
@@ -966,19 +967,19 @@ paths:
             type: integer
             format: int32
       responses:
-        '200':
+        "200":
           description: HTML格式的公告内容
           content:
             text/html:
               schema:
                 type: string
                 example: <div class='notice-content'>示例公告内容</div>
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/common/notice/list:
     get:
       tags:
@@ -987,9 +988,9 @@ paths:
       description: 获取公告分页数据接口
       operationId: getNoticeList
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: page
           in: query
           description: 分页页码
@@ -1010,23 +1011,23 @@ paths:
             maximum: 500
             default: 20
       responses:
-        '200':
+        "200":
           description: 公告分页数据
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/NoticePage'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                        $ref: "#/components/schemas/NoticePage"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/common/popUps/list:
     get:
       tags:
@@ -1035,9 +1036,9 @@ paths:
       description: 获取弹窗公告分页数据接口
       operationId: getPopUpList
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: page
           in: query
           description: 分页页码
@@ -1058,23 +1059,23 @@ paths:
             maximum: 500
             default: 20
       responses:
-        '200':
+        "200":
           description: 弹窗公告分页数据
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/Page'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                        $ref: "#/components/schemas/Page"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/banner:
     get:
       tags:
@@ -1083,29 +1084,29 @@ paths:
       description: 查询所有有效Banner信息
       operationId: getBannerList
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
       responses:
-        '200':
+        "200":
           description: Banner列表获取成功
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/Banner'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                          $ref: "#/components/schemas/Banner"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
   /api/user-wallet-log/page:
     get:
       tags:
@@ -1114,9 +1115,9 @@ paths:
       description: 获取用户资产变动记录分页列表
       operationId: getWalletLogPage
       parameters:
-        - $ref: '#/components/parameters/Authorization'
-        - $ref: '#/components/parameters/AcceptLanguage'
-        - $ref: '#/components/parameters/Address'
+        - $ref: "#/components/parameters/Authorization"
+        - $ref: "#/components/parameters/AcceptLanguage"
+        - $ref: "#/components/parameters/Address"
         - name: pageNum
           in: query
           required: true
@@ -1142,23 +1143,23 @@ paths:
             format: int32
           description: 钱包唯一标识
       responses:
-        '200':
+        "200":
           description: 资产流水数据
           content:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
+                  - $ref: "#/components/schemas/BaseResponse"
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/Page'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                        $ref: "#/components/schemas/Page"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
 components:
   responses:
     Unauthorized:
@@ -1279,7 +1280,7 @@ components:
         userWallets:
           type: array
           items:
-            $ref: '#/components/schemas/UserWallet'
+            $ref: "#/components/schemas/UserWallet"
       required: []
     UserWallet:
       type: object
@@ -1330,7 +1331,7 @@ components:
         orders:
           type: array
           items:
-            $ref: '#/components/schemas/OrderItem'
+            $ref: "#/components/schemas/OrderItem"
         pages:
           type: integer
           format: int64
@@ -1444,7 +1445,7 @@ components:
         amount:
           type: string
           description: 提币金额（支持小数）
-          example: '100.5'
+          example: "100.5"
         chain:
           type: integer
           format: int32
@@ -1489,7 +1490,7 @@ components:
         commoditys:
           type: array
           items:
-            $ref: '#/components/schemas/CommodiryPayReq'
+            $ref: "#/components/schemas/CommodiryPayReq"
           description: 商品购买清单
         paymentOfPoints:
           type: string
@@ -1632,7 +1633,7 @@ components:
           format: int32
           description: 业务状态码
         data:
-          $ref: '#/components/schemas/FileModel'
+          $ref: "#/components/schemas/FileModel"
         msg:
           type: string
           description: 操作结果描述
@@ -1802,22 +1803,22 @@ components:
         - type
     CommodityPage:
       allOf:
-        - $ref: '#/components/schemas/Page'
+        - $ref: "#/components/schemas/Page"
         - type: object
           properties:
             records:
               type: array
               items:
-                $ref: '#/components/schemas/Commodity'
+                $ref: "#/components/schemas/Commodity"
     NoticePage:
       allOf:
-        - $ref: '#/components/schemas/Page'
+        - $ref: "#/components/schemas/Page"
         - type: object
           properties:
             records:
               type: array
               items:
-                $ref: '#/components/schemas/Notice'
+                $ref: "#/components/schemas/Notice"
 
   parameters:
     Authorization:

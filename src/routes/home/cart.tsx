@@ -1,9 +1,10 @@
 import { PopupTitle } from "@/components/PopupTitle";
 import { css } from "@/lib/emotion";
 import { showPaymentPassword } from "@/utils/payment";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import {
   Button,
+  Image,
   NumberKeyboard,
   PasscodeInput,
   PasscodeInputRef,
@@ -11,11 +12,14 @@ import {
   SafeArea,
   Stepper,
 } from "antd-mobile";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import gouwuchekong from "@/assets/gouwuchekong.svg";
 import useStore from "@/store/useStore";
+import { useAsyncEffect } from "ahooks";
+import FetchClient from "@/server";
+import { components } from "@/server/api";
 
-export const Route = createFileRoute("/home/shop")({
+export const Route = createFileRoute("/home/cart")({
   component: RouteComponent,
 });
 
@@ -26,11 +30,33 @@ const btnBg = css`
 `;
 
 function RouteComponent() {
+  const { navigate } = useRouter();
   const [visible, setVisible] = useState(false);
   const [entryPwVisble, setEntryPwVisble] = useState(false);
   const passcodeInputRef = useRef<PasscodeInputRef>(null);
   const [password, setPassword] = useState("");
-  const { cart } = useStore();
+  const { cart, updateQuantity, toggleItemSelection, toggleSelectAll } =
+    useStore();
+  const [recommended, setRecommended] =
+    useState<components["schemas"]["Commodity"][]>();
+
+  useAsyncEffect(async () => {
+    const { data } = await FetchClient.GET("/api/frontPage/pageCommodity", {
+      params: {
+        query: { type: 3, pageNum: 1, pageSize: 99 },
+      },
+    });
+    setRecommended(data?.data?.records);
+  }, []);
+
+  // 使用useMemo计算购物车总价
+  const totalPrice = useMemo(() => {
+    return cart.reduce((total, item) => {
+      // 只计算被选中商品的总价
+      if (!item.selected) return total;
+      return total + parseFloat(item.info.prices || "0") * item.quantity;
+    }, 0);
+  }, [cart]);
 
   return (
     <div className="flex flex-col flex-auto p-[14px] relative">
@@ -39,12 +65,25 @@ function RouteComponent() {
           <>
             {cart.map((v, i) => (
               <li className="flex flex-col gap-[8px]" key={i}>
-                <div className="flex items-center gap-[10px]">
+                <div
+                  className="flex items-center gap-[10px]"
+                  onClick={() => {
+                    if (v.info.id) toggleItemSelection(v.info.id);
+                  }}
+                >
                   <div>
-                    <span className="i-mdi-check-circle text-[18px] text-[#893AF6]"></span>
+                    {v.selected ? (
+                      <span className="i-mdi-check-circle text-[18px] text-[#893AF6]"></span>
+                    ) : (
+                      <>
+                        <span className="block w-[16px] h-[16px] border-[1px] border-[#666666] rounded-[50%]"></span>
+                      </>
+                    )}
                   </div>
-                  <div className="w-[74px] h-[74px] min-w-[74px] rounded-[9.37px] bg-[#3C3C3C]"></div>
-                  <div className="flex-auto flex flex-col gap-[3.75px]">
+                  <div className="w-[74px] h-[74px] min-w-[74px] rounded-[9.37px] ">
+                    <Image src={v.info.commodityImg} />
+                  </div>
+                  <div className="flex-auto self-start flex flex-col gap-[3.75px]">
                     <span className="text-ellipsis line-clamp-2 text-[14px] text-white">
                       {v.info.commodityName}
                     </span>
@@ -59,9 +98,11 @@ function RouteComponent() {
                   <div className="flex-auto flex justify-between items-center">
                     <span className="text-[14px]">${v.info.prices}</span>
                     <Stepper
+                      min={1}
                       defaultValue={v.quantity}
                       onChange={(value) => {
                         console.log(value);
+                        if (v.info.id) updateQuantity(v.info.id, value);
                       }}
                     />
                   </div>
@@ -85,16 +126,22 @@ function RouteComponent() {
       </ul>
       <span className="text-[18px] mt-[42px] mb-[10px]">推荐</span>
       <ul className="flex flex-wrap justify-between gap-[16px]">
-        {Array.from({ length: 5 }).map((_, i) => (
+        {recommended?.map((v, i) => (
           <li
             className="p-[10px] h-[213px] flex flex-col justify-between bg-[#1F1F1F] rounded-[10px]"
             key={i}
+            onClick={() => {
+              navigate({ to: "/product", search: { goodsId: v.id } });
+            }}
           >
-            <div className="w-[145px] h-[164px] rounded-[12.75px] bg-[#3C3C3C]"></div>
+            <div className="w-[145px] h-[164px] rounded-[12.75px] ">
+              <Image src={v.commodityImg} />
+            </div>
             <div className="flex justify-between w-full items-center">
-              <span className="text-[12px]">产品名称</span>
+              <span className="text-[12px]">{v.commodityName}</span>
               <span className="text-[18px]">
-                <span className="text-[#9E9E9E] text-[10.62px]">$ </span>999
+                <span className="text-[#9E9E9E] text-[10.62px]">$ </span>
+                {v.prices}
               </span>
             </div>
           </li>
@@ -105,21 +152,25 @@ function RouteComponent() {
 
       <div className="w-full fixed bottom-0 left-0 bg-[#191919]">
         <div className="flex items-center gap-[7px] px-[14px] h-[56px]">
-          <span className="i-mdi-check-circle text-[18px] text-[#893AF6]"></span>
-          <span className="text-[16px]">全选</span>
-
           <div
-            className="flex items-start ml-auto"
+            className="flex items-center gap-[7px]"
+            onClick={() => toggleSelectAll()}
+          >
+            {cart.every((v) => v.selected) ? (
+              <span className="i-mdi-check-circle text-[18px] text-[#893AF6]"></span>
+            ) : (
+              <>
+                <span className="block w-[16px] h-[16px] border-[1px] border-[#666666] rounded-[50%]"></span>
+              </>
+            )}
+            <span className="text-[16px]">全选</span>
+          </div>
+          <div
+            className="flex items-center ml-auto"
             onClick={() => setVisible(true)}
           >
             <span className="text-[12px]">总计：</span>
-            <div className="flex flex-col gap-[4px]">
-              <span className="text-[16px] text-[#893AF6]">$999</span>
-              <div className="flex items-center gap-[5px]">
-                <span className="text-[10px] text-[#893AF6]">明细</span>
-                <span className="i-mdi-arrow-collapse-up text-[12px] text-[#893AF6]"></span>
-              </div>
-            </div>
+            <span className="text-[16px] text-[#893AF6]">${totalPrice}</span>
           </div>
           <button
             className={`w-[125px] h-[44px] ml-[20px] flex items-center justify-center ${btnBg}`}
@@ -133,7 +184,12 @@ function RouteComponent() {
               });
             }}
           >
-            <span className="text-[16px] font-[600]">结算（1）</span>
+            <span className="text-[16px] font-[600]">
+              结算
+              {cart.filter((v) => v.selected).length > 0
+                ? `（${cart.filter((v) => v.selected).length}）`
+                : ""}
+            </span>
           </button>
         </div>
         <SafeArea position="bottom" />
