@@ -62,7 +62,7 @@ function RouteComponent() {
 function GoodsList({ categoryId }: { categoryId: number }) {
   const { navigate } = useRouter();
   const [goodsList, setGoodsList] =
-    useState<components["schemas"]["Commodity"][]>();
+    useState<components["schemas"]["Commodity对象"][]>();
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/frontPage/pageCommodity", {
       params: {

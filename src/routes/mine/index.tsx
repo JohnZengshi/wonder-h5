@@ -3,7 +3,11 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Button, NavBar, SafeArea } from "antd-mobile";
 import jifeng from "@/assets/jifeng.svg";
 import clsx from "clsx";
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren, ReactNode, useState } from "react";
+import { useAsyncEffect } from "ahooks";
+import FetchClient from "@/server";
+import { components } from "@/server/api";
+import logo from "@/assets/logo.svg";
 
 export const Route = createFileRoute("/mine/")({
   component: RouteComponent,
@@ -11,6 +15,11 @@ export const Route = createFileRoute("/mine/")({
 
 function RouteComponent() {
   const { navigate } = useRouter();
+  const [userInfo, setUserInfo] = useState<components["schemas"]["UserVo"]>();
+  useAsyncEffect(async () => {
+    const { data } = await FetchClient.GET("/api/account/findUser");
+    setUserInfo(data?.data);
+  }, []);
   return (
     <div className="flex flex-col relative min-h-[100vh]">
       <div
@@ -78,12 +87,16 @@ function RouteComponent() {
           <div className="w-[62px] h-[62px] rounded-[50%] bg-white"></div>
           <div className="flex flex-col gap-[8px]">
             <div className="flex items-center gap-[8px]">
-              <span className="text-[16px] text-white">名称名称</span>
-              <span className="text-[16px] text-[#4EFC27]">LV1</span>
+              <span className="text-[16px] text-white">
+                {userInfo?.userName}
+              </span>
+              <span className="text-[16px] text-[#4EFC27]">
+                LV{userInfo?.level}
+              </span>
               <span className="i-mdi-award text-[24px] text-[#8639EF]"></span>
             </div>
             <span className="text-[14px] flex items-center gap-[4px]">
-              ID账号：123456789{" "}
+              ID账号：{userInfo?.uid}{" "}
               <span className="i-mdi-copyleft text-[14px]"></span>{" "}
             </span>
           </div>
@@ -96,8 +109,16 @@ function RouteComponent() {
             </div>
             <ul className="flex flex-col gap-[]">
               {[
-                // { title: "平台代币", value: "$899", icon: logo },
-                { title: "平台积分", value: "$100", icon: jifeng },
+                {
+                  title: "平台代币",
+                  value: `$ ${userInfo?.userWallets?.find((v) => v.coinId == 2)?.balance}`,
+                  icon: logo,
+                },
+                {
+                  title: "平台积分",
+                  value: `$ ${userInfo?.userWallets?.find((v) => v.coinId == 1)?.balance}`,
+                  icon: jifeng,
+                },
               ].map((v) => (
                 <li className="h-[50px] flex items-center justify-between border-b-[#A7A9AC] border-opacity-15">
                   <div className="flex items-center gap-[6px]">

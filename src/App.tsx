@@ -1,8 +1,6 @@
 import { AppKitProvider } from "./AppKitProvider";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-import { useAsyncEffect } from "ahooks";
-import FetchClient from "./server";
 
 // Create a new router instance
 const router = createRouter({ routeTree });

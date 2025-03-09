@@ -31,10 +31,10 @@ function RouteComponent() {
   const { navigate } = useRouter();
   const search = useSearch({ from: "/product" });
   const [goodsDetail, setGoodsDetail] =
-    useState<components["schemas"]["Commodity"]>();
+    useState<components["schemas"]["Commodity对象"]>();
 
   const [packages, setPackages] =
-    useState<components["schemas"]["Commodity"][]>();
+    useState<components["schemas"]["Commodity对象"][]>();
 
   const { addToCart } = useStore();
 
@@ -115,17 +115,25 @@ function RouteComponent() {
             />
           </div>
 
-          <span className="text-[16px] mt-[24px]">套餐包</span>
-          <ul className="bg-[#141414] px-[14px] py-[11px] rounded-[10px] flex items-center gap-[10px] overflow-x-auto mt-[8px]">
-            {packages?.map((v, i) => (
-              <li
-                key={i}
-                className="w-[56px] min-w-[56px] h-[56px] rounded-[10px] bg-[#3C3C3C]"
-              >
-                <Image src={v.commodityImg} className="w-full h-full" alt="" />
-              </li>
-            ))}
-          </ul>
+          {packages?.length ? (
+            <>
+              <span className="text-[16px] mt-[24px]">套餐包</span>
+              <ul className="bg-[#141414] px-[14px] py-[11px] rounded-[10px] flex items-center gap-[10px] overflow-x-auto mt-[8px]">
+                {packages?.map((v, i) => (
+                  <li
+                    key={i}
+                    className="w-[56px] min-w-[56px] h-[56px] rounded-[10px] bg-[#3C3C3C]"
+                  >
+                    <Image
+                      src={v.commodityImg}
+                      className="w-full h-full"
+                      alt=""
+                    />
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : null}
 
           <div className="w-full h-[500px] bg-[#3C3C3C] rounded-[10px] mt-[28px]"></div>
         </div>

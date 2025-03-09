@@ -38,7 +38,7 @@ function RouteComponent() {
   const { cart, updateQuantity, toggleItemSelection, toggleSelectAll } =
     useStore();
   const [recommended, setRecommended] =
-    useState<components["schemas"]["Commodity"][]>();
+    useState<components["schemas"]["Commodity对象"][]>();
 
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/frontPage/pageCommodity", {
@@ -175,13 +175,13 @@ function RouteComponent() {
           <button
             className={`w-[125px] h-[44px] ml-[20px] flex items-center justify-center ${btnBg}`}
             onClick={async () => {
-              const password = await new Promise<string>((resolve, reject) => {
-                showPaymentPassword({
-                  amount: 999,
-                  onConfirm: resolve,
-                  onCancel: () => reject("cancel"),
-                });
-              });
+              // const password = await new Promise<string>((resolve, reject) => {
+              //   showPaymentPassword({
+              //     amount: 999,
+              //     onConfirm: resolve,
+              //     onCancel: () => reject("cancel"),
+              //   });
+              // });
             }}
           >
             <span className="text-[16px] font-[600]">

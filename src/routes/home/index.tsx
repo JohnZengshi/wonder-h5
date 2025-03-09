@@ -10,12 +10,13 @@ export const Route = createFileRoute("/home/")({
 });
 
 function RouteComponent() {
-  const [banner, setBanner] = useState<components["schemas"]["Banner"][]>();
-  const [notice, setNotice] = useState<components["schemas"]["Notice"]>();
+  const { navigate } = useRouter();
+  const [banner, setBanner] = useState<components["schemas"]["Banner对象"][]>();
+  const [notice, setNotice] = useState<components["schemas"]["Notice对象"]>();
   const [zoneList, setZoneList] =
     useState<components["schemas"]["CommodityType"][]>();
   const [menberPackage, setMenberPackage] =
-    useState<components["schemas"]["Commodity"]>();
+    useState<components["schemas"]["Commodity对象"]>();
 
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/banner");
@@ -60,7 +61,12 @@ function RouteComponent() {
         </span>
       </div>
 
-      <div className="w-[347px] h-[200px] rounded-[10px] bg-[#1F1F1F]">
+      <div
+        className="w-[347px] h-[200px] rounded-[10px] bg-[#1F1F1F]"
+        onClick={() => {
+          navigate({ to: "/product", search: { goodsId: menberPackage?.id } });
+        }}
+      >
         <Image src={menberPackage?.commodityImg} />
       </div>
 
@@ -98,8 +104,7 @@ function RouteComponent() {
 function ZoneGoodsList({ commodityTypeId }: { commodityTypeId: number }) {
   const { navigate } = useRouter();
 
-  const [goodsList, setGoodsList] =
-    useState<components["schemas"]["CommodityPage"]>();
+  const [goodsList, setGoodsList] = useState<components["schemas"]["Page"]>();
 
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/frontPage/pageCommodity", {
