@@ -4,118 +4,15 @@
  */
 
 export interface paths {
-    "/api/account/signUp": {
+    "/api/account/exist": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        put?: never;
-        /**
-         * 注册
-         * @description 用户注册接口
-         */
-        post: operations["signUp"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/signIn": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * 登录
-         * @description 用户登录接口
-         */
-        post: operations["signIn"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/renewPasswordPay": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * 设置或者修改支付密码
-         * @description 支付密码设置/修改接口
-         */
-        post: operations["renewPasswordPay"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/recommender": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 推荐人页面
-         * @description 获取推荐人列表接口
-         */
-        get: operations["getRecommender"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/modifyTheName": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 修改名称
-         * @description 用户名称修改接口
-         */
-        get: operations["modifyUserName"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/account/findUser": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 查询用户个人信息
-         * @description 获取用户详细信息接口
-         */
-        get: operations["getUserProfile"];
+        /** 检查账号是否注册 */
+        get: operations["existUsingGET"];
         put?: never;
         post?: never;
         delete?: never;
@@ -131,11 +28,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * 查询支付密码设置状态
-         * @description 检查用户是否已设置支付密码
-         */
-        get: operations["checkPaymentPassword"];
+        /** 查询用户是否设置支付密码 */
+        get: operations["findPasswordPayUsingGET"];
         put?: never;
         post?: never;
         delete?: never;
@@ -144,18 +38,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/account/exist": {
+    "/api/account/findUser": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * 检查账号是否注册
-         * @description 验证账号注册状态接口
-         */
-        get: operations["checkAccountExist"];
+        /** 查询用户个人信息 */
+        get: operations["findUserUsingGET"];
         put?: never;
         post?: never;
         delete?: never;
@@ -164,18 +55,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/key-card/page": {
+    "/api/account/findUserNameOrPassword": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * 分页查询卡密表
-         * @description 获取卡密分页列表接口
-         */
-        get: operations["getKeyCardPage"];
+        /** 查询用户账号密码 */
+        get: operations["findUserNameOrPasswordUsingGET"];
         put?: never;
         post?: never;
         delete?: never;
@@ -184,18 +72,100 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/cart/page": {
+    "/api/account/modifyTheName": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * 分页查询购物车
-         * @description 获取购物车分页数据接口
-         */
-        get: operations["getCartPage"];
+        /** 修改名称 */
+        get: operations["modifyTheNameUsingGET"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/recommender": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 推荐人页面 */
+        get: operations["findPageUsingGET"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/renewPasswordPay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 设置或者修改支付密码 */
+        post: operations["renewPasswordPayUsingPOST"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/signIn": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 登录 */
+        post: operations["signInUsingPOST"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/account/signUp": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 注册 */
+        post: operations["signUpUsingPOST"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/banner": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 查询Banner列表 */
+        get: operations["findAllUsingGET"];
         put?: never;
         post?: never;
         delete?: never;
@@ -213,29 +183,23 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /**
-         * 添加或更新购物车
-         * @description 购物车增删操作接口
-         */
-        post: operations["updateCart"];
+        /** 添加或者更新购物车 */
+        post: operations["saveOrUpdateUsingPOST"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/frontPage/findCommodityTypeOrMember": {
+    "/api/cart/page": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * 查询商品专区/会员信息
-         * @description 获取商品分类及会员专区数据接口
-         */
-        get: operations["getCommodityTypeOrMemberInfo"];
+        /** 分页查询购物车 */
+        get: operations["findPageUsingGET_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -244,60 +208,17 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/frontPage/pageCommodity": {
+    "/api/coin-config/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * 专区商品分页查询
-         * @description 根据专区ID获取商品分页列表
-         */
-        get: operations["getCommodityByType"];
+        /** 查询配置 1=积分 2=代币 */
+        get: operations["findOneUsingGET"];
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/frontPage/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 商品详情查询
-         * @description 根据商品ID获取详细信息
-         */
-        get: operations["getCommodityDetail"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/user-wallet/withdrawCoins": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * 发起提币
-         * @description 用户提币操作接口
-         */
-        post: operations["withdrawCoins"];
         delete?: never;
         options?: never;
         head?: never;
@@ -313,11 +234,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /**
-         * 取消订单
-         * @description 订单取消/过期操作接口
-         */
-        post: operations["cancelOrder"];
+        /** 取消订单或者订单过期告诉我 */
+        post: operations["cancelAnOrderUsingPOST"];
         delete?: never;
         options?: never;
         head?: never;
@@ -331,11 +249,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * 分页查询商品订单
-         * @description 获取订单分页列表接口
-         */
-        get: operations["getOrderPage"];
+        /** 分页查询商品订单表 */
+        get: operations["findPageUsingGET_2"];
         put?: never;
         post?: never;
         delete?: never;
@@ -353,11 +268,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /**
-         * 创建商品订单
-         * @description 商品下单支付接口
-         */
-        post: operations["createOrder"];
+        /** 下单 */
+        post: operations["payOrderNumberUsingPOST"];
         delete?: never;
         options?: never;
         head?: never;
@@ -371,11 +283,128 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * 订单详情查询
-         * @description 根据订单ID获取详细信息
-         */
-        get: operations["getOrderDetail"];
+        /** 根据ID查询商品订单表 */
+        get: operations["findOneUsingGET_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/common/notice/detail": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 公告详情(JSON) */
+        get: operations["noticeDetailUsingGET"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/common/notice/html": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 公告详情(网页) */
+        get: operations["noticeHtmlUsingGET"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/common/notice/list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 公告列表 */
+        get: operations["noticeListUsingGET"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/common/popUps/list": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 弹窗公告列表 */
+        get: operations["popUpsListUsingGET"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/deposit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 查询平台充值记录列表 */
+        get: operations["findAllUsingGET_1"];
+        put?: never;
+        /** 添加或者更新平台充值记录 */
+        post: operations["saveOrUpdateUsingPOST_1"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/deposit/page": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 分页查询平台充值记录 */
+        get: operations["findPageUsingGET_3"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/deposit/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 根据ID查询平台充值记录 */
+        get: operations["findOneUsingGET_3"];
         put?: never;
         post?: never;
         delete?: never;
@@ -393,11 +422,8 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /**
-         * 文件上传
-         * @description 单文件上传接口
-         */
-        post: operations["uploadFile"];
+        /** 单上传文件 */
+        post: operations["uploadUsingPOST"];
         delete?: never;
         options?: never;
         head?: never;
@@ -413,29 +439,23 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /**
-         * 多文件上传
-         * @description 批量文件上传接口
-         */
-        post: operations["uploadFiles"];
+        /** 多文件上传 */
+        post: operations["uploadFilesUsingPOST"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/api/common/notice/detail": {
+    "/api/frontPage/findCommodityTypeOrMember": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * 公告详情查询
-         * @description 根据公告ID获取详细信息
-         */
-        get: operations["getNoticeDetail"];
+        /** 查询商品专区栏/会员专区信息 */
+        get: operations["findCommodityTypeOrMemberUsingGET"];
         put?: never;
         post?: never;
         delete?: never;
@@ -444,18 +464,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/common/notice/html": {
+    "/api/frontPage/pageCommodity": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * 网页版公告详情
-         * @description 获取HTML格式的公告内容
-         */
-        get: operations["getNoticeHtml"];
+        /** 根据专区ID查询商品列表 */
+        get: operations["pageCommodityUsingGET"];
         put?: never;
         post?: never;
         delete?: never;
@@ -464,18 +481,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/common/notice/list": {
+    "/api/frontPage/{id}": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * 公告分页列表
-         * @description 获取公告分页数据接口
-         */
-        get: operations["getNoticeList"];
+        /** 根据ID查询商品详情 */
+        get: operations["findOneUsingGET_1"];
         put?: never;
         post?: never;
         delete?: never;
@@ -484,18 +498,15 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/common/popUps/list": {
+    "/api/key-card/page": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * 弹窗公告分页列表
-         * @description 获取弹窗公告分页数据接口
-         */
-        get: operations["getPopUpList"];
+        /** 分页查询卡密表 */
+        get: operations["findPageUsingGET_4"];
         put?: never;
         post?: never;
         delete?: never;
@@ -504,18 +515,66 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/banner": {
+    "/api/test/getTwitterToken22": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /**
-         * 获取Banner列表
-         * @description 查询所有有效Banner信息
-         */
-        get: operations["getBannerList"];
+        /** 获取推特token22 */
+        get: operations["getTwitterToken22UsingGET"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-mining-machine/income": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 查询矿机的收益明细(一定要分页) */
+        get: operations["incomeUsingGET"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-mining-machine/miningMachineList": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 查询矿机列表 */
+        get: operations["findAllUsingGET_2"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-mining-machine/miningMachineStatistics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 查询矿机统计 */
+        get: operations["miningMachineStatisticsUsingGET"];
         put?: never;
         post?: never;
         delete?: never;
@@ -531,13 +590,95 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /**
-         * 分页查询资产流水
-         * @description 获取用户资产变动记录分页列表
-         */
-        get: operations["getWalletLogPage"];
+        /** 分页查询资产流水 */
+        get: operations["findPageUsingGET_5"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-wallet/rechargeAddress": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 查询充值地址 */
+        get: operations["rechargeAddressUsingGET"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-wallet/topUp": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 提交充值 */
+        post: operations["topUpUsingPOST"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-wallet/transfer": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 转账 */
+        post: operations["transferUsingPOST"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-wallet/walletConfiguration": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 提币、转账配置 */
+        post: operations["withdrawCoinsUsingPOST"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/user-wallet/withdrawCoins": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 发起提币 */
+        post: operations["withdrawCoinsUsingPOST_1"];
         delete?: never;
         options?: never;
         head?: never;
@@ -548,92 +689,38 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        BaseResponse: {
-            /** @example 0 */
-            code?: number;
-            /** @example Success */
-            msg?: string;
-            /**
-             * Format: int64
-             * @example 1741101832125
-             */
-            timeMillis?: number;
-            data?: Record<string, never>;
-        };
-        AccountSignUpReq: {
-            /** @description 账号 */
-            account?: string;
-            /**
-             * Format: int32
-             * @description 链类型（1=Bitcoin 2=Ethereum 3=Polygon 4=BNB Chain 5=Arbitrum One）
-             * @enum {integer}
-             */
-            chainType?: 1 | 2 | 3 | 4 | 5;
-            /** @description 公钥 */
-            publicKey?: string;
-            /** @description 邀请码 */
-            shareCode?: string;
-        };
         AccountSignInReq: {
             /** @description 设备窜 */
             account?: string;
             /**
              * Format: int32
-             * @description 链类型（1=Bitcoin 2=Ethereum 3=Polygon 4=BNB Chain 5=Arbitrum One）
-             * @enum {integer}
+             * @description 链类型：1=Bitcoin 2=Ethereum 3=Polygon 4=BNB Chain 5=Arbitrum One
              */
-            chainType?: 1 | 2 | 3 | 4 | 5;
-            /** @description MD5加密后的密码 */
+            chainType?: number;
+            /** @description MD5加密以后给我 */
             password?: string;
         };
         AccountSignInResp: {
-            /** @description 认证令牌 */
             token?: string;
         };
-        PasswordPayReq: {
-            /** @description 原密码（首次设置可不传） */
-            fromPassword?: string;
-            /** @description 新密码 */
-            toPassword?: string;
-        };
-        UserVo: {
-            /** @description 用户账号 */
+        AccountSignUpReq: {
+            /** @description account */
             account?: string;
-            /** @description 充值地址 */
-            address?: string;
             /**
              * Format: int32
-             * @description 用户ID
+             * @description 链类型：1=Bitcoin 2=Ethereum 3=Polygon 4=BNB Chain 5=Arbitrum One
              */
-            id?: number;
-            /**
-             * Format: int32
-             * @description 会员等级
-             */
-            level?: number;
-            /** @description 邀请码 */
+            chainType?: number;
+            /** @description publicKey */
+            publicKey?: string;
+            /** @description invitation code */
             shareCode?: string;
-            /** @description 8位唯一标识 */
-            uid?: string;
-            /** @description 用户头像URL */
-            userImg?: string;
-            /** @description 用户显示名称 */
-            userName?: string;
-            /**
-             * Format: date-time
-             * @description 会员有效期
-             */
-            userTime?: string;
-            userWallets?: components["schemas"]["UserWallet"][];
         };
-        UserWallet: {
-            /** @description 可用余额 */
-            balance?: string;
-            /**
-             * Format: int32
-             * @description 币种ID
-             */
-            coinId?: number;
+        AddressResp: {
+            address?: string;
+        };
+        /** @description Banner */
+        "Banner\u5BF9\u8C61": {
             /**
              * Format: date-time
              * @description 创建时间
@@ -641,26 +728,457 @@ export interface components {
             createTime?: string;
             /**
              * Format: int32
-             * @description 删除标记（0-正常 1-删除）
+             * @description 标记删除，0 / 1
              */
             flag?: number;
-            /** @description 冻结资金 */
-            frozen?: string;
             /**
              * Format: int32
-             * @description 钱包ID
+             * @description ID
+             */
+            id?: number;
+            /** @description 图片链接 */
+            imageUrl?: string;
+            /** @description 语言 */
+            lang?: string;
+            /**
+             * Format: int32
+             * @description 0隐藏，1显示
+             */
+            state?: number;
+            /** @description 跳转链接 */
+            targetUrl?: string;
+            /** @description 标题 */
+            title?: string;
+            /**
+             * Format: date-time
+             * @description 更新时间
+             */
+            updateTime?: string;
+        };
+        BaseResultOfFileModel: {
+            /** Format: int32 */
+            code?: number;
+            data?: components["schemas"]["FileModel"];
+            msg?: string;
+            /** Format: int64 */
+            timeMillis?: number;
+        };
+        CancelAnOrderReq: {
+            /** @description 订单号 */
+            orderNumber?: string;
+        };
+        CartReq: {
+            /**
+             * Format: int32
+             * @description 购物车ID，删除的时候传给我
+             */
+            cartId?: number;
+            /**
+             * Format: int32
+             * @description 商品ID 删除的时候不传
+             */
+            commodityId?: number;
+            /**
+             * Format: int32
+             * @description 0=删除 1=添加
+             */
+            flag?: number;
+            /**
+             * Format: int32
+             * @description 购物车数量 删除的时候不传
+             */
+            number?: number;
+        };
+        /** @description 币种配置表 */
+        "CoinConfig\u5BF9\u8C61": {
+            /** @description 币种名称 */
+            coinName?: string;
+            /** @description 创建人 */
+            createBy?: string;
+            /**
+             * Format: date-time
+             * @description 创建时间
+             */
+            createTime?: string;
+            /** @description 单日转账限制 */
+            dayWithdrawalAmount?: string;
+            /**
+             * Format: int32
+             * @description 标记删除，0 / 1
+             */
+            flag?: number;
+            /**
+             * Format: int32
+             * @description ID
              */
             id?: number;
             /**
              * Format: int32
-             * @description 关联用户ID
+             * @description 转账开关
              */
-            memberId?: number;
+            transfer?: number;
+            /** @description 转账手续费 */
+            transferFee?: string;
+            /**
+             * Format: int32
+             * @description 1=积分  2=代币
+             */
+            type?: number;
+            /** @description 更新人 */
+            updateBy?: string;
             /**
              * Format: date-time
-             * @description 最后更新时间
+             * @description 更新时间
              */
             updateTime?: string;
+            /**
+             * Format: int32
+             * @description 提币开关
+             */
+            withdrawal?: number;
+            /** @description 提币手续费 */
+            withdrawalFee?: string;
+        };
+        CoinReq: {
+            /**
+             * Format: int32
+             * @description 1=积分  2=代币
+             */
+            coinId?: number;
+        };
+        CommodiryPayReq: {
+            /**
+             * Format: int32
+             * @description 商品ID
+             */
+            commodityId?: number;
+            /**
+             * Format: int32
+             * @description 商品数量
+             */
+            number?: number;
+        };
+        CommodiryReq: {
+            /**
+             * Format: int32
+             * @description 10=BSC  20=TRX
+             */
+            chain?: number;
+            /** @description 商品ID */
+            commoditys?: components["schemas"]["CommodiryPayReq"][];
+            /** @description 合计积分支付金额 */
+            paymentOfPoints?: string;
+        };
+        /** @description 商品订单表 */
+        "CommodityOrder\u5BF9\u8C61": {
+            /**
+             * Format: int32
+             * @description 1:有分润奖励和升级  2：没有分润奖励和升级
+             */
+            award?: number;
+            /**
+             * Format: int32
+             * @description 卡密到账数量
+             */
+            cardNumber?: number;
+            /**
+             * Format: int32
+             * @description 商品ID
+             */
+            commodityId?: number;
+            /** @description 商品封面图 */
+            commodityImg?: string;
+            /** @description 商品名称 */
+            commodityName?: string;
+            /**
+             * Format: int32
+             * @description 商品数量
+             */
+            commodityNumber?: number;
+            /** @description 商品特点 */
+            commodityTrait?: string;
+            /** @description 创建人 */
+            createBy?: string;
+            /**
+             * Format: date-time
+             * @description 创建时间
+             */
+            createTime?: string;
+            /**
+             * Format: date-time
+             * @description 订单过期
+             */
+            expiredTime?: string;
+            /**
+             * Format: int32
+             * @description 标记删除，0 / 1
+             */
+            flag?: number;
+            /**
+             * Format: int32
+             * @description ID
+             */
+            id?: number;
+            /** @description 下单备注说明 */
+            illustrate?: string;
+            /** @description 积分支付 */
+            integral?: string;
+            /**
+             * Format: int32
+             * @description 卡密类型Id
+             */
+            keyCardTypeId?: number;
+            /**
+             * Format: int32
+             * @description 获得卡密数量
+             */
+            number?: number;
+            /** @description 商品订单hash */
+            orderHash?: string;
+            /** @description 订单编号 */
+            orderNumber?: string;
+            /**
+             * Format: int32
+             * @description 1:币安链支付  2:TRX链支付
+             */
+            payStatus?: number;
+            /**
+             * Format: int32
+             * @description 1 待支付 2 支付确认中 3已取消 4等待人工确认 5：已完成
+             */
+            payType?: number;
+            /** @description USDT支付 */
+            prices?: string;
+            /**
+             * Format: int32
+             * @description  类型：1卡密  2:会员包
+             */
+            type?: number;
+            /** @description 更新人 */
+            updateBy?: string;
+            /**
+             * Format: date-time
+             * @description 更新时间
+             */
+            updateTime?: string;
+            /** @description USDT 最小支付比例 */
+            usdtPay?: string;
+            /**
+             * Format: int32
+             * @description 用户ID
+             */
+            userId?: number;
+        };
+        /** @description 商品类型表 */
+        "Commodity\u5BF9\u8C61": {
+            /**
+             * Format: int32
+             * @description 1 自动发送卡密 2 手动确认
+             */
+            automatic?: number;
+            /**
+             * Format: int32
+             * @description 1:有分润奖励和升级  2：没有分润奖励和升级
+             */
+            award?: number;
+            /** @description 商品封面图 */
+            commodityImg?: string;
+            /** @description 商品图JSON */
+            commodityImgs?: string;
+            /** @description 商品名称 */
+            commodityName?: string;
+            /** @description 商品特点 */
+            commodityTrait?: string;
+            /**
+             * Format: int32
+             * @description 商品专区ID
+             */
+            commodityTypeId?: number;
+            /** @description 创建人 */
+            createBy?: string;
+            /**
+             * Format: date-time
+             * @description 创建时间
+             */
+            createTime?: string;
+            /**
+             * Format: int32
+             * @description 标记删除，0 / 1
+             */
+            flag?: number;
+            /**
+             * Format: int32
+             * @description 1:突出显示  0：正常显示
+             */
+            highlight?: number;
+            /**
+             * Format: int32
+             * @description ID
+             */
+            id?: number;
+            /** @description 商品说明 */
+            illustrate?: string;
+            /** @description 积分价格 */
+            integral?: string;
+            /**
+             * Format: int32
+             * @description 卡密类型Id
+             */
+            keyCardTypeId?: number;
+            /**
+             * Format: int32
+             * @description 矿机配置表ID
+             */
+            machineConfigId?: number;
+            /**
+             * Format: int32
+             * @description 卡密数量
+             */
+            number?: number;
+            /** @description 商品USDT价格 */
+            prices?: string;
+            /**
+             * Format: int32
+             * @description  状态：1销售中  2：已下架
+             */
+            status?: number;
+            /**
+             * Format: int32
+             * @description  类型：和栏目类型一致
+             */
+            type?: number;
+            /** @description 更新人 */
+            updateBy?: string;
+            /**
+             * Format: date-time
+             * @description 更新时间
+             */
+            updateTime?: string;
+            /** @description USDT 最小支付比例  暂时不用 */
+            usdtPay?: string;
+        };
+        /** @description 平台充值记录 */
+        "Deposit\u5BF9\u8C61": {
+            /** @description 充值金额 */
+            amount?: string;
+            /**
+             * Format: date-time
+             * @description 审核时间
+             */
+            auditTime?: string;
+            /**
+             * Format: int32
+             * @description 1:BSC  2:TRX
+             */
+            coinId?: number;
+            /** @description 创建人 */
+            createBy?: string;
+            /**
+             * Format: date-time
+             * @description 创建时间
+             */
+            createTime?: string;
+            /** @description 充值截图 */
+            depositImg?: string;
+            /**
+             * Format: int32
+             * @description 标记删除，0 / 1
+             */
+            flag?: number;
+            /**
+             * Format: int32
+             * @description ID
+             */
+            id?: number;
+            /** @description 订单号 */
+            orderNumber?: string;
+            /** @description 支付地址 */
+            paymentAddress?: string;
+            /**
+             * Format: int32
+             * @description 充值状态，0: 待审核, 1: 审核通过, 2: 审核拒绝 3:已入账
+             */
+            status?: number;
+            /** @description 更新人 */
+            updateBy?: string;
+            /**
+             * Format: date-time
+             * @description 更新时间
+             */
+            updateTime?: string;
+            /**
+             * Format: int32
+             * @description 用户ID
+             */
+            userId?: number;
+        };
+        FileModel: {
+            fileName?: string;
+            filePath?: string;
+            fullUrl?: string;
+            originFileName?: string;
+        };
+        MiningMachineCountDTO: {
+            /** @description 当前算力 */
+            currentComputingPower?: string;
+            /** @description 矿机总数量 */
+            miningMachineCountNumber?: string;
+            /**
+             * Format: int32
+             * @description 运行的矿机数量
+             */
+            miningMachineNumber?: number;
+            /** @description 总收益 */
+            totalRevenue?: string;
+        };
+        /** @description 公告 */
+        "Notice\u5BF9\u8C61": {
+            /**
+             * Format: date-time
+             * @description 创建时间
+             */
+            createTime?: string;
+            /** @description 内容 */
+            noticeContent?: string;
+            /**
+             * Format: int32
+             * @description notice_id
+             */
+            noticeId?: number;
+            /** @description 标题 */
+            noticeTitle?: string;
+            /**
+             * Format: int32
+             * @description 1通知 2公告
+             */
+            noticeType?: number;
+            /** @description '备注' */
+            remark?: string;
+            /**
+             * Format: int32
+             * @description 0正常 1关闭
+             */
+            status?: number;
+            /**
+             * Format: date-time
+             * @description 更新时间
+             */
+            updateTime?: string;
+        };
+        OrderItem: {
+            asc?: boolean;
+            column?: string;
+        };
+        OrderReq: {
+            /** @description 支付金额 */
+            amount?: string;
+            /**
+             * Format: int32
+             * @description 10=BSC  20=TRX
+             */
+            chain?: number;
+            /** @description 订单号 10开头就是BSC链  20开头就是币安链 */
+            orderNumber?: string;
         };
         Page: {
             countId?: string;
@@ -671,327 +1189,183 @@ export interface components {
             orders?: components["schemas"]["OrderItem"][];
             /** Format: int64 */
             pages?: number;
+            records?: Record<string, never>[];
             searchCount?: boolean;
             /** Format: int64 */
             size?: number;
             /** Format: int64 */
             total?: number;
         };
-        OrderItem: {
-            asc?: boolean;
-            column?: string;
+        PasswordPayReq: {
+            /** @description 原密码，第一次设置可以不传 */
+            fromPassword?: string;
+            /** @description 新密码 */
+            toPassword?: string;
         };
-        CartReq: {
-            /**
-             * Format: int32
-             * @description 购物车ID（删除时必传）
-             */
-            cartId?: number;
-            /**
-             * Format: int32
-             * @description 商品ID（添加时必传）
-             */
-            commodityId?: number;
-            /**
-             * Format: int32
-             * @description 操作类型（0=删除 1=添加）
-             * @enum {integer}
-             */
-            flag?: 0 | 1;
-            /**
-             * Format: int32
-             * @description 商品数量（添加时必传）
-             */
-            number?: number;
+        RecommendVo: {
+            /** @description BIT积分获取数量 */
+            bitAmount?: string;
+            /** @description 邀请码 */
+            invitationCode?: string;
+            /** @description 1级获得BRIT比例 */
+            oneBrit?: string;
+            /** @description 1级获得NFT */
+            oneNft?: string;
+            /** @description 1代NFT获得数量 */
+            oneNftAmount?: string;
+            /** @description 返利比例 */
+            rebate?: string;
+            /** @description 2级获得BRIT比例 */
+            twoBrit?: string;
+            /** @description 2级获得NFT */
+            twoNft?: string;
+            /** @description 2代NFT获得数量 */
+            twoNftAmount?: string;
+            /** @description USDT获得数量 */
+            usdtAmount?: string;
         };
-        Commodity: {
-            /**
-             * Format: int32
-             * @description 发货方式（1-自动发卡 2-手动确认）
-             * @enum {integer}
-             */
-            automatic?: 1 | 2;
-            /**
-             * Format: int32
-             * @description 奖励类型（1-有分润奖励 2-无奖励）
-             */
-            award?: number;
-            /**
-             * Format: uri
-             * @description 商品封面图URL
-             */
-            commodityImg?: string;
-            /** @description 商品图JSON数组 */
-            commodityImgs?: string;
-            /** @description 商品名称 */
-            commodityName?: string;
-            /** @description 商品特点描述 */
-            commodityTrait?: string;
-            /**
-             * Format: int32
-             * @description 所属专区ID
-             */
-            commodityTypeId?: number;
-            /**
-             * Format: date-time
-             * @description 创建时间
-             */
-            createTime?: string;
-            /**
-             * Format: int32
-             * @description 删除标记（0-正常 1-删除）
-             */
-            flag?: number;
-            /**
-             * Format: int32
-             * @description 突出显示标识（1-突出 0-普通）
-             */
-            highlight?: number;
-            /**
-             * Format: int32
-             * @description 商品ID
-             */
-            id?: number;
-            /** @description 商品详细说明 */
-            illustrate?: string;
-            /** @description 积分价格 */
-            integral?: string;
-            /**
-             * Format: int32
-             * @description 库存数量
-             */
-            number?: number;
-            /** @description USDT标价 */
-            prices?: string;
-            /**
-             * Format: int32
-             * @description 商品状态（1-销售中 2-已
-             */
-            status?: number;
+        RegisterResp: {
+            account?: string;
+            password?: string;
         };
-        WalletReq: {
-            /**
-             * @description 提币金额（支持小数）
-             * @example 100.5
-             */
-            amount: string;
-            /**
-             * Format: int32
-             * @description 链类型（1=BSC 2=TRX）
-             * @enum {integer}
-             */
-            chain: 1 | 2;
-            /** @description MD5加密后的支付密码 */
-            paymentPassword: string;
-            /** @description 接收地址 */
-            toAddress: string;
+        ResultResp: {
+            result?: boolean;
         };
-        CancelAnOrderReq: {
-            /**
-             * @description 需要取消的订单号
-             * @example ABCD1234-5678
-             */
-            orderNumber: string;
-        };
-        CommodiryReq: {
-            /**
-             * Format: int32
-             * @description 区块链类型（10=BSC 20=TRX）
-             * @enum {integer}
-             */
-            chain: 10 | 20;
-            /** @description 商品购买清单 */
-            commoditys: components["schemas"]["CommodiryPayReq"][];
-            /** @description 积分支付总额 */
-            paymentOfPoints?: string;
-        };
-        CommodiryPayReq: {
-            /**
-             * Format: int32
-             * @description 商品唯一标识
-             */
-            commodityId: number;
-            /**
-             * Format: int32
-             * @description 购买数量
-             */
-            number: number;
-        };
-        OrderReq: {
-            /** @description 实际支付金额 */
+        TransferReq: {
+            /** @description 到账地址 */
+            address?: string;
+            /** @description 转账金额 */
             amount?: string;
             /**
              * Format: int32
-             * @description 区块链类型（10=BSC 20=TRX）
+             * @description 1=积分  2=代币
              */
-            chain?: number;
-            /** @description 系统生成的订单号 */
-            orderNumber: string;
+            coinId?: number;
+            /** @description 支付密码 */
+            password?: string;
         };
-        CommodityOrder: {
+        /** @description 用户矿机购买记录表 */
+        "UserMiningMachine\u5BF9\u8C61": {
             /**
              * Format: int32
-             * @description 分润奖励状态（1-有奖励 2-无奖励）
-             * @enum {integer}
+             * @description 币种ID
              */
-            award?: 1 | 2;
-            /**
-             * Format: int32
-             * @description 卡密到账数量
-             */
-            cardNumber?: number;
-            /**
-             * Format: int32
-             * @description 关联商品ID
-             */
-            commodityId?: number;
-            /**
-             * Format: uri
-             * @description 商品封面图URL
-             */
-            commodityImg?: string;
-            /** @description 商品名称 */
-            commodityName?: string;
-            /**
-             * Format: int32
-             * @description 购买商品数量
-             */
-            commodityNumber?: number;
-            /** @description 商品特点描述 */
-            commodityTrait?: string;
+            coinId?: number;
             /**
              * Format: date-time
-             * @description 订单创建时间
+             * @description 创建时间
              */
             createTime?: string;
+            /** @description 已产生收益 */
+            earnedReward?: string;
             /**
              * Format: date-time
-             * @description 订单过期时间
+             * @description 矿机到期时间
              */
-            expiredTime?: string;
+            endTime?: string;
+            /** @description 算力 (TH/s) */
+            hashrate?: string;
             /**
              * Format: int32
-             * @description 删除标记（0-正常 1-删除）
+             * @description ID
              */
-            flag?: number;
-            /**
-             * Format: int32
-             * @description 订单主键ID
-             */
-            id: number;
-            /** @description 订单备注说明 */
-            illustrate?: string;
-            /** @description 积分支付金额 */
-            integral?: string;
-            /**
-             * Format: int32
-             * @description 实际获得卡密数量
-             */
-            number?: number;
-            /** @description 区块链交易哈希 */
-            orderHash?: string;
-            /** @description 系统订单编号 */
-            orderNumber: string;
-            /**
-             * Format: int32
-             * @description 支付链类型（1-BSC 2-TRX）
-             * @enum {integer}
-             */
-            payStatus?: 1 | 2;
-            /**
-             * Format: int32
-             * @description 支付状态（1-待支付 2-确认中 3-已取消 4-待人工 5-已完成）
-             * @enum {integer}
-             */
-            payType: 1 | 2 | 3 | 4 | 5;
-            /** @description USDT实际支付金额 */
-            prices?: string;
-            /**
-             * Format: int32
-             * @description 商品类型（1-卡密 2-会员）
-             */
-            type?: number;
-            /**
-             * Format: int32
-             * @description 关联用户ID
-             */
-            userId?: number;
-        };
-        BaseResultOfFileModel: {
-            /**
-             * Format: int32
-             * @description 业务状态码
-             */
-            code: number;
-            data?: components["schemas"]["FileModel"];
-            /** @description 操作结果描述 */
-            msg?: string;
-            /**
-             * Format: int64
-             * @description 服务器时间戳
-             */
-            timeMillis?: number;
-        };
-        FileModel: {
-            /** @description 服务器存储文件名 */
-            fileName: string;
-            /** @description 文件存储相对路径 */
-            filePath: string;
-            /**
-             * Format: uri
-             * @description 文件完整访问URL
-             */
-            fullUrl?: string;
-            /** @description 原始文件名 */
-            originFileName?: string;
-        };
-        Notice: {
+            id?: number;
             /**
              * Format: date-time
-             * @description 记录创建时间
+             * @description 上次收益计算时间
              */
-            createTime?: string;
+            lastRewardTime?: string;
             /**
              * Format: int32
-             * @description 删除标记（0-正常 1-删除）
-             * @enum {integer}
+             * @description 矿机配置ID (关联 mining_machine_config)
              */
-            flag?: 0 | 1;
-            /** @description 公告正文内容 */
-            noticeContent?: string;
-            /**
-             * Format: int32
-             * @description 公告唯一ID
-             */
-            noticeId: number;
-            /** @description 公告标题 */
-            noticeTitle: string;
-            /**
-             * Format: int32
-             * @description 公告类型（1-通知 2-公告）
-             * @enum {integer}
-             */
-            noticeType?: 1 | 2;
+            machineId?: number;
+            /** @description 矿机型号 */
+            machineName?: string;
             /**
              * Format: date-time
-             * @description 发布时间
+             * @description 下一次收益计算时间
              */
-            publishTime?: string;
-            /** @description 备注信息 */
-            remark?: string;
-            /**
-             * Format: int32
-             * @description 发布状态（0-正常 1-关闭）
-             * @enum {integer}
-             */
-            status?: 0 | 1;
+            nextRewardTime?: string;
+            /** @description 购买订单号 */
+            orderNumber?: string;
+            /** @description 购买价格 (USDT) */
+            purchasePrice?: string;
             /**
              * Format: date-time
-             * @description 最后更新时间
+             * @description 购买时间
+             */
+            purchaseTime?: string;
+            /**
+             * Format: date-time
+             * @description 矿机开始运行时间
+             */
+            startTime?: string;
+            /**
+             * Format: int32
+             * @description 矿机状态 (0: 停止, 1: 运行中, 2: 过期)
+             */
+            status?: number;
+            /** @description 矿机预计总收益 */
+            totalReward?: string;
+            /**
+             * Format: date-time
+             * @description 更新时间
              */
             updateTime?: string;
+            /**
+             * Format: int32
+             * @description 用户ID
+             */
+            userId?: number;
+            /**
+             * Format: int32
+             * @description 有效天数 (运行周期)
+             */
+            validDays?: number;
         };
-        Banner: {
+        UserPasswordVo: {
+            account?: string;
+            base64Img?: string;
+            password?: string;
+        };
+        UserVo: {
+            /** @description 账号 */
+            account?: string;
+            /** @description 充值地址 */
+            address?: string;
+            /** Format: int32 */
+            id?: number;
+            /**
+             * Format: int32
+             * @description 会员等级
+             */
+            level?: number;
+            /** @description 邀请码 */
+            shareCode?: string;
+            /** @description 8位UID */
+            uid?: string;
+            /** @description 用户头像 */
+            userImg?: string;
+            /** @description 用户名称 */
+            userName?: string;
+            /**
+             * Format: date-time
+             * @description 会员有效期
+             */
+            userTime?: string;
+            /** @description 资产 */
+            userWallets?: components["schemas"]["UserWallet\u5BF9\u8C61"][];
+        };
+        /** @description 资产 */
+        "UserWallet\u5BF9\u8C61": {
+            /** @description 余额 */
+            balance?: string;
+            /**
+             * Format: int32
+             * @description 币种id
+             */
+            coinId?: number;
             /**
              * Format: date-time
              * @description 创建时间
@@ -999,47 +1373,41 @@ export interface components {
             createTime?: string;
             /**
              * Format: int32
-             * @description 删除标记（0-正常 1-删除）
-             * @enum {integer}
+             * @description 标记删除，0 / 1
              */
-            flag?: 0 | 1;
+            flag?: number;
+            /** @description 冻结，余额的一部分 */
+            frozen?: string;
             /**
              * Format: int32
-             * @description Banner唯一ID
+             * @description ID
              */
-            id: number;
-            /**
-             * Format: uri
-             * @description 图片访问地址
-             */
-            imageUrl: string;
-            /**
-             * @description 语言标识
-             * @example zh-CN
-             */
-            lang?: string;
-            /**
-             * Format: int32
-             * @description 显示状态（0-隐藏 1-显示）
-             * @enum {integer}
-             */
-            state?: 0 | 1;
-            /**
-             * Format: uri
-             * @description 跳转链接地址
-             */
-            targetUrl?: string;
-            /** @description Banner标题 */
-            title?: string;
+            id?: number;
+            /** Format: int32 */
+            memberId?: number;
             /**
              * Format: date-time
-             * @description 最后更新时间
+             * @description 更新时间
              */
             updateTime?: string;
         };
-        UserPasswordVo: {
-            password?: string;
-            account?: string;
+        WalletReq: {
+            /** @description 提币金额 */
+            amount?: string;
+            /**
+             * Format: int32
+             * @description 1=BSC  2=TRX
+             */
+            chain?: number;
+            /**
+             * Format: int32
+             * @description 1=积分  2=代币
+             */
+            coinId?: number;
+            /** @description 支付密码 */
+            paymentPassword?: string;
+            /** @description 收款地址 */
+            toAddress?: string;
         };
         CommodityType: {
             /** Format: int64 */
@@ -1056,42 +1424,26 @@ export interface components {
             /** Format: int32 */
             type: number;
         };
-        CommodityPage: components["schemas"]["Page"] & {
-            records?: components["schemas"]["Commodity"][];
-        };
-        NoticePage: components["schemas"]["Page"] & {
-            records?: components["schemas"]["Notice"][];
-        };
-    };
-    responses: {
-        /** @description 身份认证失败 */
-        Unauthorized: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description 缺少访问权限 */
-        Forbidden: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description 资源不存在 */
-        NotFound: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content?: never;
+        BaseResponse: {
+            /** @example 0 */
+            code?: number;
+            /** @example Success */
+            msg?: string;
+            /**
+             * Format: int64
+             * @example 1741101832125
+             */
+            timeMillis?: number;
+            data?: Record<string, never>;
         };
     };
+    responses: never;
     parameters: {
-        /** @description 身份验证令牌 */
+        /** @description 全局参数，token */
         Authorization: string;
-        /** @description 语言偏好（en, zh-CN） */
-        AcceptLanguage: "en" | "zh-CN";
-        /** @description 地理位置信息 */
+        /** @description 全局参数，语言,en,zh-CN */
+        AcceptLanguage: string;
+        /** @description 全局参数，地址 */
         Address: string;
     };
     requestBodies: never;
@@ -1100,13 +1452,16 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    signUp: {
+    existUsingGET: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description account */
+                account?: string;
+            };
             header?: {
                 /** @description 全局参数，token */
                 Authorization?: string;
-                /** @description 全局参数，语言（en, zh-CN） */
+                /** @description 全局参数，语言,en,zh-CN */
                 "Accept-Language"?: string;
                 /** @description 全局参数，地址 */
                 address?: string;
@@ -1114,12 +1469,163 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["AccountSignUpReq"];
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: {
+                            [key: string]: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
+    };
+    findPasswordPayUsingGET: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: {
+                            [key: string]: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findUserUsingGET: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["UserVo"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findUserNameOrPasswordUsingGET: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1127,6 +1633,172 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
                         data?: components["schemas"]["UserPasswordVo"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    modifyTheNameUsingGET: {
+        parameters: {
+            query?: {
+                /** @description userName */
+                userName?: string;
+            };
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: {
+                            [key: string]: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findPageUsingGET: {
+        parameters: {
+            query: {
+                /** @description pageNum */
+                pageNum: number;
+                /** @description pageSize */
+                pageSize: number;
+            };
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    renewPasswordPayUsingPOST: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["PasswordPayReq"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: {
+                            [key: string]: boolean;
+                        };
                     };
                 };
             };
@@ -1160,13 +1832,13 @@ export interface operations {
             };
         };
     };
-    signIn: {
+    signInUsingPOST: {
         parameters: {
             query?: never;
             header?: {
                 /** @description 全局参数，token */
                 Authorization?: string;
-                /** @description 全局参数，语言（en, zh-CN） */
+                /** @description 全局参数，语言,en,zh-CN */
                 "Accept-Language"?: string;
                 /** @description 全局参数，地址 */
                 address?: string;
@@ -1174,7 +1846,7 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody: {
+        requestBody?: {
             content: {
                 "application/json": components["schemas"]["AccountSignInReq"];
             };
@@ -1221,13 +1893,13 @@ export interface operations {
             };
         };
     };
-    renewPasswordPay: {
+    signUpUsingPOST: {
         parameters: {
             query?: never;
             header?: {
                 /** @description 全局参数，token */
                 Authorization?: string;
-                /** @description 全局参数，语言（en, zh-CN） */
+                /** @description 全局参数，语言,en,zh-CN */
                 "Accept-Language"?: string;
                 /** @description 全局参数，地址 */
                 address?: string;
@@ -1235,9 +1907,9 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody: {
+        requestBody?: {
             content: {
-                "application/json": components["schemas"]["PasswordPayReq"];
+                "application/json": components["schemas"]["AccountSignUpReq"];
             };
         };
         responses: {
@@ -1246,7 +1918,11 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["RegisterResp"];
+                    };
+                };
             };
             /** @description Created */
             201: {
@@ -1278,18 +1954,13 @@ export interface operations {
             };
         };
     };
-    getRecommender: {
+    findAllUsingGET: {
         parameters: {
-            query: {
-                /** @description 页码 */
-                pageNum: number;
-                /** @description 每页数量 */
-                pageSize: number;
-            };
+            query?: never;
             header?: {
                 /** @description 全局参数，token */
                 Authorization?: string;
-                /** @description 全局参数，语言（en, zh-CN） */
+                /** @description 全局参数，语言,en,zh-CN */
                 "Accept-Language"?: string;
                 /** @description 全局参数，地址 */
                 address?: string;
@@ -1306,7 +1977,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: Record<string, never>;
+                        data?: components["schemas"]["Banner\u5BF9\u8C61"][];
                     };
                 };
             };
@@ -1333,16 +2004,81 @@ export interface operations {
             };
         };
     };
-    modifyUserName: {
+    saveOrUpdateUsingPOST: {
         parameters: {
-            query?: {
-                /** @description 用户新名称 */
-                userName?: string;
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CartReq"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: {
+                            [key: string]: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findPageUsingGET_1: {
+        parameters: {
+            query: {
+                /** @description pageNum */
+                pageNum: number;
+                /** @description pageSize */
+                pageSize: number;
             };
             header?: {
                 /** @description 全局参数，token */
                 Authorization?: string;
-                /** @description 全局参数，语言（en, zh-CN） */
+                /** @description 全局参数，语言,en,zh-CN */
                 "Accept-Language"?: string;
                 /** @description 全局参数，地址 */
                 address?: string;
@@ -1352,154 +2088,7 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description 名称修改成功 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: {
-                            /** @description 业务状态码 */
-                            code?: number;
-                            /** @description 操作结果描述 */
-                            message?: string;
-                        };
-                    };
-                };
-            };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    getUserProfile: {
-        parameters: {
-            query?: never;
-            header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 用户数据获取成功 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["UserVo"];
-                    };
-                };
-            };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    checkPaymentPassword: {
-        parameters: {
-            query?: never;
-            header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 查询成功 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: {
-                            /** @description 是否已设置支付密码 */
-                            hasPassword?: boolean;
-                        };
-                    };
-                };
-            };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    checkAccountExist: {
-        parameters: {
-            query?: {
-                /** @description 待验证的账号 */
-                account?: string;
-            };
-            header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 验证结果返回成功 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: {
-                            /** @description 账号是否存在(true/false) */
-                            exist?: boolean;
-                        };
-                    };
-                };
-            };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    getKeyCardPage: {
-        parameters: {
-            query: {
-                /** @description 当前页码 */
-                pageNum: number;
-                /** @description 每页数量 */
-                pageSize: number;
-            };
-            header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 分页数据获取成功 */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1510,301 +2099,169 @@ export interface operations {
                     };
                 };
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    getCartPage: {
-        parameters: {
-            query: {
-                /** @description 当前页码 */
-                pageNum: number;
-                /** @description 每页数量 */
-                pageSize: number;
-            };
-            header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 购物车数据获取成功 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["Page"];
-                    };
-                };
-            };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    updateCart: {
-        parameters: {
-            query?: never;
-            header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CartReq"];
-            };
-        };
-        responses: {
-            /** @description 操作成功 */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: Record<string, never>;
-                    };
-                };
-            };
-            /** @description 资源创建成功 */
-            201: {
+            /** @description Unauthorized */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    getCommodityTypeOrMemberInfo: {
-        parameters: {
-            query?: never;
-            header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 数据获取成功 */
-            200: {
+            /** @description Forbidden */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: {
-                            commodityTypeList: components["schemas"]["CommodityType"][];
-                            member: components["schemas"]["Commodity"] | null;
-                        };
-                    };
-                };
+                content?: never;
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    getCommodityByType: {
-        parameters: {
-            query: {
-                pageNum: number;
-                pageSize: number;
-                commodityTypeId?: number;
-                type?: 3 | 6;
-            };
-            header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 商品分页数据 */
-            200: {
+            /** @description Not Found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["CommodityPage"];
-                    };
-                };
+                content?: never;
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
         };
     };
-    getCommodityDetail: {
+    findOneUsingGET: {
         parameters: {
             query?: never;
             header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
             };
             path: {
-                /** @description 商品唯一标识 */
+                /** @description id */
                 id: number;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description 商品详细信息 */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["Commodity"];
+                        data?: components["schemas"]["CoinConfig\u5BF9\u8C61"];
                     };
                 };
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
-    withdrawCoins: {
+    cancelAnOrderUsingPOST: {
         parameters: {
             query?: never;
             header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
             };
             path?: never;
             cookie?: never;
         };
-        requestBody: {
+        requestBody?: {
             content: {
-                "application/json": components["schemas"]["WalletReq"];
+                "application/json": components["schemas"]["CancelAnOrderReq"];
             };
         };
         responses: {
-            /** @description 提币请求已受理 */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: Record<string, never>;
+                        data?: {
+                            [key: string]: boolean;
+                        };
                     };
                 };
             };
-            /** @description 提币交易已创建 */
+            /** @description Created */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    cancelOrder: {
-        parameters: {
-            query?: never;
-            header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CancelAnOrderReq"];
-            };
-        };
-        responses: {
-            /** @description 订单状态更新成功 */
-            200: {
+            /** @description Unauthorized */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: Record<string, never>;
-                    };
-                };
+                content?: never;
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
-    getOrderPage: {
+    findPageUsingGET_2: {
         parameters: {
             query: {
-                /** @description 当前页码 */
+                /** @description pageNum */
                 pageNum: number;
-                /** @description 每页数量 */
+                /** @description pageSize */
                 pageSize: number;
-                /** @description 支付类型（具体值需参照业务文档） */
-                payType: number;
+                /** @description type */
+                type: number;
             };
             header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
             };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description 订单分页数据 */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1815,32 +2272,50 @@ export interface operations {
                     };
                 };
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
-    createOrder: {
+    payOrderNumberUsingPOST: {
         parameters: {
             query?: never;
             header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
             };
             path?: never;
             cookie?: never;
         };
-        requestBody: {
+        requestBody?: {
             content: {
                 "application/json": components["schemas"]["CommodiryReq"];
             };
         };
         responses: {
-            /** @description 订单创建成功 */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1851,70 +2326,550 @@ export interface operations {
                     };
                 };
             };
-            /** @description 订单已生成 */
+            /** @description Created */
             201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content?: never;
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
-    getOrderDetail: {
+    findOneUsingGET_2: {
         parameters: {
             query?: never;
             header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
             };
             path: {
-                /** @description 订单唯一标识 */
+                /** @description id */
                 id: number;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description 订单详细信息 */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["CommodityOrder"];
+                        data?: components["schemas"]["CommodityOrder\u5BF9\u8C61"];
                     };
                 };
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
-    uploadFile: {
+    noticeDetailUsingGET: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description id */
+                id?: number;
+            };
             header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
             };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description 文件上传成功 */
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Notice\u5BF9\u8C61"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    noticeHtmlUsingGET: {
+        parameters: {
+            query?: {
+                /** @description id */
+                id?: number;
+            };
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: string;
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    noticeListUsingGET: {
+        parameters: {
+            query?: {
+                /** @description 分页页码，从1开始 */
+                page?: number;
+                /** @description 分页大小，默认20，最大500 */
+                size?: number;
+            };
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Page"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    popUpsListUsingGET: {
+        parameters: {
+            query?: {
+                /** @description 分页页码，从1开始 */
+                page?: number;
+                /** @description 分页大小，默认20，最大500 */
+                size?: number;
+            };
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Page"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findAllUsingGET_1: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Deposit\u5BF9\u8C61"][];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    saveOrUpdateUsingPOST_1: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["Deposit\u5BF9\u8C61"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: {
+                            [key: string]: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findPageUsingGET_3: {
+        parameters: {
+            query: {
+                /** @description pageNum */
+                pageNum: number;
+                /** @description pageSize */
+                pageSize: number;
+            };
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Page"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findOneUsingGET_3: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path: {
+                /** @description id */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Deposit\u5BF9\u8C61"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    uploadUsingPOST: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "multipart/form-data": {
+                    /** Format: binary */
+                    file?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1925,28 +2880,57 @@ export interface operations {
                     };
                 };
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
-    uploadFiles: {
+    uploadFilesUsingPOST: {
         parameters: {
             query?: never;
             header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
             };
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody?: {
+            content: {
+                "application/json": Record<string, never>[];
+            };
+        };
         responses: {
-            /** @description 文件批量上传成功 */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -1957,209 +2941,115 @@ export interface operations {
                     };
                 };
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    getNoticeDetail: {
-        parameters: {
-            query?: {
-                /** @description 公告唯一标识 */
-                id?: number;
-            };
-            header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 公告详细信息 */
-            200: {
+            /** @description Created */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["Notice"];
-                    };
-                };
+                content?: never;
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    getNoticeHtml: {
-        parameters: {
-            query?: {
-                /** @description 公告唯一标识 */
-                id?: number;
-            };
-            header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description HTML格式的公告内容 */
-            200: {
+            /** @description Unauthorized */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "text/html": string;
-                };
+                content?: never;
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    getNoticeList: {
-        parameters: {
-            query?: {
-                /** @description 分页页码 */
-                page?: number;
-                /** @description 分页大小 */
-                size?: number;
-            };
-            header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 公告分页数据 */
-            200: {
+            /** @description Forbidden */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["NoticePage"];
-                    };
-                };
+                content?: never;
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
-        };
-    };
-    getPopUpList: {
-        parameters: {
-            query?: {
-                /** @description 分页页码 */
-                page?: number;
-                /** @description 分页大小 */
-                size?: number;
-            };
-            header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 弹窗公告分页数据 */
-            200: {
+            /** @description Not Found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
-                content: {
-                    "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["Page"];
-                    };
-                };
+                content?: never;
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
         };
     };
-    getBannerList: {
+    findCommodityTypeOrMemberUsingGET: {
         parameters: {
             query?: never;
             header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
             };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Banner列表获取成功 */
+            /** @description 成功响应 */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["Banner"][];
+                        data?: {
+                            commodityTypeList?: components["schemas"]["CommodityType"][];
+                            member?: components["schemas"]["Commodity\u5BF9\u8C61"];
+                        };
                     };
                 };
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
-    getWalletLogPage: {
+    pageCommodityUsingGET: {
         parameters: {
             query: {
-                /** @description 当前页码 */
+                /** @description pageNum */
                 pageNum: number;
-                /** @description 每页数量 */
+                /** @description pageSize */
                 pageSize: number;
-                /** @description 钱包唯一标识 */
-                walletId: number;
+                /** @description commodityTypeId */
+                commodityTypeId?: number;
+                /** @description type */
+                type?: number;
             };
             header?: {
-                /** @description 身份验证令牌 */
-                Authorization?: components["parameters"]["Authorization"];
-                /** @description 语言偏好（en, zh-CN） */
-                "Accept-Language"?: components["parameters"]["AcceptLanguage"];
-                /** @description 地理位置信息 */
-                address?: components["parameters"]["Address"];
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
             };
             path?: never;
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description 资产流水数据 */
+            /** @description OK */
             200: {
                 headers: {
                     [name: string]: unknown;
@@ -2170,9 +3060,709 @@ export interface operations {
                     };
                 };
             };
-            401: components["responses"]["Unauthorized"];
-            403: components["responses"]["Forbidden"];
-            404: components["responses"]["NotFound"];
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findOneUsingGET_1: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path: {
+                /** @description id */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Commodity\u5BF9\u8C61"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findPageUsingGET_4: {
+        parameters: {
+            query: {
+                /** @description pageNum */
+                pageNum: number;
+                /** @description pageSize */
+                pageSize: number;
+            };
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Page"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getTwitterToken22UsingGET: {
+        parameters: {
+            query?: {
+                /** @description code */
+                code?: string;
+            };
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["RecommendVo"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    incomeUsingGET: {
+        parameters: {
+            query: {
+                /** @description pageNum */
+                pageNum: number;
+                /** @description pageSize */
+                pageSize: number;
+                /** @description userMiningMachineId */
+                userMiningMachineId?: number;
+            };
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Page"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findAllUsingGET_2: {
+        parameters: {
+            query?: {
+                /** @description 矿机状态 (0: 停止, 1: 运行中, 2: 过期) */
+                status?: number;
+            };
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["UserMiningMachine\u5BF9\u8C61"][];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    miningMachineStatisticsUsingGET: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["MiningMachineCountDTO"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    findPageUsingGET_5: {
+        parameters: {
+            query: {
+                /** @description pageNum */
+                pageNum: number;
+                /** @description pageSize */
+                pageSize: number;
+                /** @description walletId */
+                walletId: number;
+            };
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["Page"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    rechargeAddressUsingGET: {
+        parameters: {
+            query?: {
+                /** @description 1=积分  2=代币 */
+                coinId?: number;
+            };
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["AddressResp"];
+                    };
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    topUpUsingPOST: {
+        parameters: {
+            query?: {
+                /** @description 充值金额 */
+                amount?: string;
+                /** @description 1:BSC  2:TRX */
+                coinId?: number;
+                /** @description 支付地址 */
+                paymentAddress?: string;
+                /** @description 充值截图 */
+                depositImg?: string;
+            };
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["ResultResp"];
+                    };
+                };
+            };
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    transferUsingPOST: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["TransferReq"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["ResultResp"];
+                    };
+                };
+            };
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    withdrawCoinsUsingPOST: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["CoinReq"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: components["schemas"]["CoinConfig\u5BF9\u8C61"];
+                    };
+                };
+            };
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    withdrawCoinsUsingPOST_1: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description 全局参数，token */
+                Authorization?: string;
+                /** @description 全局参数，语言,en,zh-CN */
+                "Accept-Language"?: string;
+                /** @description 全局参数，地址 */
+                address?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "application/json": components["schemas"]["WalletReq"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BaseResponse"] & {
+                        data?: {
+                            [key: string]: boolean;
+                        };
+                    };
+                };
+            };
+            /** @description Created */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
         };
     };
 }

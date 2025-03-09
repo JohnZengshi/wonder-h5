@@ -1,0 +1,3880 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "I NODE接口文档",
+    "version": "1.0",
+    "title": "INODE DOC"
+  },
+  "host": "189.1.240.46:8098",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "卡密表",
+      "description": "Key Card Controller"
+    },
+    {
+      "name": "提币手续费转账手续费",
+      "description": "Coin Config Controller"
+    },
+    {
+      "name": "公共接口",
+      "description": "Common Controller"
+    },
+    {
+      "name": "购物车",
+      "description": "Cart Controller"
+    },
+    {
+      "name": "资产相关",
+      "description": "User Wallet Controller"
+    },
+    {
+      "name": "账号相关",
+      "description": "Account Controller"
+    },
+    {
+      "name": "平台充值记录",
+      "description": "Deposit Controller"
+    },
+    {
+      "name": "首页",
+      "description": "Commodity Controller"
+    },
+    {
+      "name": "商品订单",
+      "description": "Commodity Order Controller"
+    },
+    {
+      "name": "用户矿机",
+      "description": "User Mining Machine Controller"
+    },
+    {
+      "name": "文件管理",
+      "description": "File Controller"
+    },
+    {
+      "name": "Banner",
+      "description": "Banner Controller"
+    },
+    {
+      "name": "资产流水",
+      "description": "User Wallet Log Controller"
+    },
+    {
+      "name": "测试数据",
+      "description": "Test Controller"
+    }
+  ],
+  "paths": {
+    "/api/account/exist": {
+      "get": {
+        "tags": [
+          "账号相关"
+        ],
+        "summary": "检查账号是否注册",
+        "operationId": "existUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "account",
+            "in": "query",
+            "description": "account",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/account/findPasswordPay": {
+      "get": {
+        "tags": [
+          "账号相关"
+        ],
+        "summary": "查询用户是否设置支付密码",
+        "operationId": "findPasswordPayUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/account/findUser": {
+      "get": {
+        "tags": [
+          "账号相关"
+        ],
+        "summary": "查询用户个人信息",
+        "operationId": "findUserUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserVo"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/account/findUserNameOrPassword": {
+      "get": {
+        "tags": [
+          "账号相关"
+        ],
+        "summary": "查询用户账号密码",
+        "operationId": "findUserNameOrPasswordUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/UserPasswordVo"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/account/modifyTheName": {
+      "get": {
+        "tags": [
+          "账号相关"
+        ],
+        "summary": "修改名称",
+        "operationId": "modifyTheNameUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userName",
+            "in": "query",
+            "description": "userName",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/account/recommender": {
+      "get": {
+        "tags": [
+          "账号相关"
+        ],
+        "summary": "推荐人页面",
+        "operationId": "findPageUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "pageNum",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "pageSize",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/account/renewPasswordPay": {
+      "post": {
+        "tags": [
+          "账号相关"
+        ],
+        "summary": "设置或者修改支付密码",
+        "operationId": "renewPasswordPayUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "req",
+            "description": "req",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PasswordPayReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/account/signIn": {
+      "post": {
+        "tags": [
+          "账号相关"
+        ],
+        "summary": "登录",
+        "operationId": "signInUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "req",
+            "description": "req",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AccountSignInReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AccountSignInResp"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/account/signUp": {
+      "post": {
+        "tags": [
+          "账号相关"
+        ],
+        "summary": "注册",
+        "operationId": "signUpUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "req",
+            "description": "req",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AccountSignUpReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/RegisterResp"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/banner": {
+      "get": {
+        "tags": [
+          "Banner"
+        ],
+        "summary": "查询Banner列表",
+        "operationId": "findAllUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Banner对象"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/cart": {
+      "post": {
+        "tags": [
+          "购物车"
+        ],
+        "summary": "添加或者更新购物车",
+        "operationId": "saveOrUpdateUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "cart",
+            "description": "cart",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CartReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/cart/page": {
+      "get": {
+        "tags": [
+          "购物车"
+        ],
+        "summary": "分页查询购物车",
+        "operationId": "findPageUsingGET_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "pageNum",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "pageSize",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/coin-config/{id}": {
+      "get": {
+        "tags": [
+          "提币手续费转账手续费"
+        ],
+        "summary": "查询配置 1=积分 2=代币",
+        "operationId": "findOneUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CoinConfig对象"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/commodity-order/cancelAnOrder": {
+      "post": {
+        "tags": [
+          "商品订单"
+        ],
+        "summary": "取消订单或者订单过期告诉我",
+        "operationId": "cancelAnOrderUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "commodiryReq",
+            "description": "commodiryReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CancelAnOrderReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/commodity-order/page": {
+      "get": {
+        "tags": [
+          "商品订单"
+        ],
+        "summary": "分页查询商品订单表",
+        "operationId": "findPageUsingGET_2",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "pageNum",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "pageSize",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/commodity-order/payOrderNumber": {
+      "post": {
+        "tags": [
+          "商品订单"
+        ],
+        "summary": "下单",
+        "operationId": "payOrderNumberUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "commodiryReq",
+            "description": "commodiryReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommodiryReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/OrderReq"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/commodity-order/{id}": {
+      "get": {
+        "tags": [
+          "商品订单"
+        ],
+        "summary": "根据ID查询商品订单表",
+        "operationId": "findOneUsingGET_2",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CommodityOrder对象"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/common/notice/detail": {
+      "get": {
+        "tags": [
+          "公共接口"
+        ],
+        "summary": "公告详情(JSON)",
+        "operationId": "noticeDetailUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "id",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Notice对象"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/common/notice/html": {
+      "get": {
+        "tags": [
+          "公共接口"
+        ],
+        "summary": "公告详情(网页)",
+        "operationId": "noticeHtmlUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "description": "id",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/common/notice/list": {
+      "get": {
+        "tags": [
+          "公共接口"
+        ],
+        "summary": "公告列表",
+        "operationId": "noticeListUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "分页页码，从1开始",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "分页大小，默认20，最大500",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/common/popUps/list": {
+      "get": {
+        "tags": [
+          "公共接口"
+        ],
+        "summary": "弹窗公告列表",
+        "operationId": "popUpsListUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "分页页码，从1开始",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "分页大小，默认20，最大500",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/deposit": {
+      "get": {
+        "tags": [
+          "平台充值记录"
+        ],
+        "summary": "查询平台充值记录列表",
+        "operationId": "findAllUsingGET_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Deposit对象"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "平台充值记录"
+        ],
+        "summary": "添加或者更新平台充值记录",
+        "operationId": "saveOrUpdateUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "deposit",
+            "description": "deposit",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Deposit对象"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/deposit/page": {
+      "get": {
+        "tags": [
+          "平台充值记录"
+        ],
+        "summary": "分页查询平台充值记录",
+        "operationId": "findPageUsingGET_3",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "pageNum",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "pageSize",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/deposit/{id}": {
+      "get": {
+        "tags": [
+          "平台充值记录"
+        ],
+        "summary": "根据ID查询平台充值记录",
+        "operationId": "findOneUsingGET_3",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Deposit对象"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/file/upload": {
+      "post": {
+        "tags": [
+          "文件管理"
+        ],
+        "summary": "单上传文件",
+        "operationId": "uploadUsingPOST",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "file",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BaseResultOfFileModel"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/file/uploads": {
+      "post": {
+        "tags": [
+          "文件管理"
+        ],
+        "summary": "多文件上传",
+        "operationId": "uploadFilesUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "files",
+            "description": "files",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "file"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FileModel"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/frontPage/findCommodityTypeOrMember": {
+      "get": {
+        "tags": [
+          "首页"
+        ],
+        "summary": "查询商品专区栏/会员专区信息",
+        "operationId": "findCommodityTypeOrMemberUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/frontPage/pageCommodity": {
+      "get": {
+        "tags": [
+          "首页"
+        ],
+        "summary": "根据专区ID查询商品列表",
+        "operationId": "pageCommodityUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "pageNum",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "pageSize",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "commodityTypeId",
+            "in": "query",
+            "description": "commodityTypeId",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/frontPage/{id}": {
+      "get": {
+        "tags": [
+          "首页"
+        ],
+        "summary": "根据ID查询商品详情",
+        "operationId": "findOneUsingGET_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Commodity对象"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/key-card/page": {
+      "get": {
+        "tags": [
+          "卡密表"
+        ],
+        "summary": "分页查询卡密表",
+        "operationId": "findPageUsingGET_4",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "pageNum",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "pageSize",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/test/getTwitterToken22": {
+      "get": {
+        "tags": [
+          "测试数据"
+        ],
+        "summary": "获取推特token22",
+        "operationId": "getTwitterToken22UsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "description": "code",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/RecommendVo"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user-mining-machine/income": {
+      "get": {
+        "tags": [
+          "用户矿机"
+        ],
+        "summary": "查询矿机的收益明细(一定要分页)",
+        "operationId": "incomeUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "pageNum",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "pageSize",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "userMiningMachineId",
+            "in": "query",
+            "description": "userMiningMachineId",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user-mining-machine/miningMachineList": {
+      "get": {
+        "tags": [
+          "用户矿机"
+        ],
+        "summary": "查询矿机列表",
+        "operationId": "findAllUsingGET_2",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "矿机状态 (0: 停止, 1: 运行中, 2: 过期)",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserMiningMachine对象"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user-mining-machine/miningMachineStatistics": {
+      "get": {
+        "tags": [
+          "用户矿机"
+        ],
+        "summary": "查询矿机统计",
+        "operationId": "miningMachineStatisticsUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MiningMachineCountDTO"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user-wallet-log/page": {
+      "get": {
+        "tags": [
+          "资产流水"
+        ],
+        "summary": "分页查询资产流水",
+        "operationId": "findPageUsingGET_5",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageNum",
+            "in": "query",
+            "description": "pageNum",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "pageSize",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "walletId",
+            "in": "query",
+            "description": "walletId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user-wallet/rechargeAddress": {
+      "get": {
+        "tags": [
+          "资产相关"
+        ],
+        "summary": "查询充值地址",
+        "operationId": "rechargeAddressUsingGET",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "coinId",
+            "in": "query",
+            "description": "1=积分  2=代币",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AddressResp"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user-wallet/topUp": {
+      "post": {
+        "tags": [
+          "资产相关"
+        ],
+        "summary": "提交充值",
+        "operationId": "topUpUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "description": "充值金额",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "coinId",
+            "in": "query",
+            "description": "1:BSC  2:TRX",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "paymentAddress",
+            "in": "query",
+            "description": "支付地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "depositImg",
+            "in": "query",
+            "description": "充值截图",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResultResp"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user-wallet/transfer": {
+      "post": {
+        "tags": [
+          "资产相关"
+        ],
+        "summary": "转账",
+        "operationId": "transferUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "transferReq",
+            "description": "transferReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TransferReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResultResp"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user-wallet/walletConfiguration": {
+      "post": {
+        "tags": [
+          "资产相关"
+        ],
+        "summary": "提币、转账配置",
+        "operationId": "withdrawCoinsUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "coins",
+            "description": "coins",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CoinReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CoinConfig对象"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/user-wallet/withdrawCoins": {
+      "post": {
+        "tags": [
+          "资产相关"
+        ],
+        "summary": "发起提币",
+        "operationId": "withdrawCoinsUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "全局参数，token",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "全局参数，语言,en,zh-CN",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "header",
+            "description": "全局参数，地址",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "walletReq",
+            "description": "walletReq",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WalletReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AccountSignInReq": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "type": "string",
+          "description": "设备窜"
+        },
+        "chainType": {
+          "type": "integer",
+          "format": "int32",
+          "description": "链类型：1=Bitcoin 2=Ethereum 3=Polygon 4=BNB Chain 5=Arbitrum One"
+        },
+        "password": {
+          "type": "string",
+          "description": "MD5加密以后给我"
+        }
+      }
+    },
+    "AccountSignInResp": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "AccountSignUpReq": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "type": "string",
+          "description": "account"
+        },
+        "chainType": {
+          "type": "integer",
+          "format": "int32",
+          "description": "链类型：1=Bitcoin 2=Ethereum 3=Polygon 4=BNB Chain 5=Arbitrum One"
+        },
+        "publicKey": {
+          "type": "string",
+          "description": "publicKey"
+        },
+        "shareCode": {
+          "type": "string",
+          "description": "invitation code"
+        }
+      }
+    },
+    "AddressResp": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "Banner对象": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "创建时间"
+        },
+        "flag": {
+          "type": "integer",
+          "format": "int32",
+          "description": "标记删除，0 / 1"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ID"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "图片链接"
+        },
+        "lang": {
+          "type": "string",
+          "description": "语言"
+        },
+        "state": {
+          "type": "integer",
+          "format": "int32",
+          "description": "0隐藏，1显示"
+        },
+        "targetUrl": {
+          "type": "string",
+          "description": "跳转链接"
+        },
+        "title": {
+          "type": "string",
+          "description": "标题"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "更新时间"
+        }
+      },
+      "description": "Banner"
+    },
+    "BaseResultOfFileModel": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "$ref": "#/definitions/FileModel"
+        },
+        "msg": {
+          "type": "string"
+        },
+        "timeMillis": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "CancelAnOrderReq": {
+      "type": "object",
+      "properties": {
+        "orderNumber": {
+          "type": "string",
+          "description": "订单号"
+        }
+      }
+    },
+    "CartReq": {
+      "type": "object",
+      "properties": {
+        "cartId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "购物车ID，删除的时候传给我"
+        },
+        "commodityId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "商品ID 删除的时候不传"
+        },
+        "flag": {
+          "type": "integer",
+          "format": "int32",
+          "description": "0=删除 1=添加"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "购物车数量 删除的时候不传"
+        }
+      }
+    },
+    "CoinConfig对象": {
+      "type": "object",
+      "properties": {
+        "coinName": {
+          "type": "string",
+          "description": "币种名称"
+        },
+        "createBy": {
+          "type": "string",
+          "description": "创建人"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "创建时间"
+        },
+        "dayWithdrawalAmount": {
+          "type": "string",
+          "description": "单日转账限制"
+        },
+        "flag": {
+          "type": "integer",
+          "format": "int32",
+          "description": "标记删除，0 / 1"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ID"
+        },
+        "transfer": {
+          "type": "integer",
+          "format": "int32",
+          "description": "转账开关"
+        },
+        "transferFee": {
+          "type": "string",
+          "description": "转账手续费"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1=积分  2=代币"
+        },
+        "updateBy": {
+          "type": "string",
+          "description": "更新人"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "更新时间"
+        },
+        "withdrawal": {
+          "type": "integer",
+          "format": "int32",
+          "description": "提币开关"
+        },
+        "withdrawalFee": {
+          "type": "string",
+          "description": "提币手续费"
+        }
+      },
+      "description": "币种配置表"
+    },
+    "CoinReq": {
+      "type": "object",
+      "properties": {
+        "coinId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1=积分  2=代币"
+        }
+      }
+    },
+    "CommodiryPayReq": {
+      "type": "object",
+      "properties": {
+        "commodityId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "商品ID"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "商品数量"
+        }
+      }
+    },
+    "CommodiryReq": {
+      "type": "object",
+      "properties": {
+        "chain": {
+          "type": "integer",
+          "format": "int32",
+          "description": "10=BSC  20=TRX"
+        },
+        "commoditys": {
+          "type": "array",
+          "description": "商品ID",
+          "items": {
+            "$ref": "#/definitions/CommodiryPayReq"
+          }
+        },
+        "paymentOfPoints": {
+          "type": "string",
+          "description": "合计积分支付金额"
+        }
+      }
+    },
+    "CommodityOrder对象": {
+      "type": "object",
+      "properties": {
+        "award": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1:有分润奖励和升级  2：没有分润奖励和升级"
+        },
+        "cardNumber": {
+          "type": "integer",
+          "format": "int32",
+          "description": "卡密到账数量"
+        },
+        "commodityId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "商品ID"
+        },
+        "commodityImg": {
+          "type": "string",
+          "description": "商品封面图"
+        },
+        "commodityName": {
+          "type": "string",
+          "description": "商品名称"
+        },
+        "commodityNumber": {
+          "type": "integer",
+          "format": "int32",
+          "description": "商品数量"
+        },
+        "commodityTrait": {
+          "type": "string",
+          "description": "商品特点"
+        },
+        "createBy": {
+          "type": "string",
+          "description": "创建人"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "创建时间"
+        },
+        "expiredTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "订单过期"
+        },
+        "flag": {
+          "type": "integer",
+          "format": "int32",
+          "description": "标记删除，0 / 1"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ID"
+        },
+        "illustrate": {
+          "type": "string",
+          "description": "下单备注说明"
+        },
+        "integral": {
+          "type": "string",
+          "description": "积分支付"
+        },
+        "keyCardTypeId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "卡密类型Id"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "获得卡密数量"
+        },
+        "orderHash": {
+          "type": "string",
+          "description": "商品订单hash"
+        },
+        "orderNumber": {
+          "type": "string",
+          "description": "订单编号"
+        },
+        "payStatus": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1:币安链支付  2:TRX链支付"
+        },
+        "payType": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1 待支付 2 支付确认中 3已取消 4等待人工确认 5：已完成"
+        },
+        "prices": {
+          "type": "string",
+          "description": "USDT支付"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 类型：1卡密  2:会员包"
+        },
+        "updateBy": {
+          "type": "string",
+          "description": "更新人"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "更新时间"
+        },
+        "usdtPay": {
+          "type": "string",
+          "description": "USDT 最小支付比例"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "用户ID"
+        }
+      },
+      "description": "商品订单表"
+    },
+    "Commodity对象": {
+      "type": "object",
+      "properties": {
+        "automatic": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1 自动发送卡密 2 手动确认"
+        },
+        "award": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1:有分润奖励和升级  2：没有分润奖励和升级"
+        },
+        "commodityImg": {
+          "type": "string",
+          "description": "商品封面图"
+        },
+        "commodityImgs": {
+          "type": "string",
+          "description": "商品图JSON"
+        },
+        "commodityName": {
+          "type": "string",
+          "description": "商品名称"
+        },
+        "commodityTrait": {
+          "type": "string",
+          "description": "商品特点"
+        },
+        "commodityTypeId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "商品专区ID"
+        },
+        "createBy": {
+          "type": "string",
+          "description": "创建人"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "创建时间"
+        },
+        "flag": {
+          "type": "integer",
+          "format": "int32",
+          "description": "标记删除，0 / 1"
+        },
+        "highlight": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1:突出显示  0：正常显示"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ID"
+        },
+        "illustrate": {
+          "type": "string",
+          "description": "商品说明"
+        },
+        "integral": {
+          "type": "string",
+          "description": "积分价格"
+        },
+        "keyCardTypeId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "卡密类型Id"
+        },
+        "machineConfigId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "矿机配置表ID"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "卡密数量"
+        },
+        "prices": {
+          "type": "string",
+          "description": "商品USDT价格"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态：1销售中  2：已下架"
+        },
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 类型：和栏目类型一致"
+        },
+        "updateBy": {
+          "type": "string",
+          "description": "更新人"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "更新时间"
+        },
+        "usdtPay": {
+          "type": "string",
+          "description": "USDT 最小支付比例  暂时不用"
+        }
+      },
+      "description": "商品类型表"
+    },
+    "Deposit对象": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "充值金额"
+        },
+        "auditTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "审核时间"
+        },
+        "coinId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1:BSC  2:TRX"
+        },
+        "createBy": {
+          "type": "string",
+          "description": "创建人"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "创建时间"
+        },
+        "depositImg": {
+          "type": "string",
+          "description": "充值截图"
+        },
+        "flag": {
+          "type": "integer",
+          "format": "int32",
+          "description": "标记删除，0 / 1"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ID"
+        },
+        "orderNumber": {
+          "type": "string",
+          "description": "订单号"
+        },
+        "paymentAddress": {
+          "type": "string",
+          "description": "支付地址"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": "充值状态，0: 待审核, 1: 审核通过, 2: 审核拒绝 3:已入账"
+        },
+        "updateBy": {
+          "type": "string",
+          "description": "更新人"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "更新时间"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "用户ID"
+        }
+      },
+      "description": "平台充值记录"
+    },
+    "FileModel": {
+      "type": "object",
+      "properties": {
+        "fileName": {
+          "type": "string"
+        },
+        "filePath": {
+          "type": "string"
+        },
+        "fullUrl": {
+          "type": "string"
+        },
+        "originFileName": {
+          "type": "string"
+        }
+      }
+    },
+    "MiningMachineCountDTO": {
+      "type": "object",
+      "properties": {
+        "currentComputingPower": {
+          "type": "string",
+          "description": "当前算力"
+        },
+        "miningMachineCountNumber": {
+          "type": "string",
+          "description": "矿机总数量"
+        },
+        "miningMachineNumber": {
+          "type": "integer",
+          "format": "int32",
+          "description": "运行的矿机数量"
+        },
+        "totalRevenue": {
+          "type": "string",
+          "description": "总收益"
+        }
+      }
+    },
+    "Notice对象": {
+      "type": "object",
+      "properties": {
+        "createTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "创建时间"
+        },
+        "noticeContent": {
+          "type": "string",
+          "description": "内容"
+        },
+        "noticeId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "notice_id"
+        },
+        "noticeTitle": {
+          "type": "string",
+          "description": "标题"
+        },
+        "noticeType": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1通知 2公告"
+        },
+        "remark": {
+          "type": "string",
+          "description": "'备注'"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": "0正常 1关闭"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "更新时间"
+        }
+      },
+      "description": "公告"
+    },
+    "OrderItem": {
+      "type": "object",
+      "properties": {
+        "asc": {
+          "type": "boolean"
+        },
+        "column": {
+          "type": "string"
+        }
+      }
+    },
+    "OrderReq": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "支付金额"
+        },
+        "chain": {
+          "type": "integer",
+          "format": "int32",
+          "description": "10=BSC  20=TRX"
+        },
+        "orderNumber": {
+          "type": "string",
+          "description": "订单号 10开头就是BSC链  20开头就是币安链"
+        }
+      }
+    },
+    "Page": {
+      "type": "object",
+      "properties": {
+        "countId": {
+          "type": "string"
+        },
+        "current": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "maxLimit": {
+          "type": "string"
+        },
+        "optimizeCountSql": {
+          "type": "boolean"
+        },
+        "orders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderItem"
+          }
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "searchCount": {
+          "type": "boolean"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "PasswordPayReq": {
+      "type": "object",
+      "properties": {
+        "fromPassword": {
+          "type": "string",
+          "description": "原密码，第一次设置可以不传"
+        },
+        "toPassword": {
+          "type": "string",
+          "description": "新密码"
+        }
+      }
+    },
+    "RecommendVo": {
+      "type": "object",
+      "properties": {
+        "bitAmount": {
+          "type": "string",
+          "description": "BIT积分获取数量"
+        },
+        "invitationCode": {
+          "type": "string",
+          "description": "邀请码"
+        },
+        "oneBrit": {
+          "type": "string",
+          "description": "1级获得BRIT比例"
+        },
+        "oneNft": {
+          "type": "string",
+          "description": "1级获得NFT"
+        },
+        "oneNftAmount": {
+          "type": "string",
+          "description": "1代NFT获得数量"
+        },
+        "rebate": {
+          "type": "string",
+          "description": "返利比例"
+        },
+        "twoBrit": {
+          "type": "string",
+          "description": "2级获得BRIT比例"
+        },
+        "twoNft": {
+          "type": "string",
+          "description": "2级获得NFT"
+        },
+        "twoNftAmount": {
+          "type": "string",
+          "description": "2代NFT获得数量"
+        },
+        "usdtAmount": {
+          "type": "string",
+          "description": "USDT获得数量"
+        }
+      }
+    },
+    "RegisterResp": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "ResultResp": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "boolean"
+        }
+      }
+    },
+    "TransferReq": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "description": "到账地址"
+        },
+        "amount": {
+          "type": "string",
+          "description": "转账金额"
+        },
+        "coinId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1=积分  2=代币"
+        },
+        "password": {
+          "type": "string",
+          "description": "支付密码"
+        }
+      }
+    },
+    "UserMiningMachine对象": {
+      "type": "object",
+      "properties": {
+        "coinId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "币种ID"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "创建时间"
+        },
+        "earnedReward": {
+          "type": "string",
+          "description": "已产生收益"
+        },
+        "endTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "矿机到期时间"
+        },
+        "hashrate": {
+          "type": "string",
+          "description": "算力 (TH/s)"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ID"
+        },
+        "lastRewardTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "上次收益计算时间"
+        },
+        "machineId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "矿机配置ID (关联 mining_machine_config)"
+        },
+        "machineName": {
+          "type": "string",
+          "description": "矿机型号"
+        },
+        "nextRewardTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "下一次收益计算时间"
+        },
+        "orderNumber": {
+          "type": "string",
+          "description": "购买订单号"
+        },
+        "purchasePrice": {
+          "type": "string",
+          "description": "购买价格 (USDT)"
+        },
+        "purchaseTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "购买时间"
+        },
+        "startTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "矿机开始运行时间"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": "矿机状态 (0: 停止, 1: 运行中, 2: 过期)"
+        },
+        "totalReward": {
+          "type": "string",
+          "description": "矿机预计总收益"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "更新时间"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "用户ID"
+        },
+        "validDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "有效天数 (运行周期)"
+        }
+      },
+      "description": "用户矿机购买记录表"
+    },
+    "UserPasswordVo": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "type": "string"
+        },
+        "base64Img": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "UserVo": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "type": "string",
+          "description": "账号"
+        },
+        "address": {
+          "type": "string",
+          "description": "充值地址"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "level": {
+          "type": "integer",
+          "format": "int32",
+          "description": "会员等级"
+        },
+        "shareCode": {
+          "type": "string",
+          "description": "邀请码"
+        },
+        "uid": {
+          "type": "string",
+          "description": "8位UID"
+        },
+        "userImg": {
+          "type": "string",
+          "description": "用户头像"
+        },
+        "userName": {
+          "type": "string",
+          "description": "用户名称"
+        },
+        "userTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "会员有效期"
+        },
+        "userWallets": {
+          "type": "array",
+          "description": "资产",
+          "items": {
+            "$ref": "#/definitions/UserWallet对象"
+          }
+        }
+      }
+    },
+    "UserWallet对象": {
+      "type": "object",
+      "properties": {
+        "balance": {
+          "type": "string",
+          "description": "余额"
+        },
+        "coinId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "币种id"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "创建时间"
+        },
+        "flag": {
+          "type": "integer",
+          "format": "int32",
+          "description": "标记删除，0 / 1"
+        },
+        "frozen": {
+          "type": "string",
+          "description": "冻结，余额的一部分"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ID"
+        },
+        "memberId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "更新时间"
+        }
+      },
+      "description": "资产"
+    },
+    "WalletReq": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "提币金额"
+        },
+        "chain": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1=BSC  2=TRX"
+        },
+        "coinId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "1=积分  2=代币"
+        },
+        "paymentPassword": {
+          "type": "string",
+          "description": "支付密码"
+        },
+        "toAddress": {
+          "type": "string",
+          "description": "收款地址"
+        }
+      }
+    }
+  }
+}
