@@ -16,6 +16,7 @@ import { Route as HomeImport } from './routes/home'
 import { Route as IndexImport } from './routes/index'
 import { Route as MineIndexImport } from './routes/mine/index'
 import { Route as HomeIndexImport } from './routes/home/index'
+import { Route as MineWalletDetailsImport } from './routes/mine/wallet-details'
 import { Route as MineOrderImport } from './routes/mine/order'
 import { Route as MineIntiveImport } from './routes/mine/intive'
 import { Route as MineCardSecretsImport } from './routes/mine/card-secrets'
@@ -52,6 +53,12 @@ const HomeIndexRoute = HomeIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => HomeRoute,
+} as any)
+
+const MineWalletDetailsRoute = MineWalletDetailsImport.update({
+  id: '/mine/wallet-details',
+  path: '/mine/wallet-details',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const MineOrderRoute = MineOrderImport.update({
@@ -144,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MineOrderImport
       parentRoute: typeof rootRoute
     }
+    '/mine/wallet-details': {
+      id: '/mine/wallet-details'
+      path: '/mine/wallet-details'
+      fullPath: '/mine/wallet-details'
+      preLoaderRoute: typeof MineWalletDetailsImport
+      parentRoute: typeof rootRoute
+    }
     '/home/': {
       id: '/home/'
       path: '/'
@@ -186,6 +200,7 @@ export interface FileRoutesByFullPath {
   '/mine/card-secrets': typeof MineCardSecretsRoute
   '/mine/intive': typeof MineIntiveRoute
   '/mine/order': typeof MineOrderRoute
+  '/mine/wallet-details': typeof MineWalletDetailsRoute
   '/home/': typeof HomeIndexRoute
   '/mine': typeof MineIndexRoute
 }
@@ -198,6 +213,7 @@ export interface FileRoutesByTo {
   '/mine/card-secrets': typeof MineCardSecretsRoute
   '/mine/intive': typeof MineIntiveRoute
   '/mine/order': typeof MineOrderRoute
+  '/mine/wallet-details': typeof MineWalletDetailsRoute
   '/home': typeof HomeIndexRoute
   '/mine': typeof MineIndexRoute
 }
@@ -212,6 +228,7 @@ export interface FileRoutesById {
   '/mine/card-secrets': typeof MineCardSecretsRoute
   '/mine/intive': typeof MineIntiveRoute
   '/mine/order': typeof MineOrderRoute
+  '/mine/wallet-details': typeof MineWalletDetailsRoute
   '/home/': typeof HomeIndexRoute
   '/mine/': typeof MineIndexRoute
 }
@@ -227,6 +244,7 @@ export interface FileRouteTypes {
     | '/mine/card-secrets'
     | '/mine/intive'
     | '/mine/order'
+    | '/mine/wallet-details'
     | '/home/'
     | '/mine'
   fileRoutesByTo: FileRoutesByTo
@@ -238,6 +256,7 @@ export interface FileRouteTypes {
     | '/mine/card-secrets'
     | '/mine/intive'
     | '/mine/order'
+    | '/mine/wallet-details'
     | '/home'
     | '/mine'
   id:
@@ -250,6 +269,7 @@ export interface FileRouteTypes {
     | '/mine/card-secrets'
     | '/mine/intive'
     | '/mine/order'
+    | '/mine/wallet-details'
     | '/home/'
     | '/mine/'
   fileRoutesById: FileRoutesById
@@ -262,6 +282,7 @@ export interface RootRouteChildren {
   MineCardSecretsRoute: typeof MineCardSecretsRoute
   MineIntiveRoute: typeof MineIntiveRoute
   MineOrderRoute: typeof MineOrderRoute
+  MineWalletDetailsRoute: typeof MineWalletDetailsRoute
   MineIndexRoute: typeof MineIndexRoute
 }
 
@@ -272,6 +293,7 @@ const rootRouteChildren: RootRouteChildren = {
   MineCardSecretsRoute: MineCardSecretsRoute,
   MineIntiveRoute: MineIntiveRoute,
   MineOrderRoute: MineOrderRoute,
+  MineWalletDetailsRoute: MineWalletDetailsRoute,
   MineIndexRoute: MineIndexRoute,
 }
 
@@ -291,6 +313,7 @@ export const routeTree = rootRoute
         "/mine/card-secrets",
         "/mine/intive",
         "/mine/order",
+        "/mine/wallet-details",
         "/mine/"
       ]
     },
@@ -324,6 +347,9 @@ export const routeTree = rootRoute
     },
     "/mine/order": {
       "filePath": "mine/order.tsx"
+    },
+    "/mine/wallet-details": {
+      "filePath": "mine/wallet-details.tsx"
     },
     "/home/": {
       "filePath": "home/index.tsx",

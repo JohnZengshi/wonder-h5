@@ -110,17 +110,27 @@ function RouteComponent() {
             <ul className="flex flex-col gap-[]">
               {[
                 {
+                  key: "2",
                   title: "平台代币",
-                  value: `$ ${userInfo?.userWallets?.find((v) => v.coinId == 2)?.balance}`,
+                  value: `$ ${userInfo?.userWallets?.find((v) => v.coinId == 2)?.balance ?? 0}`,
                   icon: logo,
                 },
                 {
+                  key: "1",
                   title: "平台积分",
-                  value: `$ ${userInfo?.userWallets?.find((v) => v.coinId == 1)?.balance}`,
+                  value: `$ ${userInfo?.userWallets?.find((v) => v.coinId == 1)?.balance ?? 0}`,
                   icon: jifeng,
                 },
               ].map((v) => (
-                <li className="h-[50px] flex items-center justify-between border-b-[#A7A9AC] border-opacity-15">
+                <li
+                  className="h-[50px] flex items-center justify-between border-b-[#A7A9AC] border-opacity-15"
+                  onClick={() =>
+                    navigate({
+                      to: "/mine/wallet-details",
+                      search: { type: v.key === "1" ? "points" : "token" },
+                    })
+                  }
+                >
                   <div className="flex items-center gap-[6px]">
                     <img className="w-[24px] h-[24px]" src={v.icon} alt="" />
                     <span className="text-[14px]">{v.title}</span>
