@@ -54,7 +54,7 @@ function RouteComponent() {
 
       {/* 公告 */}
       <div className="w-full flex items-center gap-[14px] px-[14px] h-[54px] rounded-[10px] bg-[#1F1F1F]">
-        <span className="i-mdi-bullhorn-outline text-[#893AF6] text-[24px]"></span>
+        <span className="i-hugeicons-volume-high text-[#9795E9] text-[24px]"></span>
         <span className="text-[14px]">
           {/* 这里是很长很长的一句话可以滚动的公告内容 */}
           {notice?.noticeTitle}

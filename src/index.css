@@ -1,5 +1,5 @@
 :root:root{
-  --adm-color-primary: #893AF6;
+  --adm-color-primary: #9795E9;
   --adm-color-success: #00b578;
   --adm-color-warning: #ff8f1f;
   --adm-color-danger: #ff3141;
@@ -19,6 +19,7 @@
 
   --adm-image-width: 100%;
   --adm-image-height: 100%;
+
 }
 
 :root{
