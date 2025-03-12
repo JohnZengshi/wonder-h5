@@ -21,7 +21,7 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col">
-      <NavBar onBack={() => navigate({ to: ".." })}>
+      <NavBar onBack={() => window.history.back()}>
         <span className="text-[18px]">我的订单</span>
       </NavBar>
       <Tabs

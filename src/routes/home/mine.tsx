@@ -22,66 +22,6 @@ function RouteComponent() {
   }, []);
   return (
     <div className="flex flex-col relative min-h-[100vh]">
-      <div
-        className={css`
-          position: absolute;
-          left: 0px;
-          top: 0px;
-          width: 375px;
-          height: 241px;
-          opacity: 1;
-          background: linear-gradient(
-            180deg,
-            #893af6 0%,
-            rgba(81, 27, 124, 0) 100%
-          );
-          overflow: hidden;
-        `}
-      >
-        <div
-          className={css`
-            position: absolute;
-            left: -31px;
-            top: -27px;
-            width: 125px;
-            height: 125px;
-            opacity: 1;
-            background: #8639ef;
-            border-radius: 50%;
-          `}
-        ></div>
-        <div
-          className={css`
-            position: absolute;
-            left: 304px;
-            top: -44px;
-            width: 125px;
-            height: 125px;
-            opacity: 1;
-            background: #8639ef;
-            border-radius: 50%;
-          `}
-        ></div>
-        <div
-          className={css`
-            position: absolute;
-            left: 241px;
-            top: 130px;
-            width: 105px;
-            height: 105px;
-            opacity: 1;
-            background: #8639ef;
-            filter: blur(10px);
-            border-radius: 50%;
-          `}
-        ></div>
-      </div>
-      <NavBar
-        className="relative z-50 !h-[44px]"
-        onBack={() => {
-          navigate({ to: ".." });
-        }}
-      ></NavBar>
       <div className="flex-auto w-full flex flex-col gap-[16px] px-[14px] mt-[42px] z-50 pb-[14px]">
         <div className="flex items-center gap-[9px]">
           <div className="w-[62px] h-[62px] rounded-[50%] bg-white"></div>
@@ -93,124 +33,113 @@ function RouteComponent() {
               <span className="text-[16px] text-[#4EFC27]">
                 LV{userInfo?.level}
               </span>
-              <span className="i-mdi-award text-[24px] text-[#8639EF]"></span>
+              <span className="i-mdi-award text-[24px] text-[#9795E9]"></span>
             </div>
-            <span className="text-[14px] flex items-center gap-[4px]">
-              ID账号：{userInfo?.uid}{" "}
-              <span className="i-mdi-copyleft text-[14px]"></span>{" "}
+            <span className="text-[14px] flex items-center gap-[4px] text-[#999999]">
+              ID账号：<span className="text-[#E9E9E9]">{userInfo?.uid} </span>
+              <span className="i-hugeicons-copy-01 text-[14px] text-[#E9E9E9]"></span>{" "}
             </span>
           </div>
+          <button className="text-[12px] text-[#000000] bg-[#9795E9] px-[10px] py-[8px] rounded-[10px]">
+            生成登录二维码
+          </button>
         </div>
+
+        <ul className="flex items-center justify-between">
+          {[
+            {
+              key: "2",
+              title: "平台代币($)",
+              value: `$ ${userInfo?.userWallets?.find((v) => v.coinId == 2)?.balance ?? 0}`,
+            },
+            {
+              key: "1",
+              title: "平台积分($)",
+              value: `$ ${userInfo?.userWallets?.find((v) => v.coinId == 1)?.balance ?? 0}`,
+            },
+          ].map((v, i) => (
+            <li
+              key={i}
+              className={clsx(
+                css`
+                  width: 168px;
+                  height: 70px;
+                  opacity: 1;
+                  box-sizing: border-box;
+                  border: 0.5px solid;
+                  border-image: linear-gradient(
+                      128deg,
+                      #9795e9 1%,
+                      rgba(252, 252, 252, 0.13) 21%,
+                      rgba(255, 162, 229, 0.1) 111%
+                    )
+                    0.5;
+                `,
+                "px-[13px] py-[13px] flex flex-col items-start justify-center gap-[5px]"
+              )}
+              onClick={() => {
+                navigate({
+                  to: "/wallet-details",
+                  search: { type: v.key === "1" ? "points" : "token" },
+                });
+              }}
+            >
+              <span className="text-[12px] text-[#999999]">{v.title}</span>
+              <span className="text-[16px] font-bold">{v.value}</span>
+            </li>
+          ))}
+        </ul>
         <div className="flex flex-col gap-[12px]">
-          <div className="rounded-[10px] bg-[#1F1F1F] px-[14px]">
-            <div className="flex items-center justify-between pt-[16px]">
-              <span className="text-[18px]">资产</span>
-              <span className="i-mdi-eye-off-outline text-[20px] text-[#8639EF]"></span>
-            </div>
-            <ul className="flex flex-col gap-[]">
-              {[
-                {
-                  key: "2",
-                  title: "平台代币",
-                  value: `$ ${userInfo?.userWallets?.find((v) => v.coinId == 2)?.balance ?? 0}`,
-                  icon: logo,
-                },
-                {
-                  key: "1",
-                  title: "平台积分",
-                  value: `$ ${userInfo?.userWallets?.find((v) => v.coinId == 1)?.balance ?? 0}`,
-                  icon: jifeng,
-                },
-              ].map((v) => (
-                <li
-                  className="h-[50px] flex items-center justify-between border-b-[#A7A9AC] border-opacity-15"
-                  onClick={() =>
-                    navigate({
-                      to: "/wallet-details",
-                      search: { type: v.key === "1" ? "points" : "token" },
-                    })
-                  }
-                >
-                  <div className="flex items-center gap-[6px]">
-                    <img className="w-[24px] h-[24px]" src={v.icon} alt="" />
-                    <span className="text-[14px]">{v.title}</span>
-                  </div>
-                  <div className="flex items-center gap-[6px]">
-                    <span className="text-[14px]">{v.value}</span>
-                    <span className="i-mdi-chevron-right text-[20px] text-[#666666]"></span>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="flex items-center gap-[12px]">
-            <Button
-              block
-              color="primary"
-              className={clsx(
-                Styles.btn,
-                css`
-                  background: linear-gradient(0deg, #511b7c, #511b7c), #1f1f1f;
-                `
-              )}
-              fill="none"
-            >
-              提币
-            </Button>
-            <Button
-              block
-              color="primary"
-              className={clsx(
-                Styles.btn,
-                css`
-                  background:
-                    linear-gradient(180deg, #893af6 0%, #511b7c 100%), #1f1f1f;
-                `
-              )}
-              fill="none"
-            >
-              转账
-            </Button>
-          </div>
-          <LabelWrap>
-            <LabelItem
-              label="平台代币地址"
-              showArrow={false}
-              icon={<span className="i-mdi-coin-outline" />}
-            />
-            <div className="flex items-center justify-between pb-[16px] px-[17px]">
-              <span className="text-[16px] text-[#893AF6]">
-                0xuhdiabfidaskjnaskjdvnjk
-              </span>
-              <span className="i-lucide-copy text-[#893AF6] text-[22px]"></span>
-            </div>
-          </LabelWrap>
           <LabelWrap>
             <LabelItem
               label="推荐好友"
               icon={<span className="i-mdi-invite" />}
               onClick={() => navigate({ to: "/intive" })}
+              iconStyle={{
+                borderColor: "#FFFBDD",
+                shadowColor: "rgba(255, 251, 221, 0.6)",
+              }}
             />
           </LabelWrap>
           <LabelWrap>
             <LabelItem
               showLine
-              label="我的订单"
+              label="我的购物车"
               showArrow={false}
-              icon={<span className="i-mdi-order-numeric-ascending" />}
-              onClick={() => navigate({ to: "/order" })}
+              icon={<span className="i-hugeicons-shopping-cart-01" />}
+              onClick={() => navigate({ to: "/cart" })}
+              iconStyle={{
+                borderColor: "#FFEDFE",
+                shadowColor: "rgba(255, 237, 254, 0.6)",
+              }}
             />
             <LabelItem
               label="我的卡密"
               showArrow={false}
-              icon={<span className="i-mdi-password-outline" />}
+              icon={<span className="i-hugeicons-password-validation" />}
               onClick={() => navigate({ to: "/card-secrets" })}
+              iconStyle={{
+                borderColor: "#F9E3BA",
+                shadowColor: "rgba(249, 227, 186, 0.6)",
+              }}
             />
           </LabelWrap>
           <LabelWrap>
             <LabelItem
+              label="语言设置"
+              icon={<span className="i-hugeicons-language-circle" />}
+              iconStyle={{
+                borderColor: "#BFE4EC",
+                shadowColor: "rgba(191, 228, 236, 0.6);",
+              }}
+            />
+            <LabelItem
               label="安全中心"
-              icon={<span className="i-mdi-safety-goggles" />}
+              icon={<span className="i-hugeicons-security" />}
+              iconStyle={{
+                borderColor: "#FFFFFF",
+                shadowColor: "rgba(255, 162, 229, 0.6)",
+              }}
             />
           </LabelWrap>
           <LabelWrap>
@@ -218,12 +147,20 @@ function RouteComponent() {
               showLine
               label="平台介绍"
               showArrow={false}
-              icon={<span className="i-mdi-list-box-outline" />}
+              icon={<span className="i-hugeicons-list-setting" />}
+              iconStyle={{
+                borderColor: "#C7FFBA",
+                shadowColor: "rgba(199, 255, 186, 0.6)",
+              }}
             />
             <LabelItem
               label="帮助"
               showArrow={false}
-              icon={<span className="i-mdi-help" />}
+              icon={<span className="i-hugeicons-help-circle" />}
+              iconStyle={{
+                borderColor: "#9795E9",
+                shadowColor: "rgba(158, 165, 235, 0.6)",
+              }}
             />
           </LabelWrap>
         </div>
@@ -243,20 +180,34 @@ function LabelItem({
   showArrow = true,
   icon,
   onClick,
+  iconStyle,
 }: {
   showLine?: boolean;
   label: string;
   showArrow?: boolean;
   icon?: ReactNode;
   onClick?: () => void;
+  iconStyle?: {
+    borderColor?: string;
+    shadowColor?: string;
+  };
 }) {
   return (
     <div className="flex items-center gap-[13px] px-[17px]" onClick={onClick}>
       <div
         className={clsx(
+          "flex items-center justify-center",
           css`
-            font-size: 24px;
-            color: #8639ef;
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            opacity: 1;
+            background: #020001;
+            box-sizing: border-box;
+            border: 1px solid ${iconStyle?.borderColor ?? "#9795E9"};
+            box-shadow: inset 0px 0px 8px 0px
+              ${iconStyle?.shadowColor ?? "rgba(158, 165, 235, 0.6)"};
+            font-size: 20px;
           `,
           "flex items-center"
         )}

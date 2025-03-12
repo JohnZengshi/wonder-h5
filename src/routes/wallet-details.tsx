@@ -26,7 +26,7 @@ function RouteComponent() {
     <div className="flex flex-col relative min-h-[100vh] bg-[#141414] pb-[12px]">
       <NavBar
         className="!h-[44px] bg-transparent"
-        onBack={() => navigate({ to: ".." })}
+        onBack={() => window.history.back()}
       >
         {type === "points" ? "平台积分" : "平台代币"}
       </NavBar>

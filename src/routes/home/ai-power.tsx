@@ -1,3 +1,4 @@
+import { CustomSegmented } from "@/components/CustomSegmented";
 import { css } from "@/lib/emotion";
 import { createFileRoute } from "@tanstack/react-router";
 import { ProgressBar, Segmented } from "antd-mobile";
@@ -32,44 +33,7 @@ function RouteComponent() {
         </ul>
       </div>
       <div className="flex items-center justify-between mt-[19px]">
-        <Segmented
-          className={css`
-            --segmented-item-selected-background: transparent;
-            height: 36px;
-            border-radius: 176px;
-            opacity: 1;
-            background: rgba(0, 0, 0, 0.2);
-            box-sizing: border-box;
-            border: 1px solid #9795e9;
-            box-shadow:
-              inset 1.73px 1.73px 12.94px 0px rgba(255, 62, 201, 0.3),
-              inset -1.73px -1.73px 12.94px 0px rgba(255, 62, 201, 0.3);
-            padding: 4px !important;
-            display: flex;
-            align-items: center;
-            .adm-segmented-group {
-              height: 28px;
-            }
-            .adm-segmented-item {
-              height: 28px;
-              &.adm-segmented-item-selected {
-                border-radius: 104px;
-                background-color: #9695e934;
-              }
-            }
-            .adm-segmented-item-label {
-              height: 100%;
-              line-height: 28px !important;
-              font-family: Alibaba PuHuiTi 2;
-              font-size: 14px;
-              font-weight: normal;
-              line-height: normal;
-              letter-spacing: 0em;
-              font-variation-settings: "opsz" auto;
-            }
-          `}
-          options={["运行中", "待启动", "已过期"]}
-        />
+        <CustomSegmented options={["运行中", "待启动", "已过期"]} />
         <div className="flex items-center gap-[4px]">
           <span className="text-[12px] text-[#D8D8D8]">收益明细</span>
           <span className="i-hugeicons-arrow-right-01 text-[16px]"></span>

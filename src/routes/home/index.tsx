@@ -75,6 +75,7 @@ function RouteComponent() {
           { title: "推广赚钱" },
           { title: "联系客服" },
           { title: "官网入口" },
+          { title: "官网入口" },
         ].map((v, i) => (
           <li
             key={i}
@@ -88,7 +89,7 @@ function RouteComponent() {
       </ul>
 
       {zoneList?.map((v, i) => (
-        <div className="w-full bg-[#1F1F1F] rounded-[10px]" key={i}>
+        <div className="w-full rounded-[10px]" key={i}>
           <div className="py-[16px]">
             <span className="ml-[14px] text-[18px] font-bold">
               {v.typeName}
@@ -123,22 +124,24 @@ function ZoneGoodsList({ commodityTypeId }: { commodityTypeId: number }) {
   return (
     <>
       {goodsList?.records?.length ? (
-        <ul className="w-full px-[26px] pt-[13px] pb-[27px] gap-[18px] flex justify-between flex-wrap">
+        <ul className="w-full pt-[13px] pb-[27px] gap-[8px] grid grid-cols-2">
           {goodsList?.records?.map((v, i) => (
             <li
               key={i}
-              className="flex flex-col gap-[6px]"
+              className="w-[172px] max-w-[172px] h-[226px] flex flex-col gap-[6px] bg-[#1F1F1F]"
               onClick={() => {
                 navigate({ to: "/product", search: { goodsId: v.id } });
               }}
             >
-              <div className="w-[130px] h-[130px] rounded-[12px] bg-[#3C3C3C]">
+              <div className="w-full h-[172px] rounded-[12px] p-[11px]">
                 <Image src={v.commodityImg} className="w-full h-full" alt="" />
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-[12px]">{v.commodityName}</span>
-                <span className="text-[12px]">
-                  <span className="text-[10px] text-[#9E9E9E]">$ </span>
+              <div className="flex flex-col items-start px-[12px] pb-[8px] overflow-hidden">
+                <span className="text-[14px] text-ellipsis whitespace-nowrap w-full overflow-hidden">
+                  {v.commodityName}
+                </span>
+                <span className="text-[18px] text-[#F5222D]">
+                  <span className="text-[12px] text-[#F5222D]">$ </span>
                   {v.prices}
                 </span>
               </div>

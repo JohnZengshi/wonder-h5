@@ -63,7 +63,7 @@ function RouteComponent() {
   }, []);
   return (
     <div className="flex flex-col min-h-[100vh]">
-      <NavBar onBack={() => navigate({ to: ".." })}></NavBar>
+      <NavBar onBack={() => window.history.back()}></NavBar>
       <div className="flex flex-col flex-auto relative">
         <Swiper>
           {[goodsDetail?.commodityImg].map((v, i) => (

@@ -16,12 +16,13 @@ import { Route as ProductImport } from './routes/product'
 import { Route as OrderImport } from './routes/order'
 import { Route as IntiveImport } from './routes/intive'
 import { Route as HomeImport } from './routes/home'
+import { Route as CartImport } from './routes/cart'
 import { Route as CardSecretsImport } from './routes/card-secrets'
 import { Route as IndexImport } from './routes/index'
 import { Route as HomeIndexImport } from './routes/home/index'
 import { Route as HomeMineImport } from './routes/home/mine'
+import { Route as HomeLogImport } from './routes/home/log'
 import { Route as HomeCategoryImport } from './routes/home/category'
-import { Route as HomeCartImport } from './routes/home/cart'
 import { Route as HomeAiPowerImport } from './routes/home/ai-power'
 
 // Create/Update Routes
@@ -56,6 +57,12 @@ const HomeRoute = HomeImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const CartRoute = CartImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const CardSecretsRoute = CardSecretsImport.update({
   id: '/card-secrets',
   path: '/card-secrets',
@@ -80,15 +87,15 @@ const HomeMineRoute = HomeMineImport.update({
   getParentRoute: () => HomeRoute,
 } as any)
 
-const HomeCategoryRoute = HomeCategoryImport.update({
-  id: '/category',
-  path: '/category',
+const HomeLogRoute = HomeLogImport.update({
+  id: '/log',
+  path: '/log',
   getParentRoute: () => HomeRoute,
 } as any)
 
-const HomeCartRoute = HomeCartImport.update({
-  id: '/cart',
-  path: '/cart',
+const HomeCategoryRoute = HomeCategoryImport.update({
+  id: '/category',
+  path: '/category',
   getParentRoute: () => HomeRoute,
 } as any)
 
@@ -114,6 +121,13 @@ declare module '@tanstack/react-router' {
       path: '/card-secrets'
       fullPath: '/card-secrets'
       preLoaderRoute: typeof CardSecretsImport
+      parentRoute: typeof rootRoute
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartImport
       parentRoute: typeof rootRoute
     }
     '/home': {
@@ -158,18 +172,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeAiPowerImport
       parentRoute: typeof HomeImport
     }
-    '/home/cart': {
-      id: '/home/cart'
-      path: '/cart'
-      fullPath: '/home/cart'
-      preLoaderRoute: typeof HomeCartImport
-      parentRoute: typeof HomeImport
-    }
     '/home/category': {
       id: '/home/category'
       path: '/category'
       fullPath: '/home/category'
       preLoaderRoute: typeof HomeCategoryImport
+      parentRoute: typeof HomeImport
+    }
+    '/home/log': {
+      id: '/home/log'
+      path: '/log'
+      fullPath: '/home/log'
+      preLoaderRoute: typeof HomeLogImport
       parentRoute: typeof HomeImport
     }
     '/home/mine': {
@@ -193,16 +207,16 @@ declare module '@tanstack/react-router' {
 
 interface HomeRouteChildren {
   HomeAiPowerRoute: typeof HomeAiPowerRoute
-  HomeCartRoute: typeof HomeCartRoute
   HomeCategoryRoute: typeof HomeCategoryRoute
+  HomeLogRoute: typeof HomeLogRoute
   HomeMineRoute: typeof HomeMineRoute
   HomeIndexRoute: typeof HomeIndexRoute
 }
 
 const HomeRouteChildren: HomeRouteChildren = {
   HomeAiPowerRoute: HomeAiPowerRoute,
-  HomeCartRoute: HomeCartRoute,
   HomeCategoryRoute: HomeCategoryRoute,
+  HomeLogRoute: HomeLogRoute,
   HomeMineRoute: HomeMineRoute,
   HomeIndexRoute: HomeIndexRoute,
 }
@@ -212,14 +226,15 @@ const HomeRouteWithChildren = HomeRoute._addFileChildren(HomeRouteChildren)
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/card-secrets': typeof CardSecretsRoute
+  '/cart': typeof CartRoute
   '/home': typeof HomeRouteWithChildren
   '/intive': typeof IntiveRoute
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/wallet-details': typeof WalletDetailsRoute
   '/home/ai-power': typeof HomeAiPowerRoute
-  '/home/cart': typeof HomeCartRoute
   '/home/category': typeof HomeCategoryRoute
+  '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
   '/home/': typeof HomeIndexRoute
 }
@@ -227,13 +242,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/card-secrets': typeof CardSecretsRoute
+  '/cart': typeof CartRoute
   '/intive': typeof IntiveRoute
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/wallet-details': typeof WalletDetailsRoute
   '/home/ai-power': typeof HomeAiPowerRoute
-  '/home/cart': typeof HomeCartRoute
   '/home/category': typeof HomeCategoryRoute
+  '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
   '/home': typeof HomeIndexRoute
 }
@@ -242,14 +258,15 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/card-secrets': typeof CardSecretsRoute
+  '/cart': typeof CartRoute
   '/home': typeof HomeRouteWithChildren
   '/intive': typeof IntiveRoute
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/wallet-details': typeof WalletDetailsRoute
   '/home/ai-power': typeof HomeAiPowerRoute
-  '/home/cart': typeof HomeCartRoute
   '/home/category': typeof HomeCategoryRoute
+  '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
   '/home/': typeof HomeIndexRoute
 }
@@ -259,41 +276,44 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/card-secrets'
+    | '/cart'
     | '/home'
     | '/intive'
     | '/order'
     | '/product'
     | '/wallet-details'
     | '/home/ai-power'
-    | '/home/cart'
     | '/home/category'
+    | '/home/log'
     | '/home/mine'
     | '/home/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/card-secrets'
+    | '/cart'
     | '/intive'
     | '/order'
     | '/product'
     | '/wallet-details'
     | '/home/ai-power'
-    | '/home/cart'
     | '/home/category'
+    | '/home/log'
     | '/home/mine'
     | '/home'
   id:
     | '__root__'
     | '/'
     | '/card-secrets'
+    | '/cart'
     | '/home'
     | '/intive'
     | '/order'
     | '/product'
     | '/wallet-details'
     | '/home/ai-power'
-    | '/home/cart'
     | '/home/category'
+    | '/home/log'
     | '/home/mine'
     | '/home/'
   fileRoutesById: FileRoutesById
@@ -302,6 +322,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CardSecretsRoute: typeof CardSecretsRoute
+  CartRoute: typeof CartRoute
   HomeRoute: typeof HomeRouteWithChildren
   IntiveRoute: typeof IntiveRoute
   OrderRoute: typeof OrderRoute
@@ -312,6 +333,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CardSecretsRoute: CardSecretsRoute,
+  CartRoute: CartRoute,
   HomeRoute: HomeRouteWithChildren,
   IntiveRoute: IntiveRoute,
   OrderRoute: OrderRoute,
@@ -331,6 +353,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/card-secrets",
+        "/cart",
         "/home",
         "/intive",
         "/order",
@@ -344,12 +367,15 @@ export const routeTree = rootRoute
     "/card-secrets": {
       "filePath": "card-secrets.tsx"
     },
+    "/cart": {
+      "filePath": "cart.tsx"
+    },
     "/home": {
       "filePath": "home.tsx",
       "children": [
         "/home/ai-power",
-        "/home/cart",
         "/home/category",
+        "/home/log",
         "/home/mine",
         "/home/"
       ]
@@ -370,12 +396,12 @@ export const routeTree = rootRoute
       "filePath": "home/ai-power.tsx",
       "parent": "/home"
     },
-    "/home/cart": {
-      "filePath": "home/cart.tsx",
-      "parent": "/home"
-    },
     "/home/category": {
       "filePath": "home/category.tsx",
+      "parent": "/home"
+    },
+    "/home/log": {
+      "filePath": "home/log.tsx",
       "parent": "/home"
     },
     "/home/mine": {

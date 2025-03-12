@@ -71,7 +71,7 @@ function RouteComponent() {
     <div className="flex flex-col min-h-[100vh]">
       <NavBar
         className="relative z-50 h-[44px]"
-        onBack={() => navigate({ to: ".." })}
+        onBack={() => window.history.back()}
       >
         <span className="text-[18px]">推荐好友</span>
       </NavBar>

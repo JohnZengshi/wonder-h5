@@ -19,7 +19,7 @@ import { useAsyncEffect } from "ahooks";
 import FetchClient from "@/server";
 import { components } from "@/server/api";
 
-export const Route = createFileRoute("/home/cart")({
+export const Route = createFileRoute("/cart")({
   component: RouteComponent,
 });
 

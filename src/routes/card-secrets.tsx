@@ -9,7 +9,7 @@ function RouteComponent() {
   const { navigate } = useRouter();
   return (
     <div className="flex flex-col">
-      <NavBar onBack={() => navigate({ to: ".." })}>
+      <NavBar onBack={() => window.history.back()}>
         <span className="text-[18px]">我的卡密</span>
       </NavBar>
       <div className="px-[14px] pb-[15px] pt-[5px]">

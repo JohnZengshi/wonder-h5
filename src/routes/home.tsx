@@ -109,7 +109,7 @@ function RouteComponent() {
           </Link>
           <NavTab
             text="日志"
-            to="/home/cart"
+            to="/home/log"
             icon={<span className="i-hugeicons-pen-tool-03"></span>}
           />
           <NavTab
