@@ -85,7 +85,7 @@ export const TokenStorage = new StorageManager<string>(
 export const AccountStorage = new StorageManager<string>("USER_ACCOUNT", "");
 
 type CartItem = {
-  info: components["schemas"]["Commodity"];
+  info: components["schemas"]["Commodity对象"];
   quantity: number;
   selected?: boolean;
   // 可根据需要添加更多商品属性

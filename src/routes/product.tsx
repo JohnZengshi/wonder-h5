@@ -17,6 +17,7 @@ import { useAsyncEffect } from "ahooks";
 import FetchClient from "@/server";
 import { components } from "@/server/api";
 import useStore from "@/store/useStore";
+import { BaseBtn } from "@/components/BaseBtn";
 
 type ProductSearch = {
   goodsId?: number;
@@ -86,7 +87,7 @@ function RouteComponent() {
         >
           <div className="flex items-center justify-between">
             <span className="text-[22px]">{goodsDetail?.commodityName}</span>
-            <span className="text-[28px] text-[#893AF6] font-bold flex items-center gap-[4px]">
+            <span className="text-[28px] text-[#9795E9] font-bold flex items-center gap-[4px]">
               <span className="text-[12px] text-white font-bold">$</span>
               {goodsDetail?.prices}
             </span>
@@ -112,6 +113,7 @@ function RouteComponent() {
               onChange={(value) => {
                 setGoodsNum(value);
               }}
+              min={1}
             />
           </div>
 
@@ -141,35 +143,23 @@ function RouteComponent() {
         <SafeArea position="bottom" />
         <div className="flex flex-col fixed  bottom-0 left-0 bg-[#191919] w-full">
           <div className="h-[62px] flex items-center px-[14px] gap-[29px]">
-            <Button
-              block
-              color="primary"
-              className={clsx(
-                Styles.btn,
-                css`
-                  background: linear-gradient(0deg, #511b7c, #511b7c), #1f1f1f;
-                `
-              )}
-              fill="none"
+            <BaseBtn
+              title="加入购物车"
+              className="flex-auto h-[44px] rounded-[11.45px]"
+              borderColor="#91FAFF"
+              shadowColor="rgba(145, 250, 255, 0.3)"
               onClick={() => {
                 if (!goodsDetail) return;
                 addToCart({ info: goodsDetail, quantity: goodsNum });
                 Toast.show("添加成功！");
               }}
-            >
-              <span>加入购物车</span>
-            </Button>
-            <Button
-              block
-              color="primary"
-              className={clsx(
-                Styles.btn,
-                css`
-                  background:
-                    linear-gradient(180deg, #893af6 0%, #511b7c 100%), #1f1f1f;
-                `
-              )}
-              fill="none"
+            />
+
+            <BaseBtn
+              title="立即购买"
+              className="flex-auto h-[44px] rounded-[11.45px]"
+              borderColor="#9795E9"
+              shadowColor="rgba(255, 62, 201, 0.3)"
               onClick={async () => {
                 const password = await new Promise<string>(
                   (resolve, reject) => {
@@ -181,9 +171,7 @@ function RouteComponent() {
                   }
                 );
               }}
-            >
-              <span>立即购买</span>
-            </Button>
+            />
           </div>
           <SafeArea position="bottom" />
         </div>

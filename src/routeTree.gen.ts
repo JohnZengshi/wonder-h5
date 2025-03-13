@@ -14,12 +14,13 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as WalletDetailsImport } from './routes/wallet-details'
 import { Route as ProductImport } from './routes/product'
 import { Route as OrderImport } from './routes/order'
-import { Route as IntiveImport } from './routes/intive'
 import { Route as HomeImport } from './routes/home'
 import { Route as CartImport } from './routes/cart'
 import { Route as CardSecretsImport } from './routes/card-secrets'
 import { Route as IndexImport } from './routes/index'
+import { Route as IntiveIndexImport } from './routes/intive/index'
 import { Route as HomeIndexImport } from './routes/home/index'
+import { Route as IntiveInviteListImport } from './routes/intive/invite-list'
 import { Route as HomeMineImport } from './routes/home/mine'
 import { Route as HomeLogImport } from './routes/home/log'
 import { Route as HomeCategoryImport } from './routes/home/category'
@@ -42,12 +43,6 @@ const ProductRoute = ProductImport.update({
 const OrderRoute = OrderImport.update({
   id: '/order',
   path: '/order',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const IntiveRoute = IntiveImport.update({
-  id: '/intive',
-  path: '/intive',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -75,10 +70,22 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const IntiveIndexRoute = IntiveIndexImport.update({
+  id: '/intive/',
+  path: '/intive/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const HomeIndexRoute = HomeIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => HomeRoute,
+} as any)
+
+const IntiveInviteListRoute = IntiveInviteListImport.update({
+  id: '/intive/invite-list',
+  path: '/intive/invite-list',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const HomeMineRoute = HomeMineImport.update({
@@ -137,13 +144,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeImport
       parentRoute: typeof rootRoute
     }
-    '/intive': {
-      id: '/intive'
-      path: '/intive'
-      fullPath: '/intive'
-      preLoaderRoute: typeof IntiveImport
-      parentRoute: typeof rootRoute
-    }
     '/order': {
       id: '/order'
       path: '/order'
@@ -193,12 +193,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeMineImport
       parentRoute: typeof HomeImport
     }
+    '/intive/invite-list': {
+      id: '/intive/invite-list'
+      path: '/intive/invite-list'
+      fullPath: '/intive/invite-list'
+      preLoaderRoute: typeof IntiveInviteListImport
+      parentRoute: typeof rootRoute
+    }
     '/home/': {
       id: '/home/'
       path: '/'
       fullPath: '/home/'
       preLoaderRoute: typeof HomeIndexImport
       parentRoute: typeof HomeImport
+    }
+    '/intive/': {
+      id: '/intive/'
+      path: '/intive'
+      fullPath: '/intive'
+      preLoaderRoute: typeof IntiveIndexImport
+      parentRoute: typeof rootRoute
     }
   }
 }
@@ -228,7 +242,6 @@ export interface FileRoutesByFullPath {
   '/card-secrets': typeof CardSecretsRoute
   '/cart': typeof CartRoute
   '/home': typeof HomeRouteWithChildren
-  '/intive': typeof IntiveRoute
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/wallet-details': typeof WalletDetailsRoute
@@ -236,14 +249,15 @@ export interface FileRoutesByFullPath {
   '/home/category': typeof HomeCategoryRoute
   '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
+  '/intive/invite-list': typeof IntiveInviteListRoute
   '/home/': typeof HomeIndexRoute
+  '/intive': typeof IntiveIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/card-secrets': typeof CardSecretsRoute
   '/cart': typeof CartRoute
-  '/intive': typeof IntiveRoute
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/wallet-details': typeof WalletDetailsRoute
@@ -251,7 +265,9 @@ export interface FileRoutesByTo {
   '/home/category': typeof HomeCategoryRoute
   '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
+  '/intive/invite-list': typeof IntiveInviteListRoute
   '/home': typeof HomeIndexRoute
+  '/intive': typeof IntiveIndexRoute
 }
 
 export interface FileRoutesById {
@@ -260,7 +276,6 @@ export interface FileRoutesById {
   '/card-secrets': typeof CardSecretsRoute
   '/cart': typeof CartRoute
   '/home': typeof HomeRouteWithChildren
-  '/intive': typeof IntiveRoute
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/wallet-details': typeof WalletDetailsRoute
@@ -268,7 +283,9 @@ export interface FileRoutesById {
   '/home/category': typeof HomeCategoryRoute
   '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
+  '/intive/invite-list': typeof IntiveInviteListRoute
   '/home/': typeof HomeIndexRoute
+  '/intive/': typeof IntiveIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -278,7 +295,6 @@ export interface FileRouteTypes {
     | '/card-secrets'
     | '/cart'
     | '/home'
-    | '/intive'
     | '/order'
     | '/product'
     | '/wallet-details'
@@ -286,13 +302,14 @@ export interface FileRouteTypes {
     | '/home/category'
     | '/home/log'
     | '/home/mine'
+    | '/intive/invite-list'
     | '/home/'
+    | '/intive'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/card-secrets'
     | '/cart'
-    | '/intive'
     | '/order'
     | '/product'
     | '/wallet-details'
@@ -300,14 +317,15 @@ export interface FileRouteTypes {
     | '/home/category'
     | '/home/log'
     | '/home/mine'
+    | '/intive/invite-list'
     | '/home'
+    | '/intive'
   id:
     | '__root__'
     | '/'
     | '/card-secrets'
     | '/cart'
     | '/home'
-    | '/intive'
     | '/order'
     | '/product'
     | '/wallet-details'
@@ -315,7 +333,9 @@ export interface FileRouteTypes {
     | '/home/category'
     | '/home/log'
     | '/home/mine'
+    | '/intive/invite-list'
     | '/home/'
+    | '/intive/'
   fileRoutesById: FileRoutesById
 }
 
@@ -324,10 +344,11 @@ export interface RootRouteChildren {
   CardSecretsRoute: typeof CardSecretsRoute
   CartRoute: typeof CartRoute
   HomeRoute: typeof HomeRouteWithChildren
-  IntiveRoute: typeof IntiveRoute
   OrderRoute: typeof OrderRoute
   ProductRoute: typeof ProductRoute
   WalletDetailsRoute: typeof WalletDetailsRoute
+  IntiveInviteListRoute: typeof IntiveInviteListRoute
+  IntiveIndexRoute: typeof IntiveIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -335,10 +356,11 @@ const rootRouteChildren: RootRouteChildren = {
   CardSecretsRoute: CardSecretsRoute,
   CartRoute: CartRoute,
   HomeRoute: HomeRouteWithChildren,
-  IntiveRoute: IntiveRoute,
   OrderRoute: OrderRoute,
   ProductRoute: ProductRoute,
   WalletDetailsRoute: WalletDetailsRoute,
+  IntiveInviteListRoute: IntiveInviteListRoute,
+  IntiveIndexRoute: IntiveIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -355,10 +377,11 @@ export const routeTree = rootRoute
         "/card-secrets",
         "/cart",
         "/home",
-        "/intive",
         "/order",
         "/product",
-        "/wallet-details"
+        "/wallet-details",
+        "/intive/invite-list",
+        "/intive/"
       ]
     },
     "/": {
@@ -379,9 +402,6 @@ export const routeTree = rootRoute
         "/home/mine",
         "/home/"
       ]
-    },
-    "/intive": {
-      "filePath": "intive.tsx"
     },
     "/order": {
       "filePath": "order.tsx"
@@ -408,9 +428,15 @@ export const routeTree = rootRoute
       "filePath": "home/mine.tsx",
       "parent": "/home"
     },
+    "/intive/invite-list": {
+      "filePath": "intive/invite-list.tsx"
+    },
     "/home/": {
       "filePath": "home/index.tsx",
       "parent": "/home"
+    },
+    "/intive/": {
+      "filePath": "intive/index.tsx"
     }
   }
 }

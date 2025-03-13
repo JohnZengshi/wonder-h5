@@ -1,13 +1,13 @@
 import { css } from "@/lib/emotion";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Button, NavBar, SafeArea } from "antd-mobile";
-import jifeng from "@/assets/jifeng.svg";
 import clsx from "clsx";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { useAsyncEffect } from "ahooks";
 import FetchClient from "@/server";
 import { components } from "@/server/api";
-import logo from "@/assets/logo.svg";
+import CustomIcon from "@/components/CustomIcon";
+import { showChangePassword } from "@/utils/password";
 
 export const Route = createFileRoute("/home/mine")({
   component: RouteComponent,
@@ -140,6 +140,9 @@ function RouteComponent() {
                 borderColor: "#FFFFFF",
                 shadowColor: "rgba(255, 162, 229, 0.6)",
               }}
+              onClick={() => {
+                showChangePassword({});
+              }}
             />
           </LabelWrap>
           <LabelWrap>
@@ -194,26 +197,7 @@ function LabelItem({
 }) {
   return (
     <div className="flex items-center gap-[13px] px-[17px]" onClick={onClick}>
-      <div
-        className={clsx(
-          "flex items-center justify-center",
-          css`
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
-            opacity: 1;
-            background: #020001;
-            box-sizing: border-box;
-            border: 1px solid ${iconStyle?.borderColor ?? "#9795E9"};
-            box-shadow: inset 0px 0px 8px 0px
-              ${iconStyle?.shadowColor ?? "rgba(158, 165, 235, 0.6)"};
-            font-size: 20px;
-          `,
-          "flex items-center"
-        )}
-      >
-        {icon}
-      </div>
+      <CustomIcon icon={icon} iconStyle={iconStyle} />
       <div
         className={clsx(
           "flex-auto flex items-center justify-between h-[50px]",
@@ -232,13 +216,3 @@ function LabelItem({
     </div>
   );
 }
-
-const Styles = {
-  btn: css`
-    font-size: 16px;
-    color: white;
-    height: 44px;
-    border-radius: 10px;
-    opacity: 1;
-  `,
-};
