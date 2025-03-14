@@ -8,6 +8,7 @@ export function BaseBtn({
   className,
   shadowColor,
   borderColor,
+  disabled,
 }: {
   title: string;
   onClick?: () => void;
@@ -15,6 +16,7 @@ export function BaseBtn({
   className?: string;
   shadowColor?: string;
   borderColor?: string;
+  disabled?: boolean;
 }) {
   return (
     <li
@@ -32,6 +34,7 @@ export function BaseBtn({
             inset -1.73px -1.73px 12.94px 0px
               ${shadowColor ?? "rgba(151, 149, 233, 0.3)"};
         `,
+        disabled ? "opacity-50" : "",
         className
       )}
     >

@@ -4,6 +4,7 @@ import { useAsyncEffect } from "ahooks";
 import clsx from "clsx";
 import { css } from "@/lib/emotion";
 import { BaseBtn } from "@/components/BaseBtn";
+import { showTransferModal } from "@/utils/transfer";
 
 export const Route = createFileRoute("/wallet-details")({
   validateSearch: (
@@ -52,6 +53,13 @@ function RouteComponent() {
             className="w-[105px] h-[44px]"
             title="转账"
             icon={<span className="i-hugeicons-exchange-01 text-[24px]"></span>}
+            onClick={() => {
+              showTransferModal({
+                onConfirm: (address, amount) => {
+                  // 调用转账接口
+                },
+              });
+            }}
           />
         </ul>
         <div className="rounded-[10px] bg-[#1F1F1F] px-[17px] py-[11px] flex flex-col gap-[17px] mt-[18px]">
