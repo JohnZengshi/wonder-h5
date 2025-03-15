@@ -1409,6 +1409,104 @@ export interface components {
             /** @description 收款地址 */
             toAddress?: string;
         };
+        /** @description 商品订单记录 */
+        CommodityOrderRecord: {
+            /**
+             * @description 订单ID
+             * @example 126684
+             */
+            id?: number;
+            /**
+             * @description 商品名称
+             * @example 21221
+             */
+            commodityName?: string;
+            /**
+             * Format: int32
+             * @description 商品数量
+             * @example 3
+             */
+            commodityNumber?: number;
+            /**
+             * Format: int32
+             * @description 积分支付金额
+             * @example 1500
+             */
+            integral?: number;
+            /**
+             * @description 订单创建时间
+             * @example 2025-03-16 00:00:21
+             */
+            createTime?: string;
+            /**
+             * @description 商品图片URL
+             * @example http://192.168.1.111:9090/imguser/e3f65d9e48d64dec89f7dc32cd7b0d79.png
+             */
+            commodityImg?: string;
+            /**
+             * @description 订单编号
+             * @example 102000001895639515
+             */
+            orderNumber?: string;
+            /**
+             * Format: int32
+             * @description 支付状态 (1-待支付)
+             * @example 1
+             */
+            payStatus?: number;
+            /**
+             * @description 实际支付金额
+             * @example 19.99
+             */
+            prices?: number;
+            /**
+             * @description 订单过期时间
+             * @example 2025-03-16 00:30:22
+             */
+            expiredTime?: string;
+            /**
+             * Format: int32
+             * @description 商品ID
+             * @example 126706
+             */
+            commodityId?: number;
+        };
+        /** @description 推荐人用户信息 */
+        UserRecommender: {
+            /**
+             * Format: int32
+             * @description 用户ID
+             * @example 367
+             */
+            id?: number;
+            /**
+             * Format: int32
+             * @description 直推人数
+             * @example 0
+             */
+            shareNum?: number;
+            /**
+             * Format: int32
+             * @description 团队人数
+             * @example 0
+             */
+            teamNum?: number;
+            /**
+             * @description 邀请码
+             * @example LDPO68
+             */
+            shareCode?: string;
+            /**
+             * @description 用户名
+             * @example WONDER367
+             */
+            userName?: string;
+            /**
+             * @description 用户头像
+             * @example null
+             */
+            userImg?: string;
+        };
         CommodityType: {
             /** Format: int64 */
             id: number;
@@ -1531,7 +1629,7 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
                         data?: {
-                            [key: string]: boolean;
+                            exist?: boolean;
                         };
                     };
                 };
@@ -1742,7 +1840,11 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: Record<string, never>;
+                        /** @description 推荐人分页结果 */
+                        data?: {
+                            page?: components["schemas"]["Page"];
+                            user?: components["schemas"]["UserRecommender"];
+                        };
                     };
                 };
             };
@@ -2268,7 +2370,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["Page"];
+                        data?: {
+                            records?: components["schemas"]["CommodityOrderRecord"][];
+                            /** @example 100 */
+                            total?: number;
+                            /** @example 10 */
+                            size?: number;
+                            /** @example 1 */
+                            current?: number;
+                        };
                     };
                 };
             };

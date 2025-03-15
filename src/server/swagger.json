@@ -172,8 +172,10 @@
             "description": "OK",
             "schema": {
               "type": "object",
-              "additionalProperties": {
-                "type": "boolean"
+              "properties": {
+                "exist": {
+                  "type": "boolean"
+                }
               }
             }
           },
@@ -420,7 +422,16 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "object"
+              "type": "object",
+              "properties": {
+                "page": {
+                  "$ref": "#/definitions/Page"
+                },
+                "user": {
+                  "$ref": "#/definitions/UserRecommender"
+                }
+              },
+              "description": "推荐人分页结果"
             }
           },
           "401": {
@@ -1035,7 +1046,27 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Page"
+              "type": "object",
+              "properties": {
+                "records": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/CommodityOrderRecord"
+                  }
+                },
+                "total": {
+                  "type": "integer",
+                  "example": 100
+                },
+                "size": {
+                  "type": "integer",
+                  "example": 10
+                },
+                "current": {
+                  "type": "integer",
+                  "example": 1
+                }
+              }
             }
           },
           "401": {
@@ -3875,6 +3906,110 @@
           "description": "收款地址"
         }
       }
+    },
+    "CommodityOrderRecord": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 126684,
+          "description": "订单ID"
+        },
+        "commodityName": {
+          "type": "string",
+          "example": "21221",
+          "description": "商品名称"
+        },
+        "commodityNumber": {
+          "type": "integer",
+          "format": "int32",
+          "example": 3,
+          "description": "商品数量"
+        },
+        "integral": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1500,
+          "description": "积分支付金额"
+        },
+        "createTime": {
+          "type": "string",
+          "example": "2025-03-16 00:00:21",
+          "description": "订单创建时间"
+        },
+        "commodityImg": {
+          "type": "string",
+          "example": "http://192.168.1.111:9090/imguser/e3f65d9e48d64dec89f7dc32cd7b0d79.png",
+          "description": "商品图片URL"
+        },
+        "orderNumber": {
+          "type": "string",
+          "example": "102000001895639515",
+          "description": "订单编号"
+        },
+        "payStatus": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1,
+          "description": "支付状态 (1-待支付)"
+        },
+        "prices": {
+          "type": "number",
+          "example": 19.99,
+          "description": "实际支付金额"
+        },
+        "expiredTime": {
+          "type": "string",
+          "example": "2025-03-16 00:30:22",
+          "description": "订单过期时间"
+        },
+        "commodityId": {
+          "type": "integer",
+          "format": "int32",
+          "example": 126706,
+          "description": "商品ID"
+        }
+      },
+      "description": "商品订单记录"
+    },
+    "UserRecommender": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "example": 367,
+          "description": "用户ID"
+        },
+        "shareNum": {
+          "type": "integer",
+          "format": "int32",
+          "example": 0,
+          "description": "直推人数"
+        },
+        "teamNum": {
+          "type": "integer",
+          "format": "int32",
+          "example": 0,
+          "description": "团队人数"
+        },
+        "shareCode": {
+          "type": "string",
+          "example": "LDPO68",
+          "description": "邀请码"
+        },
+        "userName": {
+          "type": "string",
+          "example": "WONDER367",
+          "description": "用户名"
+        },
+        "userImg": {
+          "type": "string",
+          "example": null,
+          "description": "用户头像"
+        }
+      },
+      "description": "推荐人用户信息"
     }
   }
 }

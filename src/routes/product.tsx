@@ -11,13 +11,14 @@ import {
 import peoductExample from "@/assets/product-example.png";
 import clsx from "clsx";
 import { css } from "@/lib/emotion";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { showPaymentPassword } from "@/utils/payment";
 import { useAsyncEffect } from "ahooks";
 import FetchClient from "@/server";
 import { components } from "@/server/api";
 import useStore from "@/store/useStore";
 import { BaseBtn } from "@/components/BaseBtn";
+import { Md5 } from "ts-md5";
 
 type ProductSearch = {
   goodsId?: number;
@@ -40,6 +41,11 @@ function RouteComponent() {
   const { addToCart } = useStore();
 
   const [goodsNum, setGoodsNum] = useState(1);
+
+  const amount = useMemo(
+    () => parseFloat(goodsDetail?.prices ?? "0") * goodsNum,
+    [goodsDetail?.prices, goodsNum]
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -164,12 +170,24 @@ function RouteComponent() {
                 const password = await new Promise<string>(
                   (resolve, reject) => {
                     showPaymentPassword({
-                      amount: 999,
+                      amount: amount,
                       onConfirm: resolve,
                       onCancel: () => reject("cancel"),
                     });
                   }
                 );
+                await FetchClient.POST("/api/commodity-order/payOrderNumber", {
+                  body: {
+                    chain: 10,
+                    commoditys: [
+                      { commodityId: goodsDetail?.id, number: goodsNum },
+                    ],
+                    password: Md5.hashStr(password),
+                    paymentOfPoints: amount.toString(),
+                  },
+                });
+
+                Toast.show("购买成功！");
               }}
             />
           </div>

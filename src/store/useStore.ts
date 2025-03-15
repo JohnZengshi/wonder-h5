@@ -112,6 +112,10 @@ export default function () {
     setCart(cart.filter((item) => item.info.id !== goodsId));
   };
 
+  const removeAll = () => {
+    setCart([]);
+  };
+
   const updateQuantity = (goodsId: number, newQuantity: number) => {
     setCart(
       cart.map((item) =>
@@ -152,5 +156,6 @@ export default function () {
     updateQuantity,
     toggleItemSelection,
     toggleSelectAll,
+    removeAll,
   };
 }

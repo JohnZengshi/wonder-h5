@@ -7,11 +7,12 @@ import {
   SafeArea,
   Toast,
 } from "antd-mobile";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 // 新增密码修改弹窗逻辑
 type NewPasswordOptions = {
-  onConfirmOld?: (password: string) => Promise<boolean>;
+  isFirst: boolean;
+  onConfirmOld?: (password: string) => void;
   onConfirmNew?: (newPassword: string) => void;
   onCancel?: () => void;
 };
@@ -22,34 +23,47 @@ const NewPasswordModal = ({ options }: { options: NewPasswordOptions }) => {
   const [newPwd, setNewPwd] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
   const [error, setError] = useState("");
-  const [step, setStep] = useState(1); // 1-旧密码 2-新密码
-  const passcodeRef = useRef<PasscodeInputRef>(null);
+  const [step, setStep] = useState<1 | 2 | 3>(options.isFirst ? 2 : 1); // 1-旧密码 2-新密码
 
   useEffect(() => {
     setVisible(true);
-    setTimeout(() => {
-      passcodeRef.current?.focus();
-    }, 300);
   }, []);
 
   const handleConfirm = async () => {
-    if (step === 1) {
-      if (await options.onConfirmOld?.(oldPwd)) {
+    if (!options.isFirst) {
+      if (step === 1) {
+        // if (await options.onConfirmOld?.(oldPwd)) {
+        //   setStep(2);
+        //   setOldPwd("");
+        // } else {
+        //   setError("旧密码错误");
+        //   Toast.show("旧密码错误");
+        //   return;
+        // }
+        options.onConfirmOld?.(oldPwd);
         setStep(2);
-        setOldPwd("");
       } else {
-        setError("旧密码错误");
-        Toast.show("旧密码错误");
-        return;
+        // if (newPwd !== confirmPwd) {
+        //   setError("两次输入不一致");
+        //   Toast.show("两次输入不一致");
+        //   return;
+        // }
+        options.onConfirmNew?.(newPwd);
+        setVisible(false);
       }
     } else {
-      if (newPwd !== confirmPwd) {
-        setError("两次输入不一致");
-        Toast.show("两次输入不一致");
-        return;
+      if (step == 2) {
+        setStep(3);
+        console.log("确认新密码", step);
+      } else if (step == 3) {
+        if (newPwd !== confirmPwd) {
+          setError("两次输入不一致");
+          Toast.show("两次输入不一致");
+          return;
+        }
+        options.onConfirmNew?.(newPwd);
+        setVisible(false);
       }
-      options.onConfirmNew?.(newPwd);
-      setVisible(false);
     }
   };
 
@@ -62,12 +76,16 @@ const NewPasswordModal = ({ options }: { options: NewPasswordOptions }) => {
       }}
       afterClose={() => destroy()}
     >
-      <PopupTitle title={step === 1 ? "验证旧密码" : "设置新密码"} />
+      <PopupTitle
+        title={
+          step === 1 ? "验证旧密码" : step === 3 ? "确认新密码" : "设置新密码"
+        }
+      />
       <div className="flex flex-col items-center pb-[25px] h-[340px]">
         {step === 2 && (
           <>
             <PasscodeInput
-              ref={passcodeRef}
+              ref={(ref) => ref?.focus()}
               seperated
               value={newPwd}
               onChange={setNewPwd}
@@ -81,26 +99,29 @@ const NewPasswordModal = ({ options }: { options: NewPasswordOptions }) => {
                 />
               }
             />
-            <PasscodeInput
-              className="mt-4"
-              seperated
-              value={confirmPwd}
-              onChange={setConfirmPwd}
-              aria-placeholder="确认新密码"
-              keyboard={
-                <NumberKeyboard
-                  visible={visible}
-                  confirmText="确认"
-                  onConfirm={handleConfirm}
-                  closeOnConfirm={false}
-                />
-              }
-            />
           </>
+        )}
+        {step === 3 && (
+          <PasscodeInput
+            ref={(ref) => ref?.focus()}
+            className="mt-4"
+            seperated
+            value={confirmPwd}
+            onChange={setConfirmPwd}
+            aria-placeholder="确认新密码"
+            keyboard={
+              <NumberKeyboard
+                visible={visible}
+                confirmText="确认"
+                onConfirm={handleConfirm}
+                closeOnConfirm={false}
+              />
+            }
+          />
         )}
         {step === 1 && (
           <PasscodeInput
-            ref={passcodeRef}
+            ref={(ref) => ref?.focus()}
             seperated
             value={oldPwd}
             onChange={setOldPwd}

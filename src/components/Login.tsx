@@ -27,16 +27,16 @@ export default function () {
     if (!visitorId) return;
   }, [visitorId]);
 
-  async function login(password?: string) {
+  async function login(account?: string, password?: string) {
     console.log("password", password);
     const { data } = await FetchClient.POST("/api/account/signIn", {
       body: {
-        account: visitorId,
+        account: account ?? visitorId,
         password: Md5.hashStr(password ?? ""),
         chainType: 2,
       },
     });
-    setAccount(visitorId);
+    setAccount(account ?? visitorId);
     if (data?.data?.token) setToken(data.data.token);
   }
   return (
@@ -72,7 +72,7 @@ export default function () {
                   chainType: 2,
                 },
               });
-              login(data?.data?.password);
+              login(visitorId, data?.data?.password);
             },
           },
           {
@@ -103,7 +103,17 @@ export default function () {
           <Scanner
             onScanSuccess={(code) => {
               if (code) {
+                const params = new URLSearchParams(code);
+                const account = params.get("account");
+                const password = params.get("password");
+
+                if (!account || !password) {
+                  throw new Error("无效的二维码格式");
+                }
                 console.log(`code:${code}`);
+                // code:account=10102e56f456aaffe97da1b2ede3ff0a1742046038037&password=8mugfa5hbh9dglni
+                login(account, password);
+                setAccount(account);
                 setScannerVisble(false);
               }
             }}

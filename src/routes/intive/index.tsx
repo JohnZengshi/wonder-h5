@@ -4,8 +4,10 @@ import { Button, NavBar, Popup, SafeArea, Toast } from "antd-mobile";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
-import { PopupTitle } from "@/components/PopupTitle";
 import CustomIcon from "@/components/CustomIcon";
+import { useAsyncEffect } from "ahooks";
+import { components } from "@/server/api";
+import FetchClient from "@/server";
 
 export const Route = createFileRoute("/intive/")({
   component: RouteComponent,
@@ -16,23 +18,31 @@ function RouteComponent() {
   const [visible, setVisible] = useState(false);
   const [qrCodeUrl, setQrCodeUrl] = useState("");
   const qrCodeRef = useRef<HTMLImageElement>(null);
+  const [userInfo, setUserInfo] =
+    useState<components["schemas"]["UserRecommender"]>();
+
   // 生成邀请链接的二维码（示例链接，请替换为实际邀请链接）
-  const inviteLink = "https://your-domain.com/invite?code=USER123";
+  const generateQR = async (link: string) => {
+    try {
+      const url = await QRCode.toDataURL(link, {
+        width: 230,
+        margin: 0,
+      });
+      setQrCodeUrl(url);
+    } catch (err) {
+      console.error("生成二维码失败:", err);
+    }
+  };
+  useEffect(() => {}, []);
 
-  useEffect(() => {
-    const generateQR = async () => {
-      try {
-        const url = await QRCode.toDataURL(inviteLink, {
-          width: 230,
-          margin: 0,
-        });
-        setQrCodeUrl(url);
-      } catch (err) {
-        console.error("生成二维码失败:", err);
-      }
-    };
+  useAsyncEffect(async () => {
+    const { data } = await FetchClient.GET("/api/account/recommender", {
+      params: { query: { pageNum: 1, pageSize: 99 } },
+    });
+    setUserInfo(data?.data?.user);
+    const inviteLink = `${import.meta.env.VITE_APP_BASE_URL}?inviteCode=${data?.data?.user?.shareCode}`;
 
-    generateQR();
+    generateQR(inviteLink);
   }, []);
 
   // 保存二维码处理函数
@@ -82,12 +92,12 @@ function RouteComponent() {
             {
               icon: <span className="i-mdi-invite"></span>,
               title: "直推人数",
-              num: 100,
+              num: userInfo?.shareNum ?? 0,
             },
             {
               icon: <span className="i-mdi-people-group-outline"></span>,
               title: "团队人数",
-              num: 68,
+              num: userInfo?.teamNum ?? 0,
             },
           ].map((v, i) => (
             <div
@@ -155,9 +165,21 @@ function RouteComponent() {
           <span className="text-[12px]">邀请码</span>
           <span className="text-[16px] text-[#999999] ml-auto mr-[16px]">
             {" "}
-            T2DF4H
+            {userInfo?.shareCode ?? ""}
           </span>
-          <span className="text-[24px] i-hugeicons-copy-01 text-[#FFA2E5]"></span>
+          <span
+            className="text-[24px] i-hugeicons-copy-01 text-[#FFA2E5]"
+            onClick={async () => {
+              try {
+                if (userInfo?.shareCode) {
+                  await navigator.clipboard.writeText(userInfo.shareCode);
+                  Toast.show("已复制邀请码");
+                }
+              } catch (err) {
+                Toast.show("复制失败，请手动选择复制");
+              }
+            }}
+          ></span>
         </div>
 
         <div className="flex items-center gap-[16px] my-[26px]">

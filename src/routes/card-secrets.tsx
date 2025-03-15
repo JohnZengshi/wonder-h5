@@ -1,5 +1,9 @@
+import FetchClient from "@/server";
+import { components } from "@/server/api";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { useAsyncEffect } from "ahooks";
 import { NavBar } from "antd-mobile";
+import { useState } from "react";
 
 export const Route = createFileRoute("/card-secrets")({
   component: RouteComponent,
@@ -7,6 +11,14 @@ export const Route = createFileRoute("/card-secrets")({
 
 function RouteComponent() {
   const { navigate } = useRouter();
+  const [cards, setCards] = useState<any[]>();
+
+  useAsyncEffect(async () => {
+    const { data } = await FetchClient.GET("/api/key-card/page", {
+      params: { query: { pageNum: 1, pageSize: 999 } },
+    });
+    setCards(data?.data?.records);
+  }, []);
   return (
     <div className="flex flex-col">
       <NavBar onBack={() => window.history.back()}>
@@ -19,7 +31,7 @@ function RouteComponent() {
           <span className="block w-[153px] text-end text-[12px]">获得时间</span>
         </div>
         <ul>
-          {Array.from({ length: 50 }).map((v, i) => (
+          {cards?.map((v, i) => (
             <li
               key={i}
               className="h-[44px] flex items-center border-b-[#2A2A2B] border-b"

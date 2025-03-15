@@ -14,6 +14,10 @@ const middleware: Middleware = {
     return request;
   },
   async onResponse({ response }) {
+    if (response.status == 500) {
+      Toast.show("服务器内部错误");
+      throw new Error("服务器内部错误");
+    }
     const data: components["schemas"]["BaseResponse"] = await response
       .clone()
       .json();

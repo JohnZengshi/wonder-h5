@@ -13,6 +13,7 @@ import {
   SafeArea,
   Stepper,
   SwipeAction,
+  Toast,
 } from "antd-mobile";
 import { useMemo, useRef, useState } from "react";
 import gouwuchekong from "@/assets/gouwuchekong.svg";
@@ -21,6 +22,7 @@ import { useAsyncEffect } from "ahooks";
 import FetchClient from "@/server";
 import { components } from "@/server/api";
 import { BaseBtn } from "@/components/BaseBtn";
+import { Md5 } from "ts-md5";
 
 export const Route = createFileRoute("/cart")({
   component: RouteComponent,
@@ -44,6 +46,7 @@ function RouteComponent() {
     toggleItemSelection,
     toggleSelectAll,
     removeFromCart,
+    removeAll,
   } = useStore();
   const [recommended, setRecommended] =
     useState<components["schemas"]["Commodity对象"][]>();
@@ -225,12 +228,28 @@ function RouteComponent() {
                 const password = await new Promise<string>(
                   (resolve, reject) => {
                     showPaymentPassword({
-                      amount: 999,
+                      amount: totalPrice,
                       onConfirm: resolve,
                       onCancel: () => reject("cancel"),
                     });
                   }
                 );
+
+                await FetchClient.POST("/api/commodity-order/payOrderNumber", {
+                  body: {
+                    chain: 10,
+                    commoditys: cart.map((v) => {
+                      return {
+                        commodityId: v.info.id,
+                        number: v.quantity,
+                      };
+                    }),
+                    password: Md5.hashStr(password),
+                    paymentOfPoints: totalPrice.toString(),
+                  },
+                });
+                removeAll();
+                Toast.show("购买成功！");
               }}
             ></BaseBtn>
           </div>

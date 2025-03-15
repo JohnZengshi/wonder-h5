@@ -1,5 +1,6 @@
 // 在 utils/payment.ts 中
 import { PopupTitle } from "@/components/PopupTitle";
+import FetchClient from "@/server";
 import {
   NumberKeyboard,
   PasscodeInput,
@@ -9,6 +10,8 @@ import {
 } from "antd-mobile";
 import { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
+import { showChangePassword } from "./password";
+import { Md5 } from "ts-md5";
 
 type PaymentOptions = {
   amount: number;
@@ -21,13 +24,9 @@ let paymentRoot: ReactDOM.Root | null = null;
 const PaymentPasswordModal = ({ options }: { options: PaymentOptions }) => {
   const [visible, setVisible] = useState(false);
   const [password, setPassword] = useState("");
-  const passcodeRef = useRef<PasscodeInputRef>(null);
 
   useEffect(() => {
     setVisible(true);
-    setTimeout(() => {
-      passcodeRef.current?.focus();
-    }, 300);
   }, []);
 
   const handleConfirm = () => {
@@ -51,7 +50,7 @@ const PaymentPasswordModal = ({ options }: { options: PaymentOptions }) => {
           {options.amount}
         </span>
         <PasscodeInput
-          ref={passcodeRef}
+          ref={(ref) => ref?.focus()}
           seperated
           className="mt-[31px]"
           value={password}
@@ -61,6 +60,7 @@ const PaymentPasswordModal = ({ options }: { options: PaymentOptions }) => {
               visible={visible}
               confirmText="确认"
               onConfirm={handleConfirm}
+              closeOnConfirm={false}
             />
           }
         />
@@ -78,9 +78,27 @@ const destroy = () => {
   }
 };
 
-export const showPaymentPassword = (options: PaymentOptions) => {
+export const showPaymentPassword = async (options: PaymentOptions) => {
   destroy();
 
+  // 查询用户是否设置支付密码
+  const { data } = await FetchClient.GET("/api/account/findPasswordPay");
+  if (!data?.data?.exist) {
+    await new Promise((resolve, reject) => {
+      showChangePassword({
+        isFirst: true,
+        onConfirmNew: async (psw) => {
+          await FetchClient.POST("/api/account/renewPasswordPay", {
+            body: { fromPassword: "", toPassword: Md5.hashStr(psw) },
+          });
+          resolve(true);
+        },
+        onCancel: () => {
+          reject(false);
+        },
+      });
+    });
+  }
   const container = document.createElement("div");
   document.body.appendChild(container);
   paymentRoot = ReactDOM.createRoot(container);

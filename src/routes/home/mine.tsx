@@ -1,6 +1,6 @@
 import { css } from "@/lib/emotion";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { Button, NavBar, SafeArea } from "antd-mobile";
+import { Button, Modal, NavBar, SafeArea, Toast, Image } from "antd-mobile";
 import clsx from "clsx";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { useAsyncEffect } from "ahooks";
@@ -8,6 +8,7 @@ import FetchClient from "@/server";
 import { components } from "@/server/api";
 import CustomIcon from "@/components/CustomIcon";
 import { showChangePassword } from "@/utils/password";
+import { Md5 } from "ts-md5";
 
 export const Route = createFileRoute("/home/mine")({
   component: RouteComponent,
@@ -16,6 +17,8 @@ export const Route = createFileRoute("/home/mine")({
 function RouteComponent() {
   const { navigate } = useRouter();
   const [userInfo, setUserInfo] = useState<components["schemas"]["UserVo"]>();
+  const [qrVisible, setQrVisible] = useState(false);
+  const [qrImage, setQrImage] = useState("");
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/account/findUser");
     setUserInfo(data?.data);
@@ -40,7 +43,20 @@ function RouteComponent() {
               <span className="i-hugeicons-copy-01 text-[14px] text-[#E9E9E9]"></span>{" "}
             </span>
           </div>
-          <button className="text-[12px] text-[#000000] bg-[#9795E9] px-[10px] py-[8px] rounded-[10px]">
+          <button
+            className="text-[12px] text-[#000000] bg-[#9795E9] px-[10px] py-[8px] rounded-[10px]"
+            onClick={async () => {
+              const { data } = await FetchClient.GET(
+                "/api/account/findUserNameOrPassword"
+              );
+              if (data?.data?.base64Img) {
+                setQrImage(data.data.base64Img);
+                setQrVisible(true);
+              } else {
+                Toast.show("生成二维码失败");
+              }
+            }}
+          >
             生成登录二维码
           </button>
         </div>
@@ -141,7 +157,25 @@ function RouteComponent() {
                 shadowColor: "rgba(255, 162, 229, 0.6)",
               }}
               onClick={() => {
-                showChangePassword({});
+                let oldPassword = "";
+                let newPassword = "";
+                showChangePassword({
+                  isFirst: false,
+                  async onConfirmNew(value) {
+                    newPassword = value;
+                    console.log(oldPassword, newPassword);
+                    await FetchClient.POST("/api/account/renewPasswordPay", {
+                      body: {
+                        fromPassword: Md5.hashStr(oldPassword),
+                        toPassword: Md5.hashStr(newPassword),
+                      },
+                    });
+                    Toast.show("修改成功");
+                  },
+                  onConfirmOld(value) {
+                    oldPassword = value;
+                  },
+                });
               }}
             />
           </LabelWrap>
@@ -169,6 +203,50 @@ function RouteComponent() {
         </div>
       </div>
       <SafeArea position="bottom" />
+      <Modal
+        visible={qrVisible}
+        title={<span className="text-white">登录二维码</span>}
+        content={
+          <div className="flex justify-center p-4 bg-black">
+            <Image
+              src={qrImage}
+              className="w-[200px] h-[200px]"
+              alt="登录二维码"
+            />
+          </div>
+        }
+        closeOnMaskClick
+        closeOnAction
+        onClose={() => setQrVisible(false)}
+        actions={[
+          {
+            key: "save",
+            text: "保存",
+            className: "text-white bg-[#9795E9]",
+            async onClick() {
+              try {
+                const response = await fetch(qrImage);
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `login_qr_${Date.now()}.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                Toast.show("保存成功");
+              } catch (err) {
+                Toast.show("保存失败");
+                console.error("保存二维码失败:", err);
+              }
+            },
+          },
+        ]}
+        bodyClassName="bg-[#191919]"
+      />
     </div>
   );
 }
