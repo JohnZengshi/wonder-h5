@@ -1,10 +1,13 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { NavBar, SafeArea } from "antd-mobile";
+import { Empty, NavBar, SafeArea, Toast } from "antd-mobile";
 import { useAsyncEffect } from "ahooks";
 import clsx from "clsx";
 import { css } from "@/lib/emotion";
 import { BaseBtn } from "@/components/BaseBtn";
 import { showTransferModal } from "@/utils/transfer";
+import useStore from "@/store/useStore";
+import FetchClient from "@/server";
+import { useState } from "react";
 
 export const Route = createFileRoute("/wallet-details")({
   validateSearch: (
@@ -20,8 +23,30 @@ export const Route = createFileRoute("/wallet-details")({
 function RouteComponent() {
   const { type } = Route.useSearch();
   const { navigate } = useRouter();
+  const { userInfo } = useStore();
+  const [rechargeAddress, setRechargeAddress] = useState<string>("");
+  const [logData, setLogData] = useState<any[]>([]);
   // 加载钱包数据
-  useAsyncEffect(async () => {}, [type]);
+  useAsyncEffect(async () => {
+    const { data } = await FetchClient.GET("/api/user-wallet/rechargeAddress", {
+      params: { query: { coinId: type == "points" ? 1 : 2 } },
+    });
+    var address = data?.data?.address ?? "";
+    setRechargeAddress(address);
+    const { data: logDAta } = await FetchClient.GET(
+      "/api/user-wallet-log/page",
+      {
+        params: {
+          query: {
+            pageNum: 1,
+            pageSize: 999,
+            walletId: type == "points" ? 1 : 2,
+          },
+        },
+      }
+    );
+    setLogData(logDAta?.data?.records ?? []);
+  }, [type]);
 
   return (
     <div className="flex flex-col relative min-h-[100vh] bg-[#141414] pb-[12px]">
@@ -33,9 +58,17 @@ function RouteComponent() {
       </NavBar>
 
       <div className="flex flex-col px-[14px]">
-        <span className="text-[14px] text-[#999]">平台积分</span>
+        <span className="text-[14px] text-[#999]">
+          {type === "points" ? "平台积分" : "平台代币"}
+        </span>
         <span className="text-[14px] flex items-center gap-[6px]">
-          <span className="text-[38px] font-bold">899</span>$
+          <span className="text-[38px] font-bold">
+            {type == "points"
+              ? (userInfo.userWallets?.find((v) => v.coinId == 1)?.balance ?? 0)
+              : (userInfo.userWallets?.find((v) => v.coinId == 2)?.balance ??
+                0)}
+          </span>
+          $
         </span>
 
         <ul className="flex items-center gap-[16.5px] mt-[7px]">
@@ -65,20 +98,34 @@ function RouteComponent() {
         <div className="rounded-[10px] bg-[#1F1F1F] px-[17px] py-[11px] flex flex-col gap-[17px] mt-[18px]">
           <div className="flex items-center gap-[12px]">
             <span className="text-[24px] text-[#9795E9] i-hugeicons-coins-01"></span>
-            <span className="text-[14px]">平台积分地址</span>
+            <span className="text-[14px]">
+              {type === "points" ? "平台积分地址" : "平台代币地址"}
+            </span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-[16px] text-[#9795E9]">
-              0xuhdiabfidaskjnaskjdvnjk
+            <span className="text-[16px] text-[#9795E9] text-ellipsis overflow-hidden whitespace-nowrap">
+              {rechargeAddress}
             </span>
-            <span className="i-hugeicons-copy-01 text-[24px] text-[#9795E9]"></span>
+            <span
+              className="i-hugeicons-copy-01 text-[24px] text-[#9795E9]"
+              onClick={async () => {
+                try {
+                  if (userInfo?.shareCode) {
+                    await navigator.clipboard.writeText(rechargeAddress);
+                    Toast.show("复制成功");
+                  }
+                } catch (err) {
+                  Toast.show("复制失败，请手动选择复制");
+                }
+              }}
+            ></span>
           </div>
         </div>
 
         <span className="text-[18px] mt-[16px] mb-[10px]">代币日志</span>
 
         <ul className="bg-[#1F1F1F] rounded-[10px]">
-          {Array.from({ length: 10 }).map((_, index) => (
+          {logData.map((v, index) => (
             <li
               key={index}
               className="flex items-center justify-between px-[8px] py-[16px]"
@@ -96,6 +143,11 @@ function RouteComponent() {
               </div>
             </li>
           ))}
+          {logData.length == 0 && (
+            <div className="min-h-[50vh] flex items-center justify-center">
+              <Empty />
+            </div>
+          )}
         </ul>
       </div>
       <SafeArea position="bottom" />

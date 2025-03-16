@@ -2,7 +2,7 @@ import FetchClient from "@/server";
 import { components } from "@/server/api";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useAsyncEffect } from "ahooks";
-import { NavBar } from "antd-mobile";
+import { Empty, NavBar } from "antd-mobile";
 import { useState } from "react";
 
 export const Route = createFileRoute("/card-secrets")({
@@ -48,6 +48,11 @@ function RouteComponent() {
               </span>
             </li>
           ))}
+          {cards?.length === 0 && (
+            <div className="min-h-[100vh] flex items-center justify-center">
+              <Empty />
+            </div>
+          )}
         </ul>
       </div>
     </div>

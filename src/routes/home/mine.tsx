@@ -9,6 +9,7 @@ import { components } from "@/server/api";
 import CustomIcon from "@/components/CustomIcon";
 import { showChangePassword } from "@/utils/password";
 import { Md5 } from "ts-md5";
+import useStore from "@/store/useStore";
 
 export const Route = createFileRoute("/home/mine")({
   component: RouteComponent,
@@ -16,12 +17,14 @@ export const Route = createFileRoute("/home/mine")({
 
 function RouteComponent() {
   const { navigate } = useRouter();
-  const [userInfo, setUserInfo] = useState<components["schemas"]["UserVo"]>();
   const [qrVisible, setQrVisible] = useState(false);
   const [qrImage, setQrImage] = useState("");
+  const { userInfo } = useStore();
+
+  const { setUserInfo } = useStore();
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/account/findUser");
-    setUserInfo(data?.data);
+    if (data?.data) setUserInfo(data?.data);
   }, []);
   return (
     <div className="flex flex-col relative min-h-[100vh]">

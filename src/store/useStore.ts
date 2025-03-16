@@ -82,7 +82,10 @@ export const TokenStorage = new StorageManager<string>(
   "WONDER_H5_USER_TOKEN",
   ""
 );
-export const AccountStorage = new StorageManager<string>("USER_ACCOUNT", "");
+export const AccountStorage = new StorageManager<string>(
+  "WONDER_H5_USER_ACCOUNT",
+  ""
+);
 
 type CartItem = {
   info: components["schemas"]["Commodity对象"];
@@ -91,12 +94,21 @@ type CartItem = {
   // 可根据需要添加更多商品属性
 };
 // 添加购物车存储实例（在原有存储实例下方）
-export const CartStorage = new StorageManager<CartItem[]>("SHOPPING_CART", []);
+export const CartStorage = new StorageManager<CartItem[]>(
+  "WONDER_H5_SHOPPING_CART",
+  []
+);
+
+export const UserInfoStorage = new StorageManager<
+  components["schemas"]["UserVo"]
+>("WONDER_H5_USER_INFO", {});
 
 export default function () {
   const { value: token, setValue: setToken } = useStorage(TokenStorage);
   const { value: account, setValue: setAccount } = useStorage(AccountStorage);
   const { value: cart, setValue: setCart } = useStorage(CartStorage);
+  const { value: userInfo, setValue: setUserInfo } =
+    useStorage(UserInfoStorage);
 
   // 购物车操作方法
   const addToCart = (item: CartItem) => {
@@ -157,5 +169,7 @@ export default function () {
     toggleItemSelection,
     toggleSelectAll,
     removeAll,
+    userInfo,
+    setUserInfo,
   };
 }
