@@ -20,7 +20,8 @@ export default function () {
   useAsyncEffect(async () => {
     const fp = await FingerprintJS.load();
     const { visitorId } = await fp.get();
-    setVisitorId(`${visitorId}${new Date().getTime()}`); // TODO 测试！！！
+    // setVisitorId(`${visitorId}${new Date().getTime()}`); // TODO 测试！！！
+    setVisitorId(visitorId);
   }, []);
 
   useAsyncEffect(async () => {
