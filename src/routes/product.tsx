@@ -143,7 +143,12 @@ function RouteComponent() {
             </>
           ) : null}
 
-          <div className="w-full h-[500px] bg-[#3C3C3C] rounded-[10px] mt-[28px]"></div>
+          <div
+            className="w-full h-[500px] bg-[#3C3C3C] rounded-[10px] mt-[28px] p-[12px]"
+            dangerouslySetInnerHTML={{
+              __html: goodsDetail?.illustrate || "",
+            }}
+          ></div>
         </div>
         <div className="h-[62px]"></div>
         <SafeArea position="bottom" />

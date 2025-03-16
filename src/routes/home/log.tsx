@@ -2,7 +2,7 @@ import { CustomSegmented } from "@/components/CustomSegmented";
 import FetchClient from "@/server";
 import { components } from "@/server/api";
 import { createFileRoute } from "@tanstack/react-router";
-import { Image } from "antd-mobile";
+import { Empty, Image } from "antd-mobile";
 import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/home/log")({
@@ -10,31 +10,34 @@ export const Route = createFileRoute("/home/log")({
 });
 
 function RouteComponent() {
-  const [goodsOrder, setGoodsOrder] =
+  const [order, setOrder] =
     useState<components["schemas"]["CommodityOrderRecord"][]>();
   useEffect(() => {
     fetchOrder(1);
   }, []);
 
-  async function fetchOrder(type: 1 | 2) {
+  async function fetchOrder(type: number) {
     const { data } = await FetchClient.GET("/api/commodity-order/page", {
       params: { query: { pageNum: 1, pageSize: 99, type: type } },
     });
-    if (type == 1) {
-      setGoodsOrder(data?.data?.records);
-    }
+    setOrder(data?.data?.records);
   }
   return (
     <div className="flex flex-col px-[14px] py-[11px]">
       <div className="flex">
         <CustomSegmented
-          options={["订单日志", "算力日志"]}
-          onChange={(v) => {}}
+          options={[
+            { label: "订单日志", value: 1 },
+            { label: "算力日志", value: 4 },
+          ]}
+          onChange={(v) => {
+            fetchOrder(v as number);
+          }}
         />
       </div>
 
       <ul className="mt-[18px] flex flex-col gap-[12px]">
-        {goodsOrder?.map((v, index) => (
+        {order?.map((v, index) => (
           <li key={index} className="flex items-center gap-[10px] h-[74px]">
             <div className="w-[74px] min-w-[74px] h-[74px] rounded-[9.73px]">
               <Image src={v.commodityImg} className="w-full h-full" />
@@ -55,6 +58,11 @@ function RouteComponent() {
             </div>
           </li>
         ))}
+        {order?.length === 0 && (
+          <div className="min-h-[50vh] flex items-center justify-center">
+            <Empty />
+          </div>
+        )}
       </ul>
     </div>
   );

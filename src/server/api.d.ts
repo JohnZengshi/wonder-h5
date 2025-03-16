@@ -1507,6 +1507,177 @@ export interface components {
              */
             userImg?: string;
         };
+        /** @description 矿机收益明细记录 */
+        MiningIncomeRecord: {
+            /**
+             * Format: int32
+             * @description 币种ID（1:积分 2:代币）
+             * @example 1
+             */
+            coinId?: number;
+            /**
+             * Format: double
+             * @description 收益金额
+             * @example 5.32
+             */
+            rewardAmount?: number;
+            /**
+             * Format: date-time
+             * @description 收益时间
+             * @example 2024-03-15 14:30:00
+             */
+            rewardTime?: string;
+            /**
+             * Format: date-time
+             * @description 创建时间
+             * @example 2024-03-15 14:30:00
+             */
+            createTime?: string;
+            /**
+             * Format: date-time
+             * @description 更新时间
+             * @example 2024-03-15 14:30:00
+             */
+            updateTime?: string;
+            /**
+             * Format: int32
+             * @description 结算状态（1:已结算 0:待结算）
+             * @example 1
+             */
+            status?: number;
+        };
+        /** @description 矿机收益分页结果 */
+        MiningIncomePageResult: {
+            records?: components["schemas"]["MiningIncomeRecord"][];
+            /**
+             * Format: int64
+             * @example 100
+             */
+            total?: number;
+            /**
+             * Format: int32
+             * @example 10
+             */
+            size?: number;
+            /**
+             * Format: int32
+             * @example 1
+             */
+            current?: number;
+            /**
+             * Format: int32
+             * @example 10
+             */
+            pages?: number;
+        };
+        /** @description 卡密记录项 */
+        KeyCardRecord: {
+            /**
+             * @description 卡密编码
+             * @example CARD-2024-001
+             */
+            cardKey?: string;
+            /**
+             * Format: date-time
+             * @description 过期时间
+             * @example 2024-12-31 23:59:59
+             */
+            expiredTime?: string;
+            /**
+             * @description 卡密类型名称
+             * @example 会员卡
+             */
+            keyCardTypeName?: string;
+        };
+        KeyCardPageResult: {
+            records?: components["schemas"]["KeyCardRecord"][];
+            /**
+             * Format: int64
+             * @example 100
+             */
+            total?: number;
+            /**
+             * Format: int32
+             * @example 10
+             */
+            size?: number;
+            /**
+             * Format: int32
+             * @example 1
+             */
+            current?: number;
+            /**
+             * Format: int32
+             * @example 10
+             */
+            pages?: number;
+        };
+        /** @description 资产流水记录项 */
+        WalletLogRecord: {
+            /**
+             * Format: int32
+             * @description 账户类型（1:余额 2:冻结）
+             * @example 1
+             */
+            type?: number;
+            /**
+             * Format: int32
+             * @description 币种类型（1:积分 2:代币）
+             * @example 1
+             */
+            coinId?: number;
+            /**
+             * Format: int32
+             * @description 操作类型（根据业务定义）
+             * @example 3
+             */
+            opType?: number;
+            /**
+             * @description 流水类型说明
+             * @example 矿机收益结算
+             */
+            opRemark?: string;
+            /**
+             * Format: double
+             * @description 变动的金额
+             * @example 50.5
+             */
+            opValue?: number;
+            /**
+             * @description 额外备注信息
+             * @example 矿机ID: 1001
+             */
+            extRemark?: string;
+            /**
+             * Format: date-time
+             * @description 记录创建时间
+             * @example 2024-03-15 14:30:00
+             */
+            createTime?: string;
+        };
+        WalletLogPageResult: {
+            records?: components["schemas"]["WalletLogRecord"][];
+            /**
+             * Format: int64
+             * @example 100
+             */
+            total?: number;
+            /**
+             * Format: int32
+             * @example 10
+             */
+            size?: number;
+            /**
+             * Format: int32
+             * @example 1
+             */
+            current?: number;
+            /**
+             * Format: int32
+             * @example 10
+             */
+            pages?: number;
+        };
         CommodityType: {
             /** Format: int64 */
             id: number;
@@ -3274,7 +3445,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["Page"];
+                        data?: components["schemas"]["KeyCardPageResult"];
                     };
                 };
             };
@@ -3384,7 +3555,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["Page"];
+                        data?: components["schemas"]["MiningIncomePageResult"];
                     };
                 };
             };
@@ -3544,7 +3715,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["Page"];
+                        data?: components["schemas"]["WalletLogPageResult"];
                     };
                 };
             };

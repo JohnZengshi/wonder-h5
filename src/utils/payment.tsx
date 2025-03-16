@@ -49,6 +49,7 @@ const PaymentPasswordModal = ({ options }: { options: PaymentOptions }) => {
           <span className="text-[12px]">$</span>
           {options.amount}
         </span>
+
         <PasscodeInput
           ref={(ref) => ref?.focus()}
           seperated

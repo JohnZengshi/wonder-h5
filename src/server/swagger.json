@@ -2138,7 +2138,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Page"
+              "$ref": "#/definitions/KeyCardPageResult"
             }
           },
           "401": {
@@ -2279,7 +2279,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Page"
+              "$ref": "#/definitions/MiningIncomePageResult"
             }
           },
           "401": {
@@ -2479,7 +2479,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Page"
+              "$ref": "#/definitions/WalletLogPageResult"
             }
           },
           "401": {
@@ -4010,6 +4010,210 @@
         }
       },
       "description": "推荐人用户信息"
+    },
+    "MiningIncomeRecord": {
+      "type": "object",
+      "properties": {
+        "coinId": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1,
+          "description": "币种ID（1:积分 2:代币）"
+        },
+        "rewardAmount": {
+          "type": "number",
+          "format": "double",
+          "example": 5.32,
+          "description": "收益金额"
+        },
+        "rewardTime": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2024-03-15 14:30:00",
+          "description": "收益时间"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2024-03-15 14:30:00",
+          "description": "创建时间"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2024-03-15 14:30:00",
+          "description": "更新时间"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1,
+          "description": "结算状态（1:已结算 0:待结算）"
+        }
+      },
+      "description": "矿机收益明细记录"
+    },
+    "MiningIncomePageResult": {
+      "type": "object",
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MiningIncomeRecord"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "example": 100
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "example": 10
+        },
+        "current": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int32",
+          "example": 10
+        }
+      },
+      "description": "矿机收益分页结果"
+    },
+    "KeyCardRecord": {
+      "type": "object",
+      "properties": {
+        "cardKey": {
+          "type": "string",
+          "example": "CARD-2024-001",
+          "description": "卡密编码"
+        },
+        "expiredTime": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2024-12-31 23:59:59",
+          "description": "过期时间"
+        },
+        "keyCardTypeName": {
+          "type": "string",
+          "example": "会员卡",
+          "description": "卡密类型名称"
+        }
+      },
+      "description": "卡密记录项"
+    },
+    "KeyCardPageResult": {
+      "type": "object",
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/KeyCardRecord"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "example": 100
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "example": 10
+        },
+        "current": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int32",
+          "example": 10
+        }
+      }
+    },
+    "WalletLogRecord": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1,
+          "description": "账户类型（1:余额 2:冻结）"
+        },
+        "coinId": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1,
+          "description": "币种类型（1:积分 2:代币）"
+        },
+        "opType": {
+          "type": "integer",
+          "format": "int32",
+          "example": 3,
+          "description": "操作类型（根据业务定义）"
+        },
+        "opRemark": {
+          "type": "string",
+          "example": "矿机收益结算",
+          "description": "流水类型说明"
+        },
+        "opValue": {
+          "type": "number",
+          "format": "double",
+          "example": 50.5,
+          "description": "变动的金额"
+        },
+        "extRemark": {
+          "type": "string",
+          "example": "矿机ID: 1001",
+          "description": "额外备注信息"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2024-03-15 14:30:00",
+          "description": "记录创建时间"
+        }
+      },
+      "description": "资产流水记录项"
+    },
+    "WalletLogPageResult": {
+      "type": "object",
+      "properties": {
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WalletLogRecord"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64",
+          "example": 100
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32",
+          "example": 10
+        },
+        "current": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        },
+        "pages": {
+          "type": "integer",
+          "format": "int32",
+          "example": 10
+        }
+      }
     }
   }
 }

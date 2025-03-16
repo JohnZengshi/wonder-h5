@@ -8,6 +8,9 @@ import { showTransferModal } from "@/utils/transfer";
 import useStore from "@/store/useStore";
 import FetchClient from "@/server";
 import { useState } from "react";
+import { showWithdrawModal } from "@/utils/withdraw";
+import { showPaymentPassword } from "@/utils/payment";
+import { Md5 } from "ts-md5";
 
 export const Route = createFileRoute("/wallet-details")({
   validateSearch: (
@@ -81,6 +84,26 @@ function RouteComponent() {
             className="w-[105px] h-[44px]"
             title="提币"
             icon={<span className="i-hugeicons-upload-01 text-[24px]"></span>}
+            onClick={() => {
+              showWithdrawModal({
+                onConfirm: (chain: number, address: string, amount: number) => {
+                  showPaymentPassword({
+                    amount: 0,
+                    async onConfirm(password) {
+                      await FetchClient.POST("/api/user-wallet/withdrawCoins", {
+                        body: {
+                          amount: amount.toString(),
+                          chain: chain,
+                          coinId: type == "points" ? 1 : 2,
+                          paymentPassword: Md5.hashStr(password),
+                          toAddress: address,
+                        },
+                      });
+                    },
+                  });
+                },
+              });
+            }}
           />
           <BaseBtn
             className="w-[105px] h-[44px]"
@@ -89,7 +112,19 @@ function RouteComponent() {
             onClick={() => {
               showTransferModal({
                 onConfirm: (address, amount) => {
-                  // 调用转账接口
+                  showPaymentPassword({
+                    amount: 0,
+                    async onConfirm(password) {
+                      await FetchClient.POST("/api/user-wallet/transfer", {
+                        body: {
+                          amount: amount.toString(),
+                          address: address,
+                          coinId: type == "points" ? 1 : 2,
+                          password: Md5.hashStr(password),
+                        },
+                      });
+                    },
+                  });
                 },
               });
             }}
