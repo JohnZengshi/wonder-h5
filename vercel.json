@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api-proxy/(.*)",
+      "destination": "http://roos.nat300.top/api/$1"
+    }
+  ]
+}
