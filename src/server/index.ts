@@ -4,7 +4,7 @@ import { Toast } from "antd-mobile";
 import { AccountStorage, TokenStorage } from "@/store/useStore";
 
 const FetchClient = createClient<paths>({
-  baseUrl: "http://roos.nat300.top/",
+  baseUrl: import.meta.env.VITE_API_BASE_URL,
 });
 
 const middleware: Middleware = {
