@@ -14,6 +14,8 @@ import Scanner from "./Scanner";
 
 export default function () {
   const { navigate } = useRouter();
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   const [visitorId, setVisitorId] = useState("");
   const { setToken, setAccount } = useStore();
   const [scannerVisble, setScannerVisble] = useState(false);
@@ -45,10 +47,14 @@ export default function () {
       <img src={logo} className="w-[60px] h-[60px] mt-[84px]" alt="" />
       <span className="text-[28px] mt-[29px]">账号密码登录</span>
       <Input
+        value={userName}
+        onChange={(v) => setUserName(v)}
         placeholder="账号"
         className="mt-[29px] h-[48px] rounded-[10px] px-[19px] border-[1px] border-[#9795E9] border-opacity-40"
       />
       <Input
+        value={password}
+        onChange={(v) => setPassword(v)}
         placeholder="密码"
         type="password"
         className="mt-[18px] h-[48px] rounded-[10px] px-[19px] border-[1px] border-[#9795E9] border-opacity-40"
@@ -57,7 +63,7 @@ export default function () {
         title="登录"
         className="h-[44px] px-[38px] mt-[29px]"
         shadowColor="rgba(255, 62, 201, 0.3)"
-        onClick={() => login()}
+        onClick={() => login(userName, password)}
       />
       <span className="text-[12px] text-[#666666] mt-auto">其他方式登录</span>
       <ul className="flex items-center gap-[19px] mt-[15px] mb-[36px]">

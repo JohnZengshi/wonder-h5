@@ -1,6 +1,10 @@
 import Login from "@/components/Login";
 import useStore from "@/store/useStore";
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import {
+  createRootRoute,
+  Outlet,
+  createHashHistory,
+} from "@tanstack/react-router";
 import { SafeArea } from "antd-mobile";
 
 export const Route = createRootRoute({
