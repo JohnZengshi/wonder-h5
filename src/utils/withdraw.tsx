@@ -14,7 +14,7 @@ const WithdrawModal = ({ options }: { options: WithdrawOptions }) => {
   const [visible, setVisible] = useState(false);
   const [address, setAddress] = useState("");
   const [amount, setAmount] = useState(""); // 新增金额状态
-  const [selectedChain, setSelectedChain] = useState(10); // 10=BSC 20=TRX
+  const [selectedChain, setSelectedChain] = useState(1); // 1=BSC 2=TRX
   const inputRef = useRef<any>(null);
 
   useEffect(() => {
@@ -44,8 +44,8 @@ const WithdrawModal = ({ options }: { options: WithdrawOptions }) => {
           onChange={(key) => setSelectedChain(Number(key))}
           style={{ "--title-font-size": "14px", "--content-padding": "0" }}
         >
-          <Tabs.Tab title="BSC链" key="10" />
-          <Tabs.Tab title="TRX链" key="20" />
+          <Tabs.Tab title="BSC链" key="1" />
+          <Tabs.Tab title="TRX链" key="2" />
         </Tabs>
 
         <Input

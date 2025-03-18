@@ -3730,7 +3730,7 @@
                     {
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/ResultResp"
+                          "$ref": "#/components/schemas/Deposit"
                         }
                       }
                     }
@@ -5418,6 +5418,78 @@
             "type": "integer",
             "format": "int32",
             "example": 10
+          }
+        }
+      },
+      "Deposit": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "string",
+            "description": "充值金额"
+          },
+          "auditTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "审核时间"
+          },
+          "coinId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "1:BSC 2:TRX"
+          },
+          "createBy": {
+            "type": "string",
+            "description": "创建人"
+          },
+          "createTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "depositImg": {
+            "type": "string",
+            "description": "充值截图"
+          },
+          "flag": {
+            "type": "integer",
+            "format": "int32",
+            "description": "标记删除，0 / 1"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "description": "ID"
+          },
+          "illustrate": {
+            "type": "string"
+          },
+          "orderNumber": {
+            "type": "string",
+            "description": "订单号"
+          },
+          "paymentAddress": {
+            "type": "string",
+            "description": "支付地址"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "description": "充值状态，0: 待审核, 1: 审核通过, 2: 审核拒绝 3:已入账 4:自动审核"
+          },
+          "updateBy": {
+            "type": "string",
+            "description": "更新人"
+          },
+          "updateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32",
+            "description": "用户ID"
           }
         }
       },

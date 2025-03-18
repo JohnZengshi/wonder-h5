@@ -11,6 +11,9 @@ import { useState } from "react";
 import { showWithdrawModal } from "@/utils/withdraw";
 import { showPaymentPassword } from "@/utils/payment";
 import { Md5 } from "ts-md5";
+import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
+import { payByContract } from "@/contract/contractService";
+import { bytesToBigInt, numberToBytes, parseUnits, weiUnits } from "viem";
 
 export const Route = createFileRoute("/wallet-details")({
   validateSearch: (
@@ -29,6 +32,9 @@ function RouteComponent() {
   const { userInfo } = useStore();
   const [rechargeAddress, setRechargeAddress] = useState<string>("");
   const [logData, setLogData] = useState<any[]>([]);
+  const { open, close } = useAppKit();
+  const { address, isConnected, caipAddress, status, embeddedWalletInfo } =
+    useAppKitAccount();
   // 加载钱包数据
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/user-wallet/rechargeAddress", {
@@ -79,6 +85,31 @@ function RouteComponent() {
             className="w-[105px] h-[44px]"
             title="充值"
             icon={<span className="i-hugeicons-download-01 text-[24px]"></span>}
+            onClick={async () => {
+              if (!isConnected) {
+                await open();
+              }
+              console.log("钱包已连接");
+              var amount = 0.01;
+              const { data } = await FetchClient.POST(
+                "/api/user-wallet/topUp",
+                {
+                  params: {
+                    query: {
+                      amount: amount.toString(),
+                      coinId: 1,
+                      paymentAddress: address,
+                      type: 2,
+                    },
+                  },
+                }
+              );
+              var order = data?.data?.orderNumber;
+              if (!order) return;
+              const amountWei = parseUnits(amount.toFixed(18), 18);
+              var res = await payByContract(amountWei, order);
+              console.log("=========>", res);
+            }}
           />
           <BaseBtn
             className="w-[105px] h-[44px]"
@@ -88,7 +119,7 @@ function RouteComponent() {
               showWithdrawModal({
                 onConfirm: (chain: number, address: string, amount: number) => {
                   showPaymentPassword({
-                    amount: 0,
+                    amount: amount,
                     async onConfirm(password) {
                       await FetchClient.POST("/api/user-wallet/withdrawCoins", {
                         body: {
@@ -113,7 +144,7 @@ function RouteComponent() {
               showTransferModal({
                 onConfirm: (address, amount) => {
                   showPaymentPassword({
-                    amount: 0,
+                    amount: amount,
                     async onConfirm(password) {
                       await FetchClient.POST("/api/user-wallet/transfer", {
                         body: {

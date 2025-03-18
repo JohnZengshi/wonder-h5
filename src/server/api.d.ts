@@ -1678,6 +1678,61 @@ export interface components {
              */
             pages?: number;
         };
+        Deposit: {
+            /** @description 充值金额 */
+            amount?: string;
+            /**
+             * Format: date-time
+             * @description 审核时间
+             */
+            auditTime?: string;
+            /**
+             * Format: int32
+             * @description 1:BSC 2:TRX
+             */
+            coinId?: number;
+            /** @description 创建人 */
+            createBy?: string;
+            /**
+             * Format: date-time
+             * @description 创建时间
+             */
+            createTime?: string;
+            /** @description 充值截图 */
+            depositImg?: string;
+            /**
+             * Format: int32
+             * @description 标记删除，0 / 1
+             */
+            flag?: number;
+            /**
+             * Format: int32
+             * @description ID
+             */
+            id?: number;
+            illustrate?: string;
+            /** @description 订单号 */
+            orderNumber?: string;
+            /** @description 支付地址 */
+            paymentAddress?: string;
+            /**
+             * Format: int32
+             * @description 充值状态，0: 待审核, 1: 审核通过, 2: 审核拒绝 3:已入账 4:自动审核
+             */
+            status?: number;
+            /** @description 更新人 */
+            updateBy?: string;
+            /**
+             * Format: date-time
+             * @description 更新时间
+             */
+            updateTime?: string;
+            /**
+             * Format: int32
+             * @description 用户ID
+             */
+            userId?: number;
+        };
         CommodityType: {
             /** Format: int64 */
             id: number;
@@ -3827,7 +3882,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["ResultResp"];
+                        data?: components["schemas"]["Deposit"];
                     };
                 };
             };

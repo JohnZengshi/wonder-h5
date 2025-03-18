@@ -10,6 +10,9 @@ import {
   writeContract,
   waitForTransactionReceipt,
   getAccount,
+  switchChain,
+  getChainId,
+  getClient,
 } from "@wagmi/core";
 import { encodeFunctionData } from "viem/utils";
 import bscUsdtAbi from "@/contract/bsc_usdt.json";
@@ -19,8 +22,11 @@ import tronBusinessAbi from "@/contract/tron.json";
 
 import { BaseError } from "wagmi";
 import { wagmiAdapter } from "@/AppKitProvider";
+import { bsc } from "viem/chains";
+import { addChain } from "viem/actions";
+import { createWalletClient, custom } from "viem";
 
-const config = wagmiAdapter.wagmiConfig
+const config = wagmiAdapter.wagmiConfig;
 
 // 新增链配置类型
 type ChainConfig = {
@@ -34,39 +40,47 @@ type ChainConfig = {
   };
 };
 
-// 获取当前链配置
-function getChainConfig(): ChainConfig {
-  const chainId = getAccount(config).chain?.id;
-  
-  const CHAIN_CONFIG: Record<number, ChainConfig> = {
-    // BSC 链配置（示例ID，请替换实际链ID）
-    56: { 
-      usdt: {
-        abi: bscUsdtAbi,
-        address: import.meta.env.VITE_BSC_USDT_ADDRESS
-      },
-      business: {
-        abi: bscBusinessAbi,
-        address: import.meta.env.VITE_BSC_BUSINESS_ADDRESS
-      }
+const CHAIN_CONFIG: Record<number, ChainConfig> = {
+  // BSC 链配置（示例ID，请替换实际链ID）
+  56: {
+    usdt: {
+      abi: bscUsdtAbi,
+      address: import.meta.env.VITE_BSC_USDT_ADDRESS,
     },
-    // Tron 链配置（示例ID，请替换实际链ID）
-    1: {
-      usdt: {
-        abi: tronUsdtAbi,
-        address: import.meta.env.VITE_TRON_USDT_ADDRESS
-      },
-      business: {
-        abi: tronBusinessAbi,
-        address: import.meta.env.VITE_TRON_BUSINESS_ADDRESS
-      }
-    }
-  };
+    business: {
+      abi: bscBusinessAbi,
+      address: import.meta.env.VITE_BSC_BUSINESS_ADDRESS,
+    },
+  },
+  // Tron 链配置（示例ID，请替换实际链ID）
+  1: {
+    usdt: {
+      abi: tronUsdtAbi,
+      address: import.meta.env.VITE_TRON_USDT_ADDRESS,
+    },
+    business: {
+      abi: tronBusinessAbi,
+      address: import.meta.env.VITE_TRON_BUSINESS_ADDRESS,
+    },
+  },
+};
+// 获取当前链配置
+async function getChainConfig(): Promise<ChainConfig> {
+  // const chainId = getAccount(config).chain?.id;
+  let chainId = getChainId(config);
+  console.log("当前链ID：", chainId);
 
   if (!chainId || !CHAIN_CONFIG[chainId]) {
-    throw new Error("Unsupported chain");
+    // throw new Error("Unsupported chain");
+    try {
+      await switchChain(config, { chainId: bsc.id });
+      chainId = bsc.id;
+    } catch (err) {
+      console.log("switch chain error", err);
+      throw new Error("请手动切换至BSC网络");
+    }
   }
-  return CHAIN_CONFIG[chainId];
+  return CHAIN_CONFIG[chainId]!;
 }
 
 /**
@@ -75,7 +89,7 @@ function getChainConfig(): ChainConfig {
  */
 
 export const getBalance = async (): Promise<bigint> => {
-  const currentConfig = getChainConfig();
+  const currentConfig = await getChainConfig();
   return new Promise((reslove, reject) => {
     const fromAddress = getAccount(config).address;
     if (!fromAddress) return reject(new Error("address is emtiy"));
@@ -106,7 +120,7 @@ export const getBalance = async (): Promise<bigint> => {
  * @param {string} fromAddress
  */
 export const getApproveUsdt = async (): Promise<bigint> => {
-  const currentConfig = getChainConfig();
+  const currentConfig = await getChainConfig();
   return new Promise((reslove, reject) => {
     const fromAddress = getAccount(config).address;
     if (!fromAddress) return reject(new Error("address is emtiy"));
@@ -138,15 +152,11 @@ export const getApproveUsdt = async (): Promise<bigint> => {
  * @param {bigint} uNum
  */
 export const authorizedU = async (uNum: bigint) => {
-  const currentConfig = getChainConfig();
-  console.log(
-    "授权金额参数：",
-    currentConfig.usdt.address,
-    uNum
-  );
+  const currentConfig = await getChainConfig();
+  console.log("授权金额参数：", currentConfig.usdt.address, uNum);
   return new Promise<void>((reslove, reject) => {
     estimateGas(config, {
-      to:currentConfig.usdt.address,
+      to: currentConfig.usdt.address,
       data: encodeFunctionData({
         abi: currentConfig.usdt.abi,
         functionName: "approve",
@@ -193,12 +203,8 @@ export const authorizedU = async (uNum: bigint) => {
  * @param amount
  * @param orderID
  */
-export async function payByContract(
-  amount: bigint,
-  orderID: string,
-  payInduction: number
-) {
-  const currentConfig = getChainConfig();
+export async function payByContract(amount: bigint, orderID: string) {
+  const currentConfig = await getChainConfig();
   console.log("pay buy contract params", { amount, orderID });
   console.log("NETWORK_USDT:", currentConfig.usdt.address);
 
@@ -216,15 +222,13 @@ export async function payByContract(
       if (approvedU < amount) {
         await authorizedU(amount);
       }
-      const NFTURI =
-        "https://gateway.lighthouse.storage/ipfs/bafkreicjdund46333jhrj556kkdsi7bqupyt2qi3lmylmtxcfiw7f2afe4";
-      console.log("参数:", amount, orderID, payInduction, NFTURI);
+      console.log("参数:", amount, orderID);
       estimateGas(config, {
         to: currentConfig.business.address,
         data: encodeFunctionData({
           abi: currentConfig.business.abi,
           functionName: "pay",
-          args: [amount, orderID, payInduction, NFTURI],
+          args: [orderID, amount],
         }),
       })
         .then((gas) => {
@@ -234,7 +238,7 @@ export async function payByContract(
             abi: currentConfig.business.abi,
             address: currentConfig.business.address,
             functionName: "pay",
-            args: [amount, orderID, payInduction, NFTURI],
+            args: [orderID, amount],
             gas: gasPrice,
           })
             .then((receipt) => {
@@ -257,4 +261,3 @@ export async function payByContract(
     }
   });
 }
-
