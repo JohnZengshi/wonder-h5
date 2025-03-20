@@ -10,6 +10,7 @@ import CustomIcon from "@/components/CustomIcon";
 import { showChangePassword } from "@/utils/password";
 import { Md5 } from "ts-md5";
 import useStore from "@/store/useStore";
+import { downloadImage } from "@/utils";
 
 export const Route = createFileRoute("/home/mine")({
   component: RouteComponent,
@@ -228,18 +229,7 @@ function RouteComponent() {
             className: "text-white bg-[#9795E9]",
             async onClick() {
               try {
-                const response = await fetch(qrImage);
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = `login_qr_${Date.now()}.png`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-
+                await downloadImage(qrImage, "login_qr");
                 Toast.show("保存成功");
               } catch (err) {
                 Toast.show("保存失败");

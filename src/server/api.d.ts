@@ -755,14 +755,6 @@ export interface components {
              */
             updateTime?: string;
         };
-        BaseResultOfFileModel: {
-            /** Format: int32 */
-            code?: number;
-            data?: components["schemas"]["FileModel"];
-            msg?: string;
-            /** Format: int64 */
-            timeMillis?: number;
-        };
         CancelAnOrderReq: {
             /** @description 订单号 */
             orderNumber?: string;
@@ -3212,7 +3204,7 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BaseResponse"] & {
-                        data?: components["schemas"]["BaseResultOfFileModel"];
+                        data?: components["schemas"]["FileModel"];
                     };
                 };
             };

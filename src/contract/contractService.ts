@@ -69,6 +69,8 @@ async function getChainConfig(): Promise<ChainConfig> {
   // const chainId = getAccount(config).chain?.id;
   let chainId = getChainId(config);
   console.log("当前链ID：", chainId);
+  console.log("USDT合约地址：", CHAIN_CONFIG[chainId]?.usdt.address); // 新增调试日志
+  console.log("业务合约地址：", CHAIN_CONFIG[chainId]?.business.address);
 
   if (!chainId || !CHAIN_CONFIG[chainId]) {
     // throw new Error("Unsupported chain");

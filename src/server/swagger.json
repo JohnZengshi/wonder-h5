@@ -1786,7 +1786,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/BaseResultOfFileModel"
+              "$ref": "#/definitions/FileModel"
             }
           },
           "201": {
@@ -2952,25 +2952,6 @@
         }
       },
       "description": "Banner"
-    },
-    "BaseResultOfFileModel": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "data": {
-          "$ref": "#/definitions/FileModel"
-        },
-        "msg": {
-          "type": "string"
-        },
-        "timeMillis": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
     },
     "CancelAnOrderReq": {
       "type": "object",

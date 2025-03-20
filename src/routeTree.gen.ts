@@ -11,15 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as WalletDetailsImport } from './routes/wallet-details'
 import { Route as ProductImport } from './routes/product'
 import { Route as OrderImport } from './routes/order'
 import { Route as HomeImport } from './routes/home'
 import { Route as CartImport } from './routes/cart'
 import { Route as CardSecretsImport } from './routes/card-secrets'
 import { Route as IndexImport } from './routes/index'
+import { Route as WalletDetailsIndexImport } from './routes/wallet-details/index'
 import { Route as IntiveIndexImport } from './routes/intive/index'
 import { Route as HomeIndexImport } from './routes/home/index'
+import { Route as WalletDetailsReplenishmentOrderImport } from './routes/wallet-details/replenishmentOrder'
+import { Route as WalletDetailsRechargeLogImport } from './routes/wallet-details/rechargeLog'
+import { Route as WalletDetailsRechargeImport } from './routes/wallet-details/recharge'
 import { Route as IntiveInviteListImport } from './routes/intive/invite-list'
 import { Route as HomeMineImport } from './routes/home/mine'
 import { Route as HomeLogImport } from './routes/home/log'
@@ -28,12 +31,6 @@ import { Route as AiPowerRevenueDetailsImport } from './routes/ai-power/revenue-
 import { Route as HomeAiPowerIndexImport } from './routes/home/ai-power/index'
 
 // Create/Update Routes
-
-const WalletDetailsRoute = WalletDetailsImport.update({
-  id: '/wallet-details',
-  path: '/wallet-details',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const ProductRoute = ProductImport.update({
   id: '/product',
@@ -71,6 +68,12 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const WalletDetailsIndexRoute = WalletDetailsIndexImport.update({
+  id: '/wallet-details/',
+  path: '/wallet-details/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IntiveIndexRoute = IntiveIndexImport.update({
   id: '/intive/',
   path: '/intive/',
@@ -81,6 +84,25 @@ const HomeIndexRoute = HomeIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => HomeRoute,
+} as any)
+
+const WalletDetailsReplenishmentOrderRoute =
+  WalletDetailsReplenishmentOrderImport.update({
+    id: '/wallet-details/replenishmentOrder',
+    path: '/wallet-details/replenishmentOrder',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const WalletDetailsRechargeLogRoute = WalletDetailsRechargeLogImport.update({
+  id: '/wallet-details/rechargeLog',
+  path: '/wallet-details/rechargeLog',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const WalletDetailsRechargeRoute = WalletDetailsRechargeImport.update({
+  id: '/wallet-details/recharge',
+  path: '/wallet-details/recharge',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const IntiveInviteListRoute = IntiveInviteListImport.update({
@@ -165,13 +187,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductImport
       parentRoute: typeof rootRoute
     }
-    '/wallet-details': {
-      id: '/wallet-details'
-      path: '/wallet-details'
-      fullPath: '/wallet-details'
-      preLoaderRoute: typeof WalletDetailsImport
-      parentRoute: typeof rootRoute
-    }
     '/ai-power/revenue-details': {
       id: '/ai-power/revenue-details'
       path: '/ai-power/revenue-details'
@@ -207,6 +222,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntiveInviteListImport
       parentRoute: typeof rootRoute
     }
+    '/wallet-details/recharge': {
+      id: '/wallet-details/recharge'
+      path: '/wallet-details/recharge'
+      fullPath: '/wallet-details/recharge'
+      preLoaderRoute: typeof WalletDetailsRechargeImport
+      parentRoute: typeof rootRoute
+    }
+    '/wallet-details/rechargeLog': {
+      id: '/wallet-details/rechargeLog'
+      path: '/wallet-details/rechargeLog'
+      fullPath: '/wallet-details/rechargeLog'
+      preLoaderRoute: typeof WalletDetailsRechargeLogImport
+      parentRoute: typeof rootRoute
+    }
+    '/wallet-details/replenishmentOrder': {
+      id: '/wallet-details/replenishmentOrder'
+      path: '/wallet-details/replenishmentOrder'
+      fullPath: '/wallet-details/replenishmentOrder'
+      preLoaderRoute: typeof WalletDetailsReplenishmentOrderImport
+      parentRoute: typeof rootRoute
+    }
     '/home/': {
       id: '/home/'
       path: '/'
@@ -219,6 +255,13 @@ declare module '@tanstack/react-router' {
       path: '/intive'
       fullPath: '/intive'
       preLoaderRoute: typeof IntiveIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/wallet-details/': {
+      id: '/wallet-details/'
+      path: '/wallet-details'
+      fullPath: '/wallet-details'
+      preLoaderRoute: typeof WalletDetailsIndexImport
       parentRoute: typeof rootRoute
     }
     '/home/ai-power/': {
@@ -258,14 +301,17 @@ export interface FileRoutesByFullPath {
   '/home': typeof HomeRouteWithChildren
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
-  '/wallet-details': typeof WalletDetailsRoute
   '/ai-power/revenue-details': typeof AiPowerRevenueDetailsRoute
   '/home/category': typeof HomeCategoryRoute
   '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
   '/intive/invite-list': typeof IntiveInviteListRoute
+  '/wallet-details/recharge': typeof WalletDetailsRechargeRoute
+  '/wallet-details/rechargeLog': typeof WalletDetailsRechargeLogRoute
+  '/wallet-details/replenishmentOrder': typeof WalletDetailsReplenishmentOrderRoute
   '/home/': typeof HomeIndexRoute
   '/intive': typeof IntiveIndexRoute
+  '/wallet-details': typeof WalletDetailsIndexRoute
   '/home/ai-power': typeof HomeAiPowerIndexRoute
 }
 
@@ -275,14 +321,17 @@ export interface FileRoutesByTo {
   '/cart': typeof CartRoute
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
-  '/wallet-details': typeof WalletDetailsRoute
   '/ai-power/revenue-details': typeof AiPowerRevenueDetailsRoute
   '/home/category': typeof HomeCategoryRoute
   '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
   '/intive/invite-list': typeof IntiveInviteListRoute
+  '/wallet-details/recharge': typeof WalletDetailsRechargeRoute
+  '/wallet-details/rechargeLog': typeof WalletDetailsRechargeLogRoute
+  '/wallet-details/replenishmentOrder': typeof WalletDetailsReplenishmentOrderRoute
   '/home': typeof HomeIndexRoute
   '/intive': typeof IntiveIndexRoute
+  '/wallet-details': typeof WalletDetailsIndexRoute
   '/home/ai-power': typeof HomeAiPowerIndexRoute
 }
 
@@ -294,14 +343,17 @@ export interface FileRoutesById {
   '/home': typeof HomeRouteWithChildren
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
-  '/wallet-details': typeof WalletDetailsRoute
   '/ai-power/revenue-details': typeof AiPowerRevenueDetailsRoute
   '/home/category': typeof HomeCategoryRoute
   '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
   '/intive/invite-list': typeof IntiveInviteListRoute
+  '/wallet-details/recharge': typeof WalletDetailsRechargeRoute
+  '/wallet-details/rechargeLog': typeof WalletDetailsRechargeLogRoute
+  '/wallet-details/replenishmentOrder': typeof WalletDetailsReplenishmentOrderRoute
   '/home/': typeof HomeIndexRoute
   '/intive/': typeof IntiveIndexRoute
+  '/wallet-details/': typeof WalletDetailsIndexRoute
   '/home/ai-power/': typeof HomeAiPowerIndexRoute
 }
 
@@ -314,14 +366,17 @@ export interface FileRouteTypes {
     | '/home'
     | '/order'
     | '/product'
-    | '/wallet-details'
     | '/ai-power/revenue-details'
     | '/home/category'
     | '/home/log'
     | '/home/mine'
     | '/intive/invite-list'
+    | '/wallet-details/recharge'
+    | '/wallet-details/rechargeLog'
+    | '/wallet-details/replenishmentOrder'
     | '/home/'
     | '/intive'
+    | '/wallet-details'
     | '/home/ai-power'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -330,14 +385,17 @@ export interface FileRouteTypes {
     | '/cart'
     | '/order'
     | '/product'
-    | '/wallet-details'
     | '/ai-power/revenue-details'
     | '/home/category'
     | '/home/log'
     | '/home/mine'
     | '/intive/invite-list'
+    | '/wallet-details/recharge'
+    | '/wallet-details/rechargeLog'
+    | '/wallet-details/replenishmentOrder'
     | '/home'
     | '/intive'
+    | '/wallet-details'
     | '/home/ai-power'
   id:
     | '__root__'
@@ -347,14 +405,17 @@ export interface FileRouteTypes {
     | '/home'
     | '/order'
     | '/product'
-    | '/wallet-details'
     | '/ai-power/revenue-details'
     | '/home/category'
     | '/home/log'
     | '/home/mine'
     | '/intive/invite-list'
+    | '/wallet-details/recharge'
+    | '/wallet-details/rechargeLog'
+    | '/wallet-details/replenishmentOrder'
     | '/home/'
     | '/intive/'
+    | '/wallet-details/'
     | '/home/ai-power/'
   fileRoutesById: FileRoutesById
 }
@@ -366,10 +427,13 @@ export interface RootRouteChildren {
   HomeRoute: typeof HomeRouteWithChildren
   OrderRoute: typeof OrderRoute
   ProductRoute: typeof ProductRoute
-  WalletDetailsRoute: typeof WalletDetailsRoute
   AiPowerRevenueDetailsRoute: typeof AiPowerRevenueDetailsRoute
   IntiveInviteListRoute: typeof IntiveInviteListRoute
+  WalletDetailsRechargeRoute: typeof WalletDetailsRechargeRoute
+  WalletDetailsRechargeLogRoute: typeof WalletDetailsRechargeLogRoute
+  WalletDetailsReplenishmentOrderRoute: typeof WalletDetailsReplenishmentOrderRoute
   IntiveIndexRoute: typeof IntiveIndexRoute
+  WalletDetailsIndexRoute: typeof WalletDetailsIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -379,10 +443,13 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRouteWithChildren,
   OrderRoute: OrderRoute,
   ProductRoute: ProductRoute,
-  WalletDetailsRoute: WalletDetailsRoute,
   AiPowerRevenueDetailsRoute: AiPowerRevenueDetailsRoute,
   IntiveInviteListRoute: IntiveInviteListRoute,
+  WalletDetailsRechargeRoute: WalletDetailsRechargeRoute,
+  WalletDetailsRechargeLogRoute: WalletDetailsRechargeLogRoute,
+  WalletDetailsReplenishmentOrderRoute: WalletDetailsReplenishmentOrderRoute,
   IntiveIndexRoute: IntiveIndexRoute,
+  WalletDetailsIndexRoute: WalletDetailsIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -401,10 +468,13 @@ export const routeTree = rootRoute
         "/home",
         "/order",
         "/product",
-        "/wallet-details",
         "/ai-power/revenue-details",
         "/intive/invite-list",
-        "/intive/"
+        "/wallet-details/recharge",
+        "/wallet-details/rechargeLog",
+        "/wallet-details/replenishmentOrder",
+        "/intive/",
+        "/wallet-details/"
       ]
     },
     "/": {
@@ -432,9 +502,6 @@ export const routeTree = rootRoute
     "/product": {
       "filePath": "product.tsx"
     },
-    "/wallet-details": {
-      "filePath": "wallet-details.tsx"
-    },
     "/ai-power/revenue-details": {
       "filePath": "ai-power/revenue-details.tsx"
     },
@@ -453,12 +520,24 @@ export const routeTree = rootRoute
     "/intive/invite-list": {
       "filePath": "intive/invite-list.tsx"
     },
+    "/wallet-details/recharge": {
+      "filePath": "wallet-details/recharge.tsx"
+    },
+    "/wallet-details/rechargeLog": {
+      "filePath": "wallet-details/rechargeLog.tsx"
+    },
+    "/wallet-details/replenishmentOrder": {
+      "filePath": "wallet-details/replenishmentOrder.tsx"
+    },
     "/home/": {
       "filePath": "home/index.tsx",
       "parent": "/home"
     },
     "/intive/": {
       "filePath": "intive/index.tsx"
+    },
+    "/wallet-details/": {
+      "filePath": "wallet-details/index.tsx"
     },
     "/home/ai-power/": {
       "filePath": "home/ai-power/index.tsx",

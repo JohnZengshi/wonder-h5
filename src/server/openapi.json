@@ -2514,7 +2514,7 @@
                     {
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/BaseResultOfFileModel"
+                          "$ref": "#/components/schemas/FileModel"
                         }
                       }
                     }
@@ -4158,25 +4158,6 @@
           }
         },
         "description": "Banner"
-      },
-      "BaseResultOfFileModel": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "data": {
-            "$ref": "#/components/schemas/FileModel"
-          },
-          "msg": {
-            "type": "string"
-          },
-          "timeMillis": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
       },
       "CancelAnOrderReq": {
         "type": "object",

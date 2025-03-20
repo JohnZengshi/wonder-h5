@@ -8,6 +8,7 @@ import CustomIcon from "@/components/CustomIcon";
 import { useAsyncEffect } from "ahooks";
 import { components } from "@/server/api";
 import FetchClient from "@/server";
+import { downloadImage } from "@/utils";
 
 export const Route = createFileRoute("/intive/")({
   component: RouteComponent,
@@ -37,7 +38,7 @@ function RouteComponent() {
 
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/account/recommender", {
-      params: { query: { pageNum: 1, pageSize: 99 } },
+      params: { query: { pageNum: 1, pageSize: 10 } },
     });
     setUserInfo(data?.data?.user);
     const inviteLink = `${import.meta.env.VITE_APP_BASE_URL}?inviteCode=${data?.data?.user?.shareCode}`;
@@ -142,7 +143,18 @@ function RouteComponent() {
           这里是一段小字这里是一段小字这里是一段小字这里是一段小字这里是一段小字
         </span>
 
-        <div className="w-[230px] h-[230px] bg-white mt-[44px] p-[10px] rounded-[10px]">
+        <div
+          className="w-[230px] h-[230px] bg-white mt-[44px] p-[10px] rounded-[10px]"
+          onClick={async () => {
+            try {
+              await downloadImage(qrCodeUrl, "intive_qr");
+              Toast.show("保存成功");
+            } catch (err) {
+              Toast.show("保存失败");
+              console.error("保存二维码失败:", err);
+            }
+          }}
+        >
           <img src={qrCodeUrl} alt="邀请二维码" ref={qrCodeRef} />
         </div>
 

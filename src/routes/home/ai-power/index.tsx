@@ -7,6 +7,7 @@ import { useAsyncEffect } from "ahooks";
 import { Empty, ProgressBar, Segmented } from "antd-mobile";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import ai1_gif from "@/assets/AI/1.gif";
 
 export const Route = createFileRoute("/home/ai-power/")({
   component: RouteComponent,
@@ -17,8 +18,9 @@ function RouteComponent() {
   const [statistics, setStatistics] =
     useState<components["schemas"]["MiningMachineCountDTO"]>();
 
-  const [miningMachineList, setMiningMachineList] =
-    useState<components["schemas"]["UserMiningMachine对象"][]>();
+  const [miningMachineList, setMiningMachineList] = useState<
+    components["schemas"]["UserMiningMachine对象"][]
+  >([{}]);
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET(
       "/api/user-mining-machine/miningMachineStatistics"
@@ -34,7 +36,7 @@ function RouteComponent() {
       "/api/user-mining-machine/miningMachineList",
       { params: { query: { status } } }
     );
-    setMiningMachineList(data?.data);
+    // setMiningMachineList(data?.data);
   }
   return (
     <div className="flex flex-col px-[14px] py-[12px]">
@@ -88,67 +90,109 @@ function RouteComponent() {
       </div>
 
       <ul className="mt-[12px] flex flex-col gap-[12px]">
-        {miningMachineList?.map((v, index) => (
-          <li
-            key={index}
-            className="flex flex-col border-[#4B525C] border p-[12px] rounded-[10px] relative overflow-hidden"
-          >
-            <div className="flex items-center gap-[14px]">
-              <div className="w-[84px] h-[84px] bg-[#3C3C3C] rounded-[10px]"></div>
-              <ul className="flex flex-col gap-[4px]">
+        {miningMachineList?.map((v, index) => {
+          // 计算时间进度百分比
+          const start = new Date(v.startTime || 0).getTime();
+          const end = new Date(v.endTime || 0).getTime();
+          const now = Date.now();
+          const percent =
+            start >= end
+              ? 0
+              : now < start
+                ? 0
+                : now > end
+                  ? 100
+                  : Number((((now - start) / (end - start)) * 100).toFixed(2));
+
+          // 根据进度选择视频（2-7对应0%-100%）
+          const videoNumber = Math.min(
+            7,
+            Math.max(2, Math.floor(percent / 20) + 2)
+          );
+          const videoSrc = new URL(
+            `../../../../assets/AI/${videoNumber}.mp4`,
+            import.meta.url
+          ).href;
+          return (
+            <li
+              key={index}
+              className="flex flex-col border-[#4B525C] border p-[12px] rounded-[10px] relative overflow-hidden"
+            >
+              <div className="flex items-center gap-[14px]">
+                <div className="w-[84px] h-[84px] rounded-[10px]">
+                  {/* <img
+                src={ai1_gif}
+                alt=""
+                className="w-full h-full object-cover"
+              /> */}
+                  <video
+                    src={videoSrc}
+                    className="w-full h-full object-cover"
+                    autoPlay
+                    loop
+                    muted
+                  />
+                </div>
+                <ul className="flex flex-col gap-[4px]">
+                  {[
+                    { label: "型号：", value: v.machineName },
+                    { label: "周期：", value: v.validDays },
+                    { label: "购买金额：", value: v.purchasePrice },
+                    { label: "预计收益：", value: v.totalReward },
+                    { label: "总收益：", value: v.earnedReward },
+                  ].map((v, index) => (
+                    <li className="flex items-center gap-[4px]" key={index}>
+                      <span className="text-[12px] text-[#999999]">
+                        {v.label}
+                      </span>
+                      <span className="text-[12px]">{v.value}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="w-full h-[1px] bg-[#FFFFFF] opacity-10 my-[8px]"></div>
+              <div className="flex flex-col gap-[6px]">
                 {[
-                  { label: "型号：", value: v.machineName },
-                  { label: "周期：", value: v.validDays },
-                  { label: "购买金额：", value: v.purchasePrice },
-                  { label: "预计收益：", value: v.totalReward },
-                  { label: "总收益：", value: v.earnedReward },
+                  { label: "购买时间：", value: v.purchaseTime },
+                  { label: "结束时间：", value: v.endTime },
                 ].map((v, index) => (
-                  <li className="flex items-center gap-[4px]" key={index}>
-                    <span className="text-[12px] text-[#999999]">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
+                    <span className="text-[10px] text-[#999999]">
                       {v.label}
                     </span>
-                    <span className="text-[12px]">{v.value}</span>
-                  </li>
+                    <span className="text-[10px]">{v.value}</span>
+                  </div>
                 ))}
-              </ul>
-            </div>
-            <div className="w-full h-[1px] bg-[#FFFFFF] opacity-10 my-[8px]"></div>
-            <div className="flex flex-col gap-[6px]">
-              {[
-                { label: "购买时间：", value: "2025.03.08 20:27:36" },
-                { label: "结束时间：", value: "2025.03.08 20:27:36" },
-              ].map((v, index) => (
-                <div key={index} className="flex items-center justify-between">
-                  <span className="text-[10px] text-[#999999]">{v.label}</span>
-                  <span className="text-[10px]">{v.value}</span>
-                </div>
-              ))}
-            </div>
-            <ProgressBar
-              percent={50}
-              className="mt-[4px]"
-              style={{
-                "--track-width": "4px",
-              }}
-            />
+              </div>
+              <ProgressBar
+                percent={percent}
+                className="mt-[4px]"
+                style={{
+                  "--track-width": "4px",
+                }}
+              />
 
-            <div
-              className={clsx(
-                css`
-                  border-radius: 0px 9px 0px 10px;
-                  opacity: 1;
-                  background: #000000;
-                  box-shadow:
-                    inset -1.73px -1.73px 12.94px 0px rgba(255, 62, 201, 0.3),
-                    inset 1.73px 1.73px 12.94px 0px rgba(255, 62, 201, 0.3);
-                `,
-                "w-[55px] h-[22px] flex items-center justify-center absolute right-0 top-0"
-              )}
-            >
-              <span className="text-[10px] text-[#9795E9]">进行中</span>
-            </div>
-          </li>
-        ))}
+              <div
+                className={clsx(
+                  css`
+                    border-radius: 0px 9px 0px 10px;
+                    opacity: 1;
+                    background: #000000;
+                    box-shadow:
+                      inset -1.73px -1.73px 12.94px 0px rgba(255, 62, 201, 0.3),
+                      inset 1.73px 1.73px 12.94px 0px rgba(255, 62, 201, 0.3);
+                  `,
+                  "w-[55px] h-[22px] flex items-center justify-center absolute right-0 top-0"
+                )}
+              >
+                <span className="text-[10px] text-[#9795E9]">进行中</span>
+              </div>
+            </li>
+          );
+        })}
 
         {miningMachineList?.length == 0 && (
           <div className="min-h-[50vh] flex items-center justify-center">
