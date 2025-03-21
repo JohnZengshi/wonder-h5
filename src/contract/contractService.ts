@@ -22,9 +22,17 @@ import tronBusinessAbi from "@/contract/tron.json";
 
 import { BaseError } from "wagmi";
 import { wagmiAdapter } from "@/AppKitProvider";
-import { bsc } from "viem/chains";
+import { bsc, bscTestnet, tron } from "viem/chains";
 import { addChain } from "viem/actions";
-import { createWalletClient, custom } from "viem";
+import { Chain, createWalletClient, custom } from "viem";
+/*
+ * @LastEditors: John
+ * @Date: 2024-06-21 16:08:23
+ * @LastEditTime: 2024-06-21 16:12:31
+ * @Author: John
+ */
+import { useRef, useState } from "react";
+import { tronTestnet } from "@/network";
 
 const config = wagmiAdapter.wagmiConfig;
 
@@ -42,7 +50,7 @@ type ChainConfig = {
 
 const CHAIN_CONFIG: Record<number, ChainConfig> = {
   // BSC 链配置（示例ID，请替换实际链ID）
-  56: {
+  97: {
     usdt: {
       abi: bscUsdtAbi,
       address: import.meta.env.VITE_BSC_USDT_ADDRESS,
@@ -67,10 +75,11 @@ const CHAIN_CONFIG: Record<number, ChainConfig> = {
 // 获取当前链配置
 async function getChainConfig(): Promise<ChainConfig> {
   // const chainId = getAccount(config).chain?.id;
+
   let chainId = getChainId(config);
-  console.log("当前链ID：", chainId);
-  console.log("USDT合约地址：", CHAIN_CONFIG[chainId]?.usdt.address); // 新增调试日志
-  console.log("业务合约地址：", CHAIN_CONFIG[chainId]?.business.address);
+  // console.log("当前链ID：", chainId);
+  // console.log("USDT合约地址：", CHAIN_CONFIG[chainId]?.usdt.address); // 新增调试日志
+  // console.log("业务合约地址：", CHAIN_CONFIG[chainId]?.business.address);
 
   if (!chainId || !CHAIN_CONFIG[chainId]) {
     // throw new Error("Unsupported chain");
@@ -205,7 +214,19 @@ export const authorizedU = async (uNum: bigint) => {
  * @param amount
  * @param orderID
  */
-export async function payByContract(amount: bigint, orderID: string) {
+export async function payByContract(
+  amount: bigint,
+  orderID: string,
+  chainType: "bsc" | "tron"
+) {
+  var chain: Chain;
+  if (import.meta.env.DEV) {
+    chain = chainType == "bsc" ? bscTestnet : tronTestnet;
+  } else {
+    chain = chainType == "bsc" ? bsc : tron;
+  }
+  await ensureCorrectNetwork(chain); // 传入目标链
+
   const currentConfig = await getChainConfig();
   console.log("pay buy contract params", { amount, orderID });
   console.log("NETWORK_USDT:", currentConfig.usdt.address);
@@ -213,6 +234,7 @@ export async function payByContract(amount: bigint, orderID: string) {
   return new Promise<string>(async (reslove, reject) => {
     try {
       const balance = await getBalance();
+      console.log("用户余额:", balance);
       if (balance < amount) {
         console.log("用户代币余额不足");
         reject(new BaseError("余额不足"));
@@ -225,6 +247,9 @@ export async function payByContract(amount: bigint, orderID: string) {
         await authorizedU(amount);
       }
       console.log("参数:", amount, orderID);
+
+      // 使用新的网络切换方法
+
       estimateGas(config, {
         to: currentConfig.business.address,
         data: encodeFunctionData({
@@ -262,4 +287,77 @@ export async function payByContract(amount: bigint, orderID: string) {
       return reject(err);
     }
   });
+}
+
+// 新增通用网络切换方法
+async function ensureCorrectNetwork(chain: Chain) {
+  try {
+    const currentChainId = getChainId(config);
+    console.log("当前网络:", currentChainId, chain.id);
+    if (currentChainId === chain.id) return;
+    // 尝试直接切换网络
+    await switchChain(config, { chainId: chain.id });
+  } catch (switchError) {
+    // 切换失败时添加网络
+    const walletClient = createWalletClient({
+      transport: custom(window.ethereum as any),
+    });
+
+    // 根据目标链ID获取链配置
+    await walletClient.addChain({ chain: chain });
+
+    // 再次尝试切换
+    await switchChain(config, { chainId: chain.id });
+  }
+}
+
+/**
+ * @description: 轮询查询交易,获取nft
+ */
+export function usePollingCheckBuyStatus() {
+  const [transcationStatus, setTranscationStatus] = useState<
+    "success" | undefined
+  >(undefined);
+  const stop = useRef(false);
+
+  function startPollingCheckBuyStatus(hash: string) {
+    setTranscationStatus(undefined);
+    polling(hash);
+  }
+
+  const checkStatus = async (hash: string) => {
+    return new Promise<void>(async (reslove) => {
+      const transactionReceipt = await waitForTransactionReceipt(config, {
+        hash: hash as `0x${string}`,
+      });
+
+      console.log("transaction receipt:", transactionReceipt);
+      if (transactionReceipt.status == "success") {
+        setTranscationStatus("success");
+        stopPollingCheckBuyStatus();
+        reslove();
+        return;
+      }
+
+      setTimeout(() => {
+        reslove();
+      }, 2000);
+    });
+  };
+
+  const polling = async (hash: string) => {
+    await checkStatus(hash);
+    if (stop.current) return;
+    polling(hash);
+  };
+
+  function stopPollingCheckBuyStatus() {
+    stop.current = true;
+  }
+
+  return {
+    transcationStatus,
+    startPollingCheckBuyStatus,
+    stopPollingCheckBuyStatus,
+  };
 }

@@ -1,4 +1,5 @@
 import { css } from "@/lib/emotion";
+import { SpinLoading } from "antd-mobile";
 import clsx from "clsx";
 
 export function BaseBtn({
@@ -9,6 +10,7 @@ export function BaseBtn({
   shadowColor,
   borderColor,
   disabled,
+  loading,
 }: {
   title: string;
   onClick?: () => void;
@@ -17,15 +19,16 @@ export function BaseBtn({
   shadowColor?: string;
   borderColor?: string;
   disabled?: boolean;
+  loading?: boolean;
 }) {
   return (
     <li
-      onClick={() => onClick?.()}
+      onClick={() => !disabled && onClick?.()}
       className={clsx(
-        "flex items-center justify-center gap-[8px] rounded-[10px]",
+        "flex items-center justify-center gap-[8px] rounded-[10px] overflow-hidden",
         css`
           opacity: 1;
-          background: rgba(0, 0, 0, 0.2);
+          background: rgba(0, 0, 0, 1);
           box-sizing: border-box;
           border: 1px solid ${borderColor ?? "#9795e9"};
           box-shadow:
@@ -38,6 +41,9 @@ export function BaseBtn({
         className
       )}
     >
+      {loading && (
+        <SpinLoading className="!w-[20px] !h-[20px]" color="primary" />
+      )}
       <span className="text-[14px]">{title}</span>
       {icon}
     </li>

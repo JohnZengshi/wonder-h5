@@ -1,9 +1,12 @@
 import { BaseBtn } from "@/components/BaseBtn";
-import { payByContract } from "@/contract/contractService";
+import {
+  payByContract,
+  usePollingCheckBuyStatus,
+} from "@/contract/contractService";
 import { css } from "@/lib/emotion";
 import { showNetworkModal } from "@/utils/network";
 import { createFileRoute, Router, useRouter } from "@tanstack/react-router";
-import { NavBar, Toast } from "antd-mobile";
+import { Input, NavBar, SafeArea, Toast } from "antd-mobile";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { coindType } from ".";
@@ -11,6 +14,8 @@ import { useAsyncEffect } from "ahooks";
 import FetchClient from "@/server";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import { parseUnits } from "viem";
+import { bsc, bscTestnet, tron } from "viem/chains";
+import { tronTestnet } from "@/network";
 
 export const Route = createFileRoute("/wallet-details/recharge")({
   component: RouteComponent,
@@ -27,10 +32,37 @@ function RouteComponent() {
   const [rechargeAddress, setRechargeAddress] = useState<string>("");
   const isConnectedRef = useRef(isConnected);
   const addressRef = useRef(address);
+  const [payAmount, setPayAmount] = useState<string>("10");
+
+  const { transcationStatus, startPollingCheckBuyStatus } =
+    usePollingCheckBuyStatus();
+
+  const [paying, setPaying] = useState(false);
   useEffect(() => {
     isConnectedRef.current = isConnected;
     addressRef.current = address;
   }, [isConnected, address]);
+
+  useEffect(() => {
+    if (transcationStatus == "success") {
+      var chainTypeStr = import.meta.env.DEV
+        ? chainType == 1
+          ? bscTestnet.name
+          : tronTestnet.name
+        : chainType == 1
+          ? bsc.name
+          : tron.name;
+      setPaying(false);
+      Toast.show("充值成功");
+      navigate({
+        to: "/wallet-details/rechargeSuccess",
+        search: {
+          anmout: payAmount,
+          chainType: chainTypeStr,
+        },
+      });
+    }
+  }, [transcationStatus, payAmount]);
 
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/user-wallet/rechargeAddress", {
@@ -40,7 +72,7 @@ function RouteComponent() {
     setRechargeAddress(address);
   });
   return (
-    <div className="flex flex-col relative min-h-[100vh] bg-[#141414] pb-[12px]">
+    <div className="flex flex-col relative min-h-[100vh] bg-[#141414] pb-[80px]">
       <NavBar
         className="!h-[44px] bg-transparent"
         onBack={() => window.history.back()}
@@ -91,6 +123,19 @@ function RouteComponent() {
                 }
               }}
             ></i>
+          </div>
+        </div>
+        <div className="flex flex-col gap-[8px] w-full mt-[16px]">
+          <span className="text-[#999999] text-[14px]">付款金额</span>
+          <div className="flex items-center h-[44px] rounded-[10px] px-[18px] border-[#4B525C] border">
+            <Input
+              type="number"
+              min={10}
+              className="flex-auto"
+              value={payAmount}
+              onChange={setPayAmount}
+            />
+            <span className="text-[16px] text-[#999999]">USDT</span>
           </div>
         </div>
         <div className="flex flex-col gap-[8px] w-full mt-[16px]">
@@ -199,6 +244,7 @@ function RouteComponent() {
           <p>ARBITRUM与OPTIMISM网络充值USDT。</p>
         </div>
       </div>
+      <SafeArea position="bottom" />
       <div className="flex flex-col px-[13px] py-[17px] fixed bottom-0 left-0 w-full">
         <div className="flex items-center gap-[18px] w-full">
           <BaseBtn
@@ -214,6 +260,8 @@ function RouteComponent() {
             }}
           />
           <BaseBtn
+            disabled={paying}
+            loading={paying}
             title="立即充值"
             className="flex-1 h-[44px]"
             borderColor="#FFA2E5"
@@ -243,13 +291,12 @@ function RouteComponent() {
                 });
               }
               console.log("钱包已连接");
-              var amount = 0.01;
               const { data } = await FetchClient.POST(
                 "/api/user-wallet/topUp",
                 {
                   params: {
                     query: {
-                      amount: amount.toString(),
+                      amount: payAmount.toString(),
                       coinId: chainType,
                       paymentAddress: addressRef.current,
                       type: 2,
@@ -258,10 +305,21 @@ function RouteComponent() {
                 }
               );
               var order = data?.data?.orderNumber;
+              var amount = data?.data?.amount;
               if (!order) return;
-              const amountWei = parseUnits(amount.toFixed(18), 18);
-              var res = await payByContract(amountWei, order);
-              console.log("=========>", res);
+              const amountWei = parseUnits(Number(amount).toFixed(18), 18);
+              try {
+                setPaying(true);
+                var res = await payByContract(
+                  amountWei,
+                  order,
+                  chainType == 1 ? "bsc" : "tron"
+                );
+                startPollingCheckBuyStatus(res);
+              } catch (error) {
+                setPaying(false);
+                Toast.show("充值失败");
+              }
             }}
           />
         </div>

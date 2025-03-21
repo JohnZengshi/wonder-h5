@@ -12,7 +12,6 @@ import { showWithdrawModal } from "@/utils/withdraw";
 import { showPaymentPassword } from "@/utils/payment";
 import { Md5 } from "ts-md5";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
-import { payByContract } from "@/contract/contractService";
 import { bytesToBigInt, numberToBytes, parseUnits, weiUnits } from "viem";
 
 export type coindType = { type: "points" | "token" };

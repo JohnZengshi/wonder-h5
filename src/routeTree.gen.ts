@@ -21,6 +21,7 @@ import { Route as WalletDetailsIndexImport } from './routes/wallet-details/index
 import { Route as IntiveIndexImport } from './routes/intive/index'
 import { Route as HomeIndexImport } from './routes/home/index'
 import { Route as WalletDetailsReplenishmentOrderImport } from './routes/wallet-details/replenishmentOrder'
+import { Route as WalletDetailsRechargeSuccessImport } from './routes/wallet-details/rechargeSuccess'
 import { Route as WalletDetailsRechargeLogImport } from './routes/wallet-details/rechargeLog'
 import { Route as WalletDetailsRechargeImport } from './routes/wallet-details/recharge'
 import { Route as IntiveInviteListImport } from './routes/intive/invite-list'
@@ -90,6 +91,13 @@ const WalletDetailsReplenishmentOrderRoute =
   WalletDetailsReplenishmentOrderImport.update({
     id: '/wallet-details/replenishmentOrder',
     path: '/wallet-details/replenishmentOrder',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const WalletDetailsRechargeSuccessRoute =
+  WalletDetailsRechargeSuccessImport.update({
+    id: '/wallet-details/rechargeSuccess',
+    path: '/wallet-details/rechargeSuccess',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -236,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WalletDetailsRechargeLogImport
       parentRoute: typeof rootRoute
     }
+    '/wallet-details/rechargeSuccess': {
+      id: '/wallet-details/rechargeSuccess'
+      path: '/wallet-details/rechargeSuccess'
+      fullPath: '/wallet-details/rechargeSuccess'
+      preLoaderRoute: typeof WalletDetailsRechargeSuccessImport
+      parentRoute: typeof rootRoute
+    }
     '/wallet-details/replenishmentOrder': {
       id: '/wallet-details/replenishmentOrder'
       path: '/wallet-details/replenishmentOrder'
@@ -308,6 +323,7 @@ export interface FileRoutesByFullPath {
   '/intive/invite-list': typeof IntiveInviteListRoute
   '/wallet-details/recharge': typeof WalletDetailsRechargeRoute
   '/wallet-details/rechargeLog': typeof WalletDetailsRechargeLogRoute
+  '/wallet-details/rechargeSuccess': typeof WalletDetailsRechargeSuccessRoute
   '/wallet-details/replenishmentOrder': typeof WalletDetailsReplenishmentOrderRoute
   '/home/': typeof HomeIndexRoute
   '/intive': typeof IntiveIndexRoute
@@ -328,6 +344,7 @@ export interface FileRoutesByTo {
   '/intive/invite-list': typeof IntiveInviteListRoute
   '/wallet-details/recharge': typeof WalletDetailsRechargeRoute
   '/wallet-details/rechargeLog': typeof WalletDetailsRechargeLogRoute
+  '/wallet-details/rechargeSuccess': typeof WalletDetailsRechargeSuccessRoute
   '/wallet-details/replenishmentOrder': typeof WalletDetailsReplenishmentOrderRoute
   '/home': typeof HomeIndexRoute
   '/intive': typeof IntiveIndexRoute
@@ -350,6 +367,7 @@ export interface FileRoutesById {
   '/intive/invite-list': typeof IntiveInviteListRoute
   '/wallet-details/recharge': typeof WalletDetailsRechargeRoute
   '/wallet-details/rechargeLog': typeof WalletDetailsRechargeLogRoute
+  '/wallet-details/rechargeSuccess': typeof WalletDetailsRechargeSuccessRoute
   '/wallet-details/replenishmentOrder': typeof WalletDetailsReplenishmentOrderRoute
   '/home/': typeof HomeIndexRoute
   '/intive/': typeof IntiveIndexRoute
@@ -373,6 +391,7 @@ export interface FileRouteTypes {
     | '/intive/invite-list'
     | '/wallet-details/recharge'
     | '/wallet-details/rechargeLog'
+    | '/wallet-details/rechargeSuccess'
     | '/wallet-details/replenishmentOrder'
     | '/home/'
     | '/intive'
@@ -392,6 +411,7 @@ export interface FileRouteTypes {
     | '/intive/invite-list'
     | '/wallet-details/recharge'
     | '/wallet-details/rechargeLog'
+    | '/wallet-details/rechargeSuccess'
     | '/wallet-details/replenishmentOrder'
     | '/home'
     | '/intive'
@@ -412,6 +432,7 @@ export interface FileRouteTypes {
     | '/intive/invite-list'
     | '/wallet-details/recharge'
     | '/wallet-details/rechargeLog'
+    | '/wallet-details/rechargeSuccess'
     | '/wallet-details/replenishmentOrder'
     | '/home/'
     | '/intive/'
@@ -431,6 +452,7 @@ export interface RootRouteChildren {
   IntiveInviteListRoute: typeof IntiveInviteListRoute
   WalletDetailsRechargeRoute: typeof WalletDetailsRechargeRoute
   WalletDetailsRechargeLogRoute: typeof WalletDetailsRechargeLogRoute
+  WalletDetailsRechargeSuccessRoute: typeof WalletDetailsRechargeSuccessRoute
   WalletDetailsReplenishmentOrderRoute: typeof WalletDetailsReplenishmentOrderRoute
   IntiveIndexRoute: typeof IntiveIndexRoute
   WalletDetailsIndexRoute: typeof WalletDetailsIndexRoute
@@ -447,6 +469,7 @@ const rootRouteChildren: RootRouteChildren = {
   IntiveInviteListRoute: IntiveInviteListRoute,
   WalletDetailsRechargeRoute: WalletDetailsRechargeRoute,
   WalletDetailsRechargeLogRoute: WalletDetailsRechargeLogRoute,
+  WalletDetailsRechargeSuccessRoute: WalletDetailsRechargeSuccessRoute,
   WalletDetailsReplenishmentOrderRoute: WalletDetailsReplenishmentOrderRoute,
   IntiveIndexRoute: IntiveIndexRoute,
   WalletDetailsIndexRoute: WalletDetailsIndexRoute,
@@ -472,6 +495,7 @@ export const routeTree = rootRoute
         "/intive/invite-list",
         "/wallet-details/recharge",
         "/wallet-details/rechargeLog",
+        "/wallet-details/rechargeSuccess",
         "/wallet-details/replenishmentOrder",
         "/intive/",
         "/wallet-details/"
@@ -525,6 +549,9 @@ export const routeTree = rootRoute
     },
     "/wallet-details/rechargeLog": {
       "filePath": "wallet-details/rechargeLog.tsx"
+    },
+    "/wallet-details/rechargeSuccess": {
+      "filePath": "wallet-details/rechargeSuccess.tsx"
     },
     "/wallet-details/replenishmentOrder": {
       "filePath": "wallet-details/replenishmentOrder.tsx"
