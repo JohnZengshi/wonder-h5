@@ -1,3 +1,4 @@
+
 USDT合约地址：0x9b2263D9565c5a0b872ad566b286Cb4A280d4e88
 
 
@@ -368,17 +369,53 @@ USDT合约地址：0x9b2263D9565c5a0b872ad566b286Cb4A280d4e88
 ]
 
 合约方法：pay(uint256 orderId, uint256 amount)
-业务合约地址：TDt3EcTQVKioZRtaEH8BnRRPF3Ew4sn2ZM
+业务合约地址：0x938F448DA0085eE724fffc4e83EB1140fCc64812
 [
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
+				"internalType": "uint256",
+				"name": "orderId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
 			}
 		],
-		"name": "balanceOf",
+		"name": "pay",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "orderId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "PaymentMade",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "getTokenBalance",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -387,59 +424,6 @@ USDT合约地址：0x9b2263D9565c5a0b872ad566b286Cb4A280d4e88
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "recipient",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "transfer",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "sender",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "recipient",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "transferFrom",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]
