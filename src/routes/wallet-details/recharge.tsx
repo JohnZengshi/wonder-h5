@@ -13,9 +13,10 @@ import { coindType } from ".";
 import { useAsyncEffect } from "ahooks";
 import FetchClient from "@/server";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
-import { parseUnits } from "viem";
+import { BaseError, parseUnits } from "viem";
 import { bsc, bscTestnet, tron } from "viem/chains";
 import { tronTestnet } from "@/network";
+import { useDisconnect } from "wagmi";
 
 export const Route = createFileRoute("/wallet-details/recharge")({
   component: RouteComponent,
@@ -28,6 +29,7 @@ function RouteComponent() {
     useAppKitAccount();
   const { type } = Route.useSearch();
   const { navigate } = useRouter();
+  const { disconnect } = useDisconnect();
   const [chainType, setChainType] = useState<1 | 2>(1);
   const [rechargeAddress, setRechargeAddress] = useState<string>("");
   const isConnectedRef = useRef(isConnected);
@@ -54,6 +56,7 @@ function RouteComponent() {
           : tron.name;
       setPaying(false);
       Toast.show("充值成功");
+      disconnect();
       navigate({
         to: "/wallet-details/rechargeSuccess",
         search: {
@@ -317,8 +320,13 @@ function RouteComponent() {
                 );
                 startPollingCheckBuyStatus(res);
               } catch (error) {
+                var _error = error as BaseError;
                 setPaying(false);
-                Toast.show("充值失败");
+                console.log(_error);
+                disconnect();
+                Toast.show(
+                  _error.details ?? _error.shortMessage ?? _error.message
+                );
               }
             }}
           />

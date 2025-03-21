@@ -220,10 +220,10 @@ export async function payByContract(
   chainType: "bsc" | "tron"
 ) {
   var chain: Chain;
-  if (import.meta.env.DEV) {
-    chain = chainType == "bsc" ? bscTestnet : tronTestnet;
-  } else {
+  if (import.meta.env.MODE == "production") {
     chain = chainType == "bsc" ? bsc : tron;
+  } else {
+    chain = chainType == "bsc" ? bscTestnet : tronTestnet;
   }
   await ensureCorrectNetwork(chain); // 传入目标链
 

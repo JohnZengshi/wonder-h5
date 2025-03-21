@@ -84,10 +84,25 @@ function RouteComponent() {
             title="充值"
             icon={<span className="i-hugeicons-download-01 text-[24px]"></span>}
             onClick={async () => {
-              navigate({
-                to: "/wallet-details/recharge",
-                search: { type: type },
-              });
+              // 判断移动端H5环境
+              const isMobileBrowser = /Mobi|Android|iPhone/i.test(
+                navigator.userAgent
+              );
+
+              if (isMobileBrowser) {
+                // 移动端使用 MetaMask deep link
+                const { origin, pathname } = window.location;
+                const targetUrl = encodeURIComponent(
+                  `${origin}${pathname}#/wallet-details/recharge`
+                );
+                window.location.href = `imtokenv2://navigate/DappView?url=${targetUrl}`;
+              } else {
+                // PC端保持原有导航逻辑
+                navigate({
+                  to: "/wallet-details/recharge",
+                  search: { type: type },
+                });
+              }
             }}
           />
           <BaseBtn

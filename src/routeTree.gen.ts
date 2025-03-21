@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as ProductImport } from './routes/product'
 import { Route as OrderImport } from './routes/order'
+import { Route as LoginImport } from './routes/login'
 import { Route as HomeImport } from './routes/home'
 import { Route as CartImport } from './routes/cart'
 import { Route as CardSecretsImport } from './routes/card-secrets'
@@ -42,6 +43,12 @@ const ProductRoute = ProductImport.update({
 const OrderRoute = OrderImport.update({
   id: '/order',
   path: '/order',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -181,6 +188,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
     '/order': {
       id: '/order'
       path: '/order'
@@ -314,6 +328,7 @@ export interface FileRoutesByFullPath {
   '/card-secrets': typeof CardSecretsRoute
   '/cart': typeof CartRoute
   '/home': typeof HomeRouteWithChildren
+  '/login': typeof LoginRoute
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/ai-power/revenue-details': typeof AiPowerRevenueDetailsRoute
@@ -335,6 +350,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/card-secrets': typeof CardSecretsRoute
   '/cart': typeof CartRoute
+  '/login': typeof LoginRoute
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/ai-power/revenue-details': typeof AiPowerRevenueDetailsRoute
@@ -358,6 +374,7 @@ export interface FileRoutesById {
   '/card-secrets': typeof CardSecretsRoute
   '/cart': typeof CartRoute
   '/home': typeof HomeRouteWithChildren
+  '/login': typeof LoginRoute
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/ai-power/revenue-details': typeof AiPowerRevenueDetailsRoute
@@ -382,6 +399,7 @@ export interface FileRouteTypes {
     | '/card-secrets'
     | '/cart'
     | '/home'
+    | '/login'
     | '/order'
     | '/product'
     | '/ai-power/revenue-details'
@@ -402,6 +420,7 @@ export interface FileRouteTypes {
     | '/'
     | '/card-secrets'
     | '/cart'
+    | '/login'
     | '/order'
     | '/product'
     | '/ai-power/revenue-details'
@@ -423,6 +442,7 @@ export interface FileRouteTypes {
     | '/card-secrets'
     | '/cart'
     | '/home'
+    | '/login'
     | '/order'
     | '/product'
     | '/ai-power/revenue-details'
@@ -446,6 +466,7 @@ export interface RootRouteChildren {
   CardSecretsRoute: typeof CardSecretsRoute
   CartRoute: typeof CartRoute
   HomeRoute: typeof HomeRouteWithChildren
+  LoginRoute: typeof LoginRoute
   OrderRoute: typeof OrderRoute
   ProductRoute: typeof ProductRoute
   AiPowerRevenueDetailsRoute: typeof AiPowerRevenueDetailsRoute
@@ -463,6 +484,7 @@ const rootRouteChildren: RootRouteChildren = {
   CardSecretsRoute: CardSecretsRoute,
   CartRoute: CartRoute,
   HomeRoute: HomeRouteWithChildren,
+  LoginRoute: LoginRoute,
   OrderRoute: OrderRoute,
   ProductRoute: ProductRoute,
   AiPowerRevenueDetailsRoute: AiPowerRevenueDetailsRoute,
@@ -489,6 +511,7 @@ export const routeTree = rootRoute
         "/card-secrets",
         "/cart",
         "/home",
+        "/login",
         "/order",
         "/product",
         "/ai-power/revenue-details",
@@ -519,6 +542,9 @@ export const routeTree = rootRoute
         "/home/",
         "/home/ai-power/"
       ]
+    },
+    "/login": {
+      "filePath": "login.tsx"
     },
     "/order": {
       "filePath": "order.tsx"
