@@ -8,7 +8,7 @@ import { useState } from "react";
 import { coindType } from ".";
 import { useAsyncEffect } from "ahooks";
 import FetchClient from "@/server";
-import useRecharg from "@/utils/useRecharg";
+import useRecharg, { ChainType } from "@/utils/useRecharg";
 import { bsc, bscTestnet, tron } from "viem/chains";
 import { tronTestnet } from "@/network";
 import { FileRouteTypes } from "@/routeTree.gen";
@@ -25,25 +25,26 @@ function RouteComponent() {
   const { type } = Route.useSearch();
   const { navigate } = useRouter();
   const [rechargeAddress, setRechargeAddress] = useState<string>("");
-  const { payAmount, setPayAmount, chainType, setChainType, paying, recharg } =
-    useRecharg({
-      successCallback() {
-        var chainTypeStr = import.meta.env.DEV
-          ? chainType == 1
-            ? bscTestnet.name
-            : tronTestnet.name
-          : chainType == 1
-            ? bsc.name
-            : tron.name;
-        navigate({
-          to: "/wallet-details/success",
-          search: {
-            anmout: payAmount,
-            chainType: chainTypeStr,
-          },
-        });
-      },
-    });
+  const [chainType, setChainType] = useState<ChainType>(1);
+  const [payAmount, setPayAmount] = useState("10");
+  const { paying, recharg } = useRecharg({
+    successCallback() {
+      var chainTypeStr = import.meta.env.DEV
+        ? chainType == 1
+          ? bscTestnet.name
+          : tronTestnet.name
+        : chainType == 1
+          ? bsc.name
+          : tron.name;
+      navigate({
+        to: "/wallet-details/success",
+        search: {
+          anmout: payAmount,
+          chainType: chainTypeStr,
+        },
+      });
+    },
+  });
   const { token, account } = useStore();
 
   useAsyncEffect(async () => {
@@ -271,13 +272,13 @@ function RouteComponent() {
                     );
                     const deeplink =
                       walletType === "metamask"
-                        ? `imtokenv2://navigate/DappView?url=${targetUrl}`
-                        : `metamask://navigate/DappView?url=${targetUrl}`; //TODO 替换为 MetaMask 的 deep link
+                        ? `https://metamask.app.link/dapp/${targetUrl}`
+                        : `imtokenv2://navigate/DappView?url=${targetUrl}`; //TODO 替换为 MetaMask 的 deep link
                     window.location.href = deeplink;
                   },
                 });
               } else {
-                recharg();
+                recharg(chainType, payAmount);
               }
             }}
           />

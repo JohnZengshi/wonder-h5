@@ -15,37 +15,22 @@ import { useEffect, useRef, useState } from "react";
 import { BaseError, parseUnits } from "viem";
 import { bsc, bscTestnet, tron } from "viem/chains";
 
+export type ChainType = 1 | 2; // 1 bsc 2 trx
 /**
  * 充值hook
  * @param param0
  * @returns
  */
-function useRecharg({
-  defaultPayAmount = "10",
-  defaultChainType = 1,
-  successCallback,
-}: {
-  /**
-   * 默认充值金额
-   */
-  defaultPayAmount?: string;
-  /**
-   * 1:bsc 2:tron
-   */
-  defaultChainType?: 1 | 2;
-  successCallback?: () => void;
-}) {
+function useRecharg({ successCallback }: { successCallback?: () => void }) {
   const { open } = useAppKit();
   const { address, isConnected } = useAppKitAccount();
   const isConnectedRef = useRef(isConnected);
   const addressRef = useRef(address);
   const [paying, setPaying] = useState(false);
   const { disconnect } = useDisconnect();
-  const [chainType, setChainType] = useState<1 | 2>(defaultChainType);
   const { navigate } = useRouter();
   const { transcationStatus, startPollingCheckBuyStatus } =
     usePollingCheckBuyStatus();
-  const [payAmount, setPayAmount] = useState<string>(defaultPayAmount);
 
   useEffect(() => {
     isConnectedRef.current = isConnected;
@@ -59,12 +44,12 @@ function useRecharg({
       disconnect();
       successCallback?.();
     }
-  }, [transcationStatus, payAmount]);
+  }, [transcationStatus]);
 
   /**
    * 充值
    */
-  async function recharg() {
+  async function recharg(chainType: ChainType, payAmount: string) {
     if (!isConnected) {
       await open();
       // 等待钱包连接状态更新
@@ -92,7 +77,7 @@ function useRecharg({
     const { data } = await FetchClient.POST("/api/user-wallet/topUp", {
       params: {
         query: {
-          amount: payAmount.toString(),
+          amount: payAmount,
           coinId: chainType,
           paymentAddress: addressRef.current,
           type: 2,
@@ -122,10 +107,10 @@ function useRecharg({
 
   return {
     recharg,
-    payAmount,
-    setPayAmount,
-    chainType,
-    setChainType,
+    // payAmount,
+    // setPayAmount,
+    // chainType,
+    // setChainType,
     paying,
   };
 }

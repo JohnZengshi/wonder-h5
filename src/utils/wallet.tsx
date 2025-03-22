@@ -1,58 +1,96 @@
-import { Dialog } from "antd-mobile";
-import { css } from "@/lib/emotion";
-import metamaskImg from "@/assets/images/metamask.png";
-import imtokenImg from "@/assets/images/imtoken.png";
+// ... existing imports ...
+import ReactDOM from "react-dom/client";
+import { PopupTitle } from "@/components/PopupTitle";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
+import { Popup } from "antd-mobile";
 
 type WalletModalConfig = {
   onConfirm: (walletType: "metamask" | "imtoken") => void;
   onCancel?: () => void;
 };
 
-export function showWalletModal(config: WalletModalConfig) {
-  Dialog.show({
-    content: (
-      <div className="flex flex-col gap-4 p-4">
-        <h3 className="text-center text-[#fff] text-lg">选择钱包</h3>
-        <div className="flex flex-col gap-3">
-          <div
-            className={clsx(
-              "flex items-center gap-3 p-3 rounded-lg",
-              css`
-                background: #1f1f1f;
-                border: 1px solid rgba(145, 250, 255, 0.3);
-                box-shadow: 0 2px 12px rgba(145, 250, 255, 0.1);
-              `
-            )}
-            onClick={() => config.onConfirm("metamask")}
-          >
-            <img src={metamaskImg} className="w-8 h-8" />
-            <span className="text-[#fff]">MetaMask</span>
-          </div>
-          <div
-            className={clsx(
-              "flex items-center gap-3 p-3 rounded-lg",
-              css`
-                background: #1f1f1f;
-                border: 1px solid rgba(145, 250, 255, 0.3);
-                box-shadow: 0 2px 12px rgba(145, 250, 255, 0.1);
-              `
-            )}
-            onClick={() => config.onConfirm("imtoken")}
-          >
-            <img src={imtokenImg} className="w-8 h-8" />
-            <span className="text-[#fff]">ImToken</span>
-          </div>
-        </div>
+let walletRoot: ReactDOM.Root | null = null;
+
+const WalletModal = ({ config }: { config: WalletModalConfig }) => {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    setVisible(true);
+  }, []);
+
+  return (
+    <Popup
+      visible={visible}
+      position="bottom"
+      onMaskClick={() => {
+        setVisible(false);
+        config.onCancel?.();
+      }}
+      bodyStyle={{
+        borderTopLeftRadius: "16px",
+        borderTopRightRadius: "16px",
+        background: "#1E1E1E",
+      }}
+      afterClose={() => destroy()}
+    >
+      <PopupTitle title="选择钱包" onClick={() => setVisible(false)} />
+      <div className="px-[13px] py-[12px] pb-[49px]">
+        <ul className="flex flex-col gap-[12px]">
+          {[
+            {
+              title: "MetaMask",
+              des1: "主流加密货币钱包",
+              key: "metamask" as const,
+            },
+            {
+              title: "ImToken",
+              des1: "安全易用的数字钱包",
+              key: "imtoken" as const,
+            },
+          ].map((v, i) => (
+            <li
+              key={i}
+              className={clsx(
+                "px-[11px] py-[10px] flex items-start gap-[14px] border rounded-[10px]",
+                "border-[#353535] active:border-[#9795E9]"
+              )}
+              onClick={() => {
+                config.onConfirm(v.key);
+                setVisible(false);
+              }}
+            >
+              <div className="w-[40px] h-[40px] bg-slate-500 rounded-lg" />
+              <div className="flex flex-col">
+                <span className="text-[14px] text-white">{v.title}</span>
+                <span className="text-[12px] text-[#999999] mt-[4px]">
+                  {v.des1}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
-    ),
-    closeOnAction: true,
-    actions: [
-      {
-        key: "cancel",
-        text: "取消",
-        className: "text-[#999]",
-      },
-    ],
-  });
+    </Popup>
+  );
+};
+
+const destroy = () => {
+  if (walletRoot) {
+    walletRoot.unmount();
+    walletRoot = null;
+    const container = document.getElementById("wallet-modal");
+    container?.remove();
+  }
+};
+
+export function showWalletModal(config: WalletModalConfig) {
+  destroy();
+
+  const container = document.createElement("div");
+  container.id = "wallet-modal";
+  document.body.appendChild(container);
+  walletRoot = ReactDOM.createRoot(container);
+
+  walletRoot.render(<WalletModal config={config} />);
 }

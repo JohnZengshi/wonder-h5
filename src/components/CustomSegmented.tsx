@@ -1,9 +1,15 @@
 import { css } from "@/lib/emotion";
-import { Segmented, SegmentedProps } from "antd-mobile";
+import clsx from "clsx";
 
-export function CustomSegmented(props: SegmentedProps) {
+type SegmentedProps = {
+  options: Array<{ label: string; value: string | number }>;
+  value?: string | number;
+  onChange?: (value: string | number) => void;
+};
+
+export function CustomSegmented({ options, value, onChange }: SegmentedProps) {
   return (
-    <Segmented
+    <div
       className={css`
         --segmented-item-selected-background: transparent;
         height: 36px;
@@ -18,28 +24,40 @@ export function CustomSegmented(props: SegmentedProps) {
         padding: 4px !important;
         display: flex;
         align-items: center;
-        .adm-segmented-group {
-          height: 28px;
-        }
-        .adm-segmented-item {
-          height: 28px;
-          &.adm-segmented-item-selected {
-            border-radius: 104px;
-            background-color: #9695e934;
-          }
-        }
-        .adm-segmented-item-label {
-          height: 100%;
-          line-height: 28px !important;
-          font-family: Alibaba PuHuiTi 2;
-          font-size: 14px;
-          font-weight: normal;
-          line-height: normal;
-          letter-spacing: 0em;
-          font-variation-settings: "opsz" auto;
-        }
+        gap: 4px;
       `}
-      {...props}
-    />
+    >
+      {options.map((option) => (
+        <button
+          key={option.value}
+          className={clsx(
+            css`
+              height: 28px;
+              border: none;
+              padding: 0 16px;
+              background: transparent;
+              color: #fff;
+              font-family: Alibaba PuHuiTi 2;
+              font-size: 14px;
+              transition: all 0.3s ease;
+              cursor: pointer;
+
+              &:hover {
+                background: rgba(150, 149, 233, 0.1);
+              }
+
+              &.active {
+                border-radius: 104px;
+                background-color: #9695e934;
+              }
+            `,
+            { active: value === option.value }
+          )}
+          onClick={() => onChange?.(option.value)}
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
   );
 }

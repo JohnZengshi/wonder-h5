@@ -1,6 +1,7 @@
 import { BaseBtn } from "@/components/BaseBtn";
 import { css } from "@/lib/emotion";
 import FetchClient from "@/server";
+import { ChainType } from "@/utils/useRecharg";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   ImageUploader,
@@ -14,7 +15,7 @@ import clsx from "clsx";
 import { useState } from "react";
 
 type params = {
-  coinId: 1 | 2;
+  coinId: ChainType;
 };
 export const Route = createFileRoute("/wallet-details/replenishmentOrder")({
   component: RouteComponent,

@@ -7,7 +7,10 @@ import { useAsyncEffect } from "ahooks";
 import { Empty, ProgressBar, Segmented } from "antd-mobile";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
-import ai1_gif from "@/assets/AI/1.gif";
+import gif_1 from "@/assets/AI/1.gif";
+import gif_2 from "@/assets/AI/2.gif";
+import gif_3 from "@/assets/AI/3.gif";
+import gif_4 from "@/assets/AI/4.gif";
 
 export const Route = createFileRoute("/home/ai-power/")({
   component: RouteComponent,
@@ -20,7 +23,29 @@ function RouteComponent() {
 
   const [miningMachineList, setMiningMachineList] = useState<
     components["schemas"]["UserMiningMachine对象"][]
-  >([{}]);
+  >([
+    // {
+    //   startTime: "2025-03-01 00:00:00",
+    //   endTime: "2025-04-15 23:59:59",
+    //   machineName: "A100",
+    //   validDays: 31,
+    //   purchasePrice: "1000 USDT",
+    //   totalReward: "1500 USDT",
+    //   earnedReward: "500 USDT",
+    //   purchaseTime: "2025-03-15 12:00",
+    // },
+    // {
+    //   startTime: "2025-02-10 00:00:00",
+    //   endTime: "2025-03-28 23:59:59",
+    //   machineName: "H100",
+    //   validDays: 92,
+    //   purchasePrice: "2000 USDT",
+    //   totalReward: "3000 USDT",
+    //   earnedReward: "0 USDT",
+    //   purchaseTime: "2025-03-01 09:30",
+    // },
+  ]);
+  const [status, setStatus] = useState(1);
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET(
       "/api/user-mining-machine/miningMachineStatistics"
@@ -32,11 +57,12 @@ function RouteComponent() {
   }, []);
 
   async function fetchMiningMachineList(status: number) {
+    setStatus(status);
     const { data } = await FetchClient.GET(
       "/api/user-mining-machine/miningMachineList",
       { params: { query: { status } } }
     );
-    // setMiningMachineList(data?.data);
+    setMiningMachineList(data?.data as any);
   }
   return (
     <div className="flex flex-col px-[14px] py-[12px]">
@@ -71,6 +97,7 @@ function RouteComponent() {
       </div>
       <div className="flex items-center justify-between mt-[19px]">
         <CustomSegmented
+          value={status}
           options={[
             { label: "运行中", value: 1 },
             { label: "待启动", value: 0 },
@@ -91,28 +118,41 @@ function RouteComponent() {
 
       <ul className="mt-[12px] flex flex-col gap-[12px]">
         {miningMachineList?.map((v, index) => {
-          // 计算时间进度百分比
-          const start = new Date(v.startTime || 0).getTime();
-          const end = new Date(v.endTime || 0).getTime();
+          // 修正后的百分比计算逻辑
+          const startStr = (v.startTime || "").replace(" ", "T");
+          const endStr = (v.endTime || "").replace(" ", "T");
+          const start = new Date(startStr).getTime();
+          const end = new Date(endStr).getTime();
           const now = Date.now();
-          const percent =
-            start >= end
-              ? 0
-              : now < start
-                ? 0
-                : now > end
-                  ? 100
-                  : Number((((now - start) / (end - start)) * 100).toFixed(2));
+          console.log(new Date(start), new Date(end));
+          if (isNaN(start) || isNaN(end) || start >= end) {
+            return 0; // 添加更严格的校验
+          }
 
-          // 根据进度选择视频（2-7对应0%-100%）
+          const percent =
+            now < start
+              ? 0
+              : now > end
+                ? 100
+                : Number((((now - start) / (end - start)) * 100).toFixed(2));
+
+          // 添加调试日志
+          console.log("时间详情（本地时间）", {
+            start: new Date(start).toLocaleString(),
+            end: new Date(end).toLocaleString(),
+            now: new Date(now).toLocaleString(),
+            diffDays: ((end - start) / 86400000).toFixed(1) + "天",
+            percent,
+          });
+          console.log("percent", percent);
+          // 根据进度选择gif（1-4对应0%-100%）
           const videoNumber = Math.min(
-            7,
-            Math.max(2, Math.floor(percent / 20) + 2)
+            4,
+            Math.max(1, Math.floor(percent / 25) + 1)
           );
-          const videoSrc = new URL(
-            `../../../../assets/AI/${videoNumber}.mp4`,
-            import.meta.url
-          ).href;
+          const gifSources = [gif_1, gif_2, gif_3, gif_4];
+          const gifSrc = gifSources[videoNumber - 1];
+
           return (
             <li
               key={index}
@@ -120,17 +160,10 @@ function RouteComponent() {
             >
               <div className="flex items-center gap-[14px]">
                 <div className="w-[84px] h-[84px] rounded-[10px]">
-                  {/* <img
-                src={ai1_gif}
-                alt=""
-                className="w-full h-full object-cover"
-              /> */}
-                  <video
-                    src={videoSrc}
+                  <img
+                    src={gifSrc}
+                    alt=""
                     className="w-full h-full object-cover"
-                    autoPlay
-                    loop
-                    muted
                   />
                 </div>
                 <ul className="flex flex-col gap-[4px]">

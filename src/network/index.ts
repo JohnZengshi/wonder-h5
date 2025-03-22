@@ -1,5 +1,5 @@
 export const tronTestnet = {
-  id: 94_894,
+  id: 3448148188,
   name: "Nile Testnet",
   network: "nile",
   nativeCurrency: {
@@ -8,7 +8,7 @@ export const tronTestnet = {
     symbol: "TRX",
   },
   rpcUrls: {
-    default: { http: ["https://nile.trongrid.io"] },
+    default: { http: ["https://nile-rpc.trongrid.io"] },
   },
   blockExplorers: {
     default: {

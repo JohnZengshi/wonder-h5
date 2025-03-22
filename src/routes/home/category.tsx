@@ -3,7 +3,7 @@ import FetchClient from "@/server";
 import { components } from "@/server/api";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useAsyncEffect } from "ahooks";
-import { Empty, SideBar } from "antd-mobile";
+import { Empty, Image, SideBar } from "antd-mobile";
 import clsx from "clsx";
 import { useState } from "react";
 
@@ -83,7 +83,7 @@ function GoodsList({ categoryId }: { categoryId: number }) {
           key={i}
         >
           {/* <span className="text-[14px] font-[500]">分类1名称</span> */}
-          <ul className="flex flex-wrap gap-[14px] justify-between">
+          <ul className="flex flex-wrap gap-[14px]">
             {goodsList?.length ? (
               <>
                 {goodsList?.map((v, i) => (
@@ -94,7 +94,9 @@ function GoodsList({ categoryId }: { categoryId: number }) {
                       navigate({ to: "/product", search: { goodsId: v.id } });
                     }}
                   >
-                    <div className="w-[56px] h-[56px] rounded-[10px] bg-[#3C3C3C]"></div>
+                    <div className="w-[56px] h-[56px] rounded-[10px]">
+                      <Image src={v.commodityImg} className="w-full h-full" />
+                    </div>
                     <span className="text-[12px]">{v.commodityName}</span>
                   </li>
                 ))}

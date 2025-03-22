@@ -1,12 +1,13 @@
 import { tronTestnet } from "@/network";
-import useRecharg from "@/utils/useRecharg";
+import useRecharg, { ChainType } from "@/utils/useRecharg";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { NavBar, ResultPage } from "antd-mobile";
+import { useEffect, useState } from "react";
 import { bsc, bscTestnet, tron } from "viem/chains";
 
 export type penddingRouterParams = {
   anmout: string;
-  chainType: 1 | 2;
+  chainType: ChainType;
   token: string;
   account: string;
 };
@@ -17,11 +18,11 @@ export const Route = createFileRoute("/wallet-details/pendding")({
 });
 
 function RouteComponent() {
-  const { anmout, chainType } = Route.useSearch();
+  // const { anmout, chainType } = Route.useSearch();
   const { navigate } = useRouter();
-  const { payAmount } = useRecharg({
-    defaultChainType: chainType,
-    defaultPayAmount: anmout,
+  const [chainType, setChainType] = useState<ChainType>(1);
+  const [payAmount, setPayAmount] = useState("0");
+  const { recharg } = useRecharg({
     successCallback() {
       var chainTypeStr = import.meta.env.DEV
         ? chainType == 1
@@ -40,20 +41,18 @@ function RouteComponent() {
       });
     },
   });
-  const details = [
-    {
-      label: "付款方式",
-      value: "钱包支付",
-    },
-    {
-      label: "充值金额",
-      value: `${anmout} USDT`,
-    },
-    {
-      label: "网络",
-      value: chainType,
-    },
-  ];
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(
+      urlParams
+    ) as unknown as penddingRouterParams;
+    if (params.chainType && params.anmout) {
+      setChainType(params.chainType);
+      setPayAmount(params.anmout);
+      recharg(params.chainType, params.anmout);
+    }
+  }, []);
   return (
     <div className="flex flex-col">
       <NavBar
@@ -64,7 +63,20 @@ function RouteComponent() {
         status="success"
         title="充值中"
         description="请不要关闭此页面"
-        details={details}
+        details={[
+          {
+            label: "付款方式",
+            value: "钱包支付",
+          },
+          {
+            label: "充值金额",
+            value: `${payAmount} USDT`,
+          },
+          {
+            label: "网络",
+            value: chainType,
+          },
+        ]}
       />
     </div>
   );

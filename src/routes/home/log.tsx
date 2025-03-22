@@ -12,11 +12,13 @@ export const Route = createFileRoute("/home/log")({
 function RouteComponent() {
   const [order, setOrder] =
     useState<components["schemas"]["CommodityOrderRecord"][]>();
+  const [orderStatus, setOrderStatus] = useState(1);
   useEffect(() => {
     fetchOrder(1);
   }, []);
 
   async function fetchOrder(type: number) {
+    setOrderStatus(type);
     const { data } = await FetchClient.GET("/api/commodity-order/page", {
       params: { query: { pageNum: 1, pageSize: 99, type: type } },
     });
@@ -26,6 +28,7 @@ function RouteComponent() {
     <div className="flex flex-col px-[14px] py-[11px]">
       <div className="flex">
         <CustomSegmented
+          value={orderStatus}
           options={[
             { label: "订单日志", value: 1 },
             { label: "算力日志", value: 4 },

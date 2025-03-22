@@ -48,9 +48,18 @@ type ChainConfig = {
   };
 };
 
+var bscId;
+var tronId;
+if (import.meta.env.MODE == "production") {
+  bscId = bsc.id;
+  tronId = tron.id;
+} else {
+  bscId = bscTestnet.id;
+  tronId = tronTestnet.id;
+}
 const CHAIN_CONFIG: Record<number, ChainConfig> = {
   // BSC 链配置（示例ID，请替换实际链ID）
-  97: {
+  [bscId]: {
     usdt: {
       abi: bscUsdtAbi,
       address: import.meta.env.VITE_BSC_USDT_ADDRESS,
@@ -60,8 +69,7 @@ const CHAIN_CONFIG: Record<number, ChainConfig> = {
       address: import.meta.env.VITE_BSC_BUSINESS_ADDRESS,
     },
   },
-  // Tron 链配置（示例ID，请替换实际链ID）
-  1: {
+  [tronId]: {
     usdt: {
       abi: tronUsdtAbi,
       address: import.meta.env.VITE_TRON_USDT_ADDRESS,
@@ -293,7 +301,9 @@ export async function payByContract(
 async function ensureCorrectNetwork(chain: Chain) {
   try {
     const currentChainId = getChainId(config);
+    console.log("需要切换的网络", chain);
     console.log("当前网络:", currentChainId, chain.id);
+
     if (currentChainId === chain.id) return;
     // 尝试直接切换网络
     await switchChain(config, { chainId: chain.id });
