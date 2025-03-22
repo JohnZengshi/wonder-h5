@@ -44,7 +44,7 @@ function RouteComponent() {
         });
       },
     });
-  const { token } = useStore();
+  const { token, account } = useStore();
 
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/user-wallet/rechargeAddress", {
@@ -264,6 +264,7 @@ function RouteComponent() {
                       anmout: payAmount,
                       chainType: chainType,
                       token: token,
+                      account: account,
                     };
                     const targetUrl = encodeURIComponent(
                       `${origin}${pathname}?${new URLSearchParams(params as any).toString()}#${path}`

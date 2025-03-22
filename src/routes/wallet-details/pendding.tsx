@@ -8,6 +8,7 @@ export type penddingRouterParams = {
   anmout: string;
   chainType: 1 | 2;
   token: string;
+  account: string;
 };
 export const Route = createFileRoute("/wallet-details/pendding")({
   component: RouteComponent,
