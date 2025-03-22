@@ -5,7 +5,7 @@ type params = {
   anmout: string;
   chainType: string;
 };
-export const Route = createFileRoute("/wallet-details/rechargeSuccess")({
+export const Route = createFileRoute("/wallet-details/success")({
   component: RouteComponent,
   validateSearch: (search: params): params => search,
 });

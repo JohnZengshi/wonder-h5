@@ -13,7 +13,6 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as ProductImport } from './routes/product'
 import { Route as OrderImport } from './routes/order'
-import { Route as LoginImport } from './routes/login'
 import { Route as HomeImport } from './routes/home'
 import { Route as CartImport } from './routes/cart'
 import { Route as CardSecretsImport } from './routes/card-secrets'
@@ -21,10 +20,11 @@ import { Route as IndexImport } from './routes/index'
 import { Route as WalletDetailsIndexImport } from './routes/wallet-details/index'
 import { Route as IntiveIndexImport } from './routes/intive/index'
 import { Route as HomeIndexImport } from './routes/home/index'
+import { Route as WalletDetailsSuccessImport } from './routes/wallet-details/success'
 import { Route as WalletDetailsReplenishmentOrderImport } from './routes/wallet-details/replenishmentOrder'
-import { Route as WalletDetailsRechargeSuccessImport } from './routes/wallet-details/rechargeSuccess'
-import { Route as WalletDetailsRechargeLogImport } from './routes/wallet-details/rechargeLog'
 import { Route as WalletDetailsRechargeImport } from './routes/wallet-details/recharge'
+import { Route as WalletDetailsPenddingImport } from './routes/wallet-details/pendding'
+import { Route as WalletDetailsLogImport } from './routes/wallet-details/log'
 import { Route as IntiveInviteListImport } from './routes/intive/invite-list'
 import { Route as HomeMineImport } from './routes/home/mine'
 import { Route as HomeLogImport } from './routes/home/log'
@@ -43,12 +43,6 @@ const ProductRoute = ProductImport.update({
 const OrderRoute = OrderImport.update({
   id: '/order',
   path: '/order',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const LoginRoute = LoginImport.update({
-  id: '/login',
-  path: '/login',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -94,6 +88,12 @@ const HomeIndexRoute = HomeIndexImport.update({
   getParentRoute: () => HomeRoute,
 } as any)
 
+const WalletDetailsSuccessRoute = WalletDetailsSuccessImport.update({
+  id: '/wallet-details/success',
+  path: '/wallet-details/success',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const WalletDetailsReplenishmentOrderRoute =
   WalletDetailsReplenishmentOrderImport.update({
     id: '/wallet-details/replenishmentOrder',
@@ -101,22 +101,21 @@ const WalletDetailsReplenishmentOrderRoute =
     getParentRoute: () => rootRoute,
   } as any)
 
-const WalletDetailsRechargeSuccessRoute =
-  WalletDetailsRechargeSuccessImport.update({
-    id: '/wallet-details/rechargeSuccess',
-    path: '/wallet-details/rechargeSuccess',
-    getParentRoute: () => rootRoute,
-  } as any)
-
-const WalletDetailsRechargeLogRoute = WalletDetailsRechargeLogImport.update({
-  id: '/wallet-details/rechargeLog',
-  path: '/wallet-details/rechargeLog',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const WalletDetailsRechargeRoute = WalletDetailsRechargeImport.update({
   id: '/wallet-details/recharge',
   path: '/wallet-details/recharge',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const WalletDetailsPenddingRoute = WalletDetailsPenddingImport.update({
+  id: '/wallet-details/pendding',
+  path: '/wallet-details/pendding',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const WalletDetailsLogRoute = WalletDetailsLogImport.update({
+  id: '/wallet-details/log',
+  path: '/wallet-details/log',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -188,13 +187,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeImport
       parentRoute: typeof rootRoute
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginImport
-      parentRoute: typeof rootRoute
-    }
     '/order': {
       id: '/order'
       path: '/order'
@@ -244,6 +236,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntiveInviteListImport
       parentRoute: typeof rootRoute
     }
+    '/wallet-details/log': {
+      id: '/wallet-details/log'
+      path: '/wallet-details/log'
+      fullPath: '/wallet-details/log'
+      preLoaderRoute: typeof WalletDetailsLogImport
+      parentRoute: typeof rootRoute
+    }
+    '/wallet-details/pendding': {
+      id: '/wallet-details/pendding'
+      path: '/wallet-details/pendding'
+      fullPath: '/wallet-details/pendding'
+      preLoaderRoute: typeof WalletDetailsPenddingImport
+      parentRoute: typeof rootRoute
+    }
     '/wallet-details/recharge': {
       id: '/wallet-details/recharge'
       path: '/wallet-details/recharge'
@@ -251,25 +257,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WalletDetailsRechargeImport
       parentRoute: typeof rootRoute
     }
-    '/wallet-details/rechargeLog': {
-      id: '/wallet-details/rechargeLog'
-      path: '/wallet-details/rechargeLog'
-      fullPath: '/wallet-details/rechargeLog'
-      preLoaderRoute: typeof WalletDetailsRechargeLogImport
-      parentRoute: typeof rootRoute
-    }
-    '/wallet-details/rechargeSuccess': {
-      id: '/wallet-details/rechargeSuccess'
-      path: '/wallet-details/rechargeSuccess'
-      fullPath: '/wallet-details/rechargeSuccess'
-      preLoaderRoute: typeof WalletDetailsRechargeSuccessImport
-      parentRoute: typeof rootRoute
-    }
     '/wallet-details/replenishmentOrder': {
       id: '/wallet-details/replenishmentOrder'
       path: '/wallet-details/replenishmentOrder'
       fullPath: '/wallet-details/replenishmentOrder'
       preLoaderRoute: typeof WalletDetailsReplenishmentOrderImport
+      parentRoute: typeof rootRoute
+    }
+    '/wallet-details/success': {
+      id: '/wallet-details/success'
+      path: '/wallet-details/success'
+      fullPath: '/wallet-details/success'
+      preLoaderRoute: typeof WalletDetailsSuccessImport
       parentRoute: typeof rootRoute
     }
     '/home/': {
@@ -328,7 +327,6 @@ export interface FileRoutesByFullPath {
   '/card-secrets': typeof CardSecretsRoute
   '/cart': typeof CartRoute
   '/home': typeof HomeRouteWithChildren
-  '/login': typeof LoginRoute
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/ai-power/revenue-details': typeof AiPowerRevenueDetailsRoute
@@ -336,10 +334,11 @@ export interface FileRoutesByFullPath {
   '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
   '/intive/invite-list': typeof IntiveInviteListRoute
+  '/wallet-details/log': typeof WalletDetailsLogRoute
+  '/wallet-details/pendding': typeof WalletDetailsPenddingRoute
   '/wallet-details/recharge': typeof WalletDetailsRechargeRoute
-  '/wallet-details/rechargeLog': typeof WalletDetailsRechargeLogRoute
-  '/wallet-details/rechargeSuccess': typeof WalletDetailsRechargeSuccessRoute
   '/wallet-details/replenishmentOrder': typeof WalletDetailsReplenishmentOrderRoute
+  '/wallet-details/success': typeof WalletDetailsSuccessRoute
   '/home/': typeof HomeIndexRoute
   '/intive': typeof IntiveIndexRoute
   '/wallet-details': typeof WalletDetailsIndexRoute
@@ -350,7 +349,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/card-secrets': typeof CardSecretsRoute
   '/cart': typeof CartRoute
-  '/login': typeof LoginRoute
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/ai-power/revenue-details': typeof AiPowerRevenueDetailsRoute
@@ -358,10 +356,11 @@ export interface FileRoutesByTo {
   '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
   '/intive/invite-list': typeof IntiveInviteListRoute
+  '/wallet-details/log': typeof WalletDetailsLogRoute
+  '/wallet-details/pendding': typeof WalletDetailsPenddingRoute
   '/wallet-details/recharge': typeof WalletDetailsRechargeRoute
-  '/wallet-details/rechargeLog': typeof WalletDetailsRechargeLogRoute
-  '/wallet-details/rechargeSuccess': typeof WalletDetailsRechargeSuccessRoute
   '/wallet-details/replenishmentOrder': typeof WalletDetailsReplenishmentOrderRoute
+  '/wallet-details/success': typeof WalletDetailsSuccessRoute
   '/home': typeof HomeIndexRoute
   '/intive': typeof IntiveIndexRoute
   '/wallet-details': typeof WalletDetailsIndexRoute
@@ -374,7 +373,6 @@ export interface FileRoutesById {
   '/card-secrets': typeof CardSecretsRoute
   '/cart': typeof CartRoute
   '/home': typeof HomeRouteWithChildren
-  '/login': typeof LoginRoute
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/ai-power/revenue-details': typeof AiPowerRevenueDetailsRoute
@@ -382,10 +380,11 @@ export interface FileRoutesById {
   '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
   '/intive/invite-list': typeof IntiveInviteListRoute
+  '/wallet-details/log': typeof WalletDetailsLogRoute
+  '/wallet-details/pendding': typeof WalletDetailsPenddingRoute
   '/wallet-details/recharge': typeof WalletDetailsRechargeRoute
-  '/wallet-details/rechargeLog': typeof WalletDetailsRechargeLogRoute
-  '/wallet-details/rechargeSuccess': typeof WalletDetailsRechargeSuccessRoute
   '/wallet-details/replenishmentOrder': typeof WalletDetailsReplenishmentOrderRoute
+  '/wallet-details/success': typeof WalletDetailsSuccessRoute
   '/home/': typeof HomeIndexRoute
   '/intive/': typeof IntiveIndexRoute
   '/wallet-details/': typeof WalletDetailsIndexRoute
@@ -399,7 +398,6 @@ export interface FileRouteTypes {
     | '/card-secrets'
     | '/cart'
     | '/home'
-    | '/login'
     | '/order'
     | '/product'
     | '/ai-power/revenue-details'
@@ -407,10 +405,11 @@ export interface FileRouteTypes {
     | '/home/log'
     | '/home/mine'
     | '/intive/invite-list'
+    | '/wallet-details/log'
+    | '/wallet-details/pendding'
     | '/wallet-details/recharge'
-    | '/wallet-details/rechargeLog'
-    | '/wallet-details/rechargeSuccess'
     | '/wallet-details/replenishmentOrder'
+    | '/wallet-details/success'
     | '/home/'
     | '/intive'
     | '/wallet-details'
@@ -420,7 +419,6 @@ export interface FileRouteTypes {
     | '/'
     | '/card-secrets'
     | '/cart'
-    | '/login'
     | '/order'
     | '/product'
     | '/ai-power/revenue-details'
@@ -428,10 +426,11 @@ export interface FileRouteTypes {
     | '/home/log'
     | '/home/mine'
     | '/intive/invite-list'
+    | '/wallet-details/log'
+    | '/wallet-details/pendding'
     | '/wallet-details/recharge'
-    | '/wallet-details/rechargeLog'
-    | '/wallet-details/rechargeSuccess'
     | '/wallet-details/replenishmentOrder'
+    | '/wallet-details/success'
     | '/home'
     | '/intive'
     | '/wallet-details'
@@ -442,7 +441,6 @@ export interface FileRouteTypes {
     | '/card-secrets'
     | '/cart'
     | '/home'
-    | '/login'
     | '/order'
     | '/product'
     | '/ai-power/revenue-details'
@@ -450,10 +448,11 @@ export interface FileRouteTypes {
     | '/home/log'
     | '/home/mine'
     | '/intive/invite-list'
+    | '/wallet-details/log'
+    | '/wallet-details/pendding'
     | '/wallet-details/recharge'
-    | '/wallet-details/rechargeLog'
-    | '/wallet-details/rechargeSuccess'
     | '/wallet-details/replenishmentOrder'
+    | '/wallet-details/success'
     | '/home/'
     | '/intive/'
     | '/wallet-details/'
@@ -466,15 +465,15 @@ export interface RootRouteChildren {
   CardSecretsRoute: typeof CardSecretsRoute
   CartRoute: typeof CartRoute
   HomeRoute: typeof HomeRouteWithChildren
-  LoginRoute: typeof LoginRoute
   OrderRoute: typeof OrderRoute
   ProductRoute: typeof ProductRoute
   AiPowerRevenueDetailsRoute: typeof AiPowerRevenueDetailsRoute
   IntiveInviteListRoute: typeof IntiveInviteListRoute
+  WalletDetailsLogRoute: typeof WalletDetailsLogRoute
+  WalletDetailsPenddingRoute: typeof WalletDetailsPenddingRoute
   WalletDetailsRechargeRoute: typeof WalletDetailsRechargeRoute
-  WalletDetailsRechargeLogRoute: typeof WalletDetailsRechargeLogRoute
-  WalletDetailsRechargeSuccessRoute: typeof WalletDetailsRechargeSuccessRoute
   WalletDetailsReplenishmentOrderRoute: typeof WalletDetailsReplenishmentOrderRoute
+  WalletDetailsSuccessRoute: typeof WalletDetailsSuccessRoute
   IntiveIndexRoute: typeof IntiveIndexRoute
   WalletDetailsIndexRoute: typeof WalletDetailsIndexRoute
 }
@@ -484,15 +483,15 @@ const rootRouteChildren: RootRouteChildren = {
   CardSecretsRoute: CardSecretsRoute,
   CartRoute: CartRoute,
   HomeRoute: HomeRouteWithChildren,
-  LoginRoute: LoginRoute,
   OrderRoute: OrderRoute,
   ProductRoute: ProductRoute,
   AiPowerRevenueDetailsRoute: AiPowerRevenueDetailsRoute,
   IntiveInviteListRoute: IntiveInviteListRoute,
+  WalletDetailsLogRoute: WalletDetailsLogRoute,
+  WalletDetailsPenddingRoute: WalletDetailsPenddingRoute,
   WalletDetailsRechargeRoute: WalletDetailsRechargeRoute,
-  WalletDetailsRechargeLogRoute: WalletDetailsRechargeLogRoute,
-  WalletDetailsRechargeSuccessRoute: WalletDetailsRechargeSuccessRoute,
   WalletDetailsReplenishmentOrderRoute: WalletDetailsReplenishmentOrderRoute,
+  WalletDetailsSuccessRoute: WalletDetailsSuccessRoute,
   IntiveIndexRoute: IntiveIndexRoute,
   WalletDetailsIndexRoute: WalletDetailsIndexRoute,
 }
@@ -511,15 +510,15 @@ export const routeTree = rootRoute
         "/card-secrets",
         "/cart",
         "/home",
-        "/login",
         "/order",
         "/product",
         "/ai-power/revenue-details",
         "/intive/invite-list",
+        "/wallet-details/log",
+        "/wallet-details/pendding",
         "/wallet-details/recharge",
-        "/wallet-details/rechargeLog",
-        "/wallet-details/rechargeSuccess",
         "/wallet-details/replenishmentOrder",
+        "/wallet-details/success",
         "/intive/",
         "/wallet-details/"
       ]
@@ -542,9 +541,6 @@ export const routeTree = rootRoute
         "/home/",
         "/home/ai-power/"
       ]
-    },
-    "/login": {
-      "filePath": "login.tsx"
     },
     "/order": {
       "filePath": "order.tsx"
@@ -570,17 +566,20 @@ export const routeTree = rootRoute
     "/intive/invite-list": {
       "filePath": "intive/invite-list.tsx"
     },
+    "/wallet-details/log": {
+      "filePath": "wallet-details/log.tsx"
+    },
+    "/wallet-details/pendding": {
+      "filePath": "wallet-details/pendding.tsx"
+    },
     "/wallet-details/recharge": {
       "filePath": "wallet-details/recharge.tsx"
     },
-    "/wallet-details/rechargeLog": {
-      "filePath": "wallet-details/rechargeLog.tsx"
-    },
-    "/wallet-details/rechargeSuccess": {
-      "filePath": "wallet-details/rechargeSuccess.tsx"
-    },
     "/wallet-details/replenishmentOrder": {
       "filePath": "wallet-details/replenishmentOrder.tsx"
+    },
+    "/wallet-details/success": {
+      "filePath": "wallet-details/success.tsx"
     },
     "/home/": {
       "filePath": "home/index.tsx",

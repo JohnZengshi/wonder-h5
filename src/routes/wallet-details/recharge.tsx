@@ -1,22 +1,20 @@
 import { BaseBtn } from "@/components/BaseBtn";
-import {
-  payByContract,
-  usePollingCheckBuyStatus,
-} from "@/contract/contractService";
 import { css } from "@/lib/emotion";
 import { showNetworkModal } from "@/utils/network";
-import { createFileRoute, Router, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Input, NavBar, SafeArea, Toast } from "antd-mobile";
 import clsx from "clsx";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { coindType } from ".";
 import { useAsyncEffect } from "ahooks";
 import FetchClient from "@/server";
-import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
-import { BaseError, parseUnits } from "viem";
+import useRecharg from "@/utils/useRecharg";
 import { bsc, bscTestnet, tron } from "viem/chains";
 import { tronTestnet } from "@/network";
-import { useDisconnect } from "wagmi";
+import { FileRouteTypes } from "@/routeTree.gen";
+import { penddingRouterParams } from "./pendding";
+import useStore from "@/store/useStore";
+import { showWalletModal } from "@/utils/wallet";
 
 export const Route = createFileRoute("/wallet-details/recharge")({
   component: RouteComponent,
@@ -24,48 +22,29 @@ export const Route = createFileRoute("/wallet-details/recharge")({
 });
 
 function RouteComponent() {
-  const { open, close } = useAppKit();
-  const { address, isConnected, caipAddress, status, embeddedWalletInfo } =
-    useAppKitAccount();
   const { type } = Route.useSearch();
   const { navigate } = useRouter();
-  const { disconnect } = useDisconnect();
-  const [chainType, setChainType] = useState<1 | 2>(1);
   const [rechargeAddress, setRechargeAddress] = useState<string>("");
-  const isConnectedRef = useRef(isConnected);
-  const addressRef = useRef(address);
-  const [payAmount, setPayAmount] = useState<string>("10");
-
-  const { transcationStatus, startPollingCheckBuyStatus } =
-    usePollingCheckBuyStatus();
-
-  const [paying, setPaying] = useState(false);
-  useEffect(() => {
-    isConnectedRef.current = isConnected;
-    addressRef.current = address;
-  }, [isConnected, address]);
-
-  useEffect(() => {
-    if (transcationStatus == "success") {
-      var chainTypeStr = import.meta.env.DEV
-        ? chainType == 1
-          ? bscTestnet.name
-          : tronTestnet.name
-        : chainType == 1
-          ? bsc.name
-          : tron.name;
-      setPaying(false);
-      Toast.show("充值成功");
-      disconnect();
-      navigate({
-        to: "/wallet-details/rechargeSuccess",
-        search: {
-          anmout: payAmount,
-          chainType: chainTypeStr,
-        },
-      });
-    }
-  }, [transcationStatus, payAmount]);
+  const { payAmount, setPayAmount, chainType, setChainType, paying, recharg } =
+    useRecharg({
+      successCallback() {
+        var chainTypeStr = import.meta.env.DEV
+          ? chainType == 1
+            ? bscTestnet.name
+            : tronTestnet.name
+          : chainType == 1
+            ? bsc.name
+            : tron.name;
+        navigate({
+          to: "/wallet-details/success",
+          search: {
+            anmout: payAmount,
+            chainType: chainTypeStr,
+          },
+        });
+      },
+    });
+  const { token } = useStore();
 
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/user-wallet/rechargeAddress", {
@@ -83,7 +62,7 @@ function RouteComponent() {
           <i
             className="i-hugeicons-catalogue text-[24px]"
             onClick={() => {
-              navigate({ to: "/wallet-details/rechargeLog" });
+              navigate({ to: "/wallet-details/log" });
             }}
           />
         }
@@ -270,63 +249,34 @@ function RouteComponent() {
             borderColor="#FFA2E5"
             shadowColor="rgba(255, 62, 201, 0.3)"
             onClick={async () => {
-              if (!isConnected) {
-                await open();
-                // 等待钱包连接状态更新
-
-                // 使用ref获取最新状态 + 添加超时机制
-                await new Promise((resolve, reject) => {
-                  const startTime = Date.now();
-                  const check = () => {
-                    if (isConnectedRef.current) {
-                      resolve(true);
-                    } else if (Date.now() - startTime > 30000) {
-                      // 30秒超时
-                      reject(new Error("连接超时"));
-                    } else {
-                      setTimeout(check, 100);
-                    }
-                  };
-                  check();
-                }).catch(() => {
-                  Toast.show("连接超时，请重试");
-                  throw new Error("用户取消连接");
-                });
-              }
-              console.log("钱包已连接");
-              const { data } = await FetchClient.POST(
-                "/api/user-wallet/topUp",
-                {
-                  params: {
-                    query: {
-                      amount: payAmount.toString(),
-                      coinId: chainType,
-                      paymentAddress: addressRef.current,
-                      type: 2,
-                    },
-                  },
-                }
+              // 判断移动端H5环境
+              const isMobileBrowser = /Mobi|Android|iPhone/i.test(
+                navigator.userAgent
               );
-              var order = data?.data?.orderNumber;
-              var amount = data?.data?.amount;
-              if (!order) return;
-              const amountWei = parseUnits(Number(amount).toFixed(18), 18);
-              try {
-                setPaying(true);
-                var res = await payByContract(
-                  amountWei,
-                  order,
-                  chainType == 1 ? "bsc" : "tron"
-                );
-                startPollingCheckBuyStatus(res);
-              } catch (error) {
-                var _error = error as BaseError;
-                setPaying(false);
-                console.log(_error);
-                disconnect();
-                Toast.show(
-                  _error.details ?? _error.shortMessage ?? _error.message
-                );
+
+              if (isMobileBrowser) {
+                showWalletModal({
+                  onConfirm: (walletType) => {
+                    // 移动端使用 MetaMask deep link
+                    const { origin, pathname } = window.location;
+                    var path: FileRouteTypes["to"] = "/wallet-details/pendding";
+                    var params: penddingRouterParams = {
+                      anmout: payAmount,
+                      chainType: chainType,
+                      token: token,
+                    };
+                    const targetUrl = encodeURIComponent(
+                      `${origin}${pathname}?${new URLSearchParams(params as any).toString()}#${path}`
+                    );
+                    const deeplink =
+                      walletType === "metamask"
+                        ? `imtokenv2://navigate/DappView?url=${targetUrl}`
+                        : `metamask://navigate/DappView?url=${targetUrl}`; //TODO 替换为 MetaMask 的 deep link
+                    window.location.href = deeplink;
+                  },
+                });
+              } else {
+                recharg();
               }
             }}
           />

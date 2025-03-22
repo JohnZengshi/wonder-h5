@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { NavBar, SafeArea } from "antd-mobile";
 
-export const Route = createFileRoute("/wallet-details/rechargeLog")({
+export const Route = createFileRoute("/wallet-details/log")({
   component: RouteComponent,
 });
 
