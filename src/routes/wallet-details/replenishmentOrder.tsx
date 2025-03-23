@@ -81,11 +81,13 @@ function RouteComponent() {
             maxCount={1}
             style={{ "--cell-size": "104px" }}
             className={clsx(css`
-              .adm-image-uploader-upload-button {
-                display: flex;
-                align-items: center;
-                justify-content: center;
+              .adm-image-uploader-upload-button-wrap {
                 border: 1px dashed rgba(255, 255, 255, 0.2);
+                .adm-image-uploader-cell {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                }
               }
             `)}
             value={fileList}

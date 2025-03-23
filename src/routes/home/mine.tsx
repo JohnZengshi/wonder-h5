@@ -11,6 +11,7 @@ import { showChangePassword } from "@/utils/password";
 import { Md5 } from "ts-md5";
 import useStore from "@/store/useStore";
 import { downloadImage } from "@/utils";
+import defaultUserIcon from "@/assets/defaultUserIcon.svg";
 
 export const Route = createFileRoute("/home/mine")({
   component: RouteComponent,
@@ -31,7 +32,11 @@ function RouteComponent() {
     <div className="flex flex-col relative min-h-[100vh]">
       <div className="flex-auto w-full flex flex-col gap-[16px] px-[14px] mt-[42px] z-50 pb-[14px]">
         <div className="flex items-center gap-[9px]">
-          <div className="w-[62px] h-[62px] rounded-[50%] bg-white"></div>
+          <img
+            className="w-[62px] h-[62px] rounded-[50%] bg-white"
+            src={defaultUserIcon}
+            alt=""
+          />
           <div className="flex flex-col gap-[8px]">
             <div className="flex items-center gap-[8px]">
               <span className="text-[16px] text-white">

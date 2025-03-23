@@ -1,6 +1,7 @@
 import { tronTestnet } from "@/network";
 import useRecharg, { ChainType } from "@/utils/useRecharg";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { useAsyncEffect } from "ahooks";
 import { NavBar, ResultPage } from "antd-mobile";
 import { useEffect, useState } from "react";
 import { bsc, bscTestnet, tron } from "viem/chains";
@@ -22,15 +23,15 @@ function RouteComponent() {
   const { navigate } = useRouter();
   const [chainType, setChainType] = useState<ChainType>(1);
   const [payAmount, setPayAmount] = useState("0");
-  const { recharg } = useRecharg({
+  const chainTypeStr = import.meta.env.DEV
+    ? chainType == 1
+      ? bscTestnet.name
+      : tronTestnet.name
+    : chainType == 1
+      ? bsc.name
+      : tron.name;
+  const { recharg, payFail } = useRecharg({
     successCallback() {
-      var chainTypeStr = import.meta.env.DEV
-        ? chainType == 1
-          ? bscTestnet.name
-          : tronTestnet.name
-        : chainType == 1
-          ? bsc.name
-          : tron.name;
       navigate({
         to: "/wallet-details/success",
         search: {
@@ -42,7 +43,7 @@ function RouteComponent() {
     },
   });
 
-  useEffect(() => {
+  useAsyncEffect(async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(
       urlParams
@@ -50,19 +51,16 @@ function RouteComponent() {
     if (params.chainType && params.anmout) {
       setChainType(params.chainType);
       setPayAmount(params.anmout);
-      recharg(params.chainType, params.anmout);
+      await recharg(params.chainType, params.anmout);
     }
   }, []);
   return (
     <div className="flex flex-col">
-      <NavBar
-        className="!h-[44px] bg-[#9795E9]"
-        onBack={() => window.history.back()}
-      ></NavBar>
+      <NavBar className="!h-[44px] bg-[#9795E9]" backIcon={null}></NavBar>
       <ResultPage
         status="success"
-        title="充值中"
-        description="请不要关闭此页面"
+        title={payFail ? "充值失败" : "充值中"}
+        description={payFail ? "请返回网页重新支付" : "请不要关闭此页面"}
         details={[
           {
             label: "付款方式",
@@ -74,7 +72,7 @@ function RouteComponent() {
           },
           {
             label: "网络",
-            value: chainType,
+            value: chainTypeStr,
           },
         ]}
       />

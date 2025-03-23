@@ -1,9 +1,11 @@
 import { css } from "@/lib/emotion";
 import { SpinLoading } from "antd-mobile";
 import clsx from "clsx";
+import { PropsWithChildren } from "react";
 
 export function BaseBtn({
   title,
+  children,
   onClick,
   icon,
   className,
@@ -11,8 +13,8 @@ export function BaseBtn({
   borderColor,
   disabled,
   loading,
-}: {
-  title: string;
+}: PropsWithChildren<{
+  title?: string;
   onClick?: () => void;
   icon?: JSX.Element;
   className?: string;
@@ -20,9 +22,9 @@ export function BaseBtn({
   borderColor?: string;
   disabled?: boolean;
   loading?: boolean;
-}) {
+}>) {
   return (
-    <li
+    <div
       onClick={() => !disabled && onClick?.()}
       className={clsx(
         "flex items-center justify-center gap-[8px] rounded-[10px] overflow-hidden",
@@ -37,15 +39,21 @@ export function BaseBtn({
             inset -1.73px -1.73px 12.94px 0px
               ${shadowColor ?? "rgba(151, 149, 233, 0.3)"};
         `,
-        disabled ? "opacity-50" : "",
+        disabled ? "!opacity-50" : "",
         className
       )}
     >
       {loading && (
         <SpinLoading className="!w-[20px] !h-[20px]" color="primary" />
       )}
-      <span className="text-[14px]">{title}</span>
-      {icon}
-    </li>
+      {children ? (
+        children
+      ) : (
+        <>
+          <span className="text-[14px]">{title}</span>
+          {icon}
+        </>
+      )}
+    </div>
   );
 }

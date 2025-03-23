@@ -1048,6 +1048,11 @@ export interface components {
             updateTime?: string;
             /** @description USDT 最小支付比例  暂时不用 */
             usdtPay?: string;
+            /**
+             * Format: int32
+             * @description 矿机等级
+             */
+            machineConfigLevel?: number;
         };
         /** @description 平台充值记录 */
         "Deposit\u5BF9\u8C61": {
@@ -1498,6 +1503,18 @@ export interface components {
              * @example null
              */
             userImg?: string;
+            /**
+             * Format: int32
+             * @description 团队业绩
+             * @example 0
+             */
+            teamAmount?: number;
+            /**
+             * Format: int32
+             * @description 个人业绩
+             * @example 0
+             */
+            userAmount?: number;
         };
         /** @description 矿机收益明细记录 */
         MiningIncomeRecord: {

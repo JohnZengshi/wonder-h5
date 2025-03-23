@@ -13,6 +13,7 @@ import { showPaymentPassword } from "@/utils/payment";
 import { Md5 } from "ts-md5";
 import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import { bytesToBigInt, numberToBytes, parseUnits, weiUnits } from "viem";
+import { components } from "@/server/api";
 
 export type coindType = { type: "points" | "token" };
 export const Route = createFileRoute("/wallet-details/")({
@@ -33,8 +34,19 @@ function RouteComponent() {
   const { open, close } = useAppKit();
   const { address, isConnected, caipAddress, status, embeddedWalletInfo } =
     useAppKitAccount();
+
+  const [configData, setConfigData] =
+    useState<components["schemas"]["CoinConfig对象"]>();
   // 加载钱包数据
   useAsyncEffect(async () => {
+    const { data: configData } = await FetchClient.POST(
+      "/api/user-wallet/walletConfiguration",
+      {
+        body: { coinId: type == "points" ? 1 : 2 },
+      }
+    );
+    setConfigData(configData?.data);
+
     const { data } = await FetchClient.GET("/api/user-wallet/rechargeAddress", {
       params: { query: { coinId: type == "points" ? 1 : 2 } },
     });
@@ -91,6 +103,7 @@ function RouteComponent() {
             }}
           />
           <BaseBtn
+            disabled={configData?.withdrawal == 0}
             className="w-[105px] h-[44px]"
             title="提币"
             icon={<span className="i-hugeicons-upload-01 text-[24px]"></span>}
@@ -116,6 +129,7 @@ function RouteComponent() {
             }}
           />
           <BaseBtn
+            disabled={configData?.transfer == 0}
             className="w-[105px] h-[44px]"
             title="转账"
             icon={<span className="i-hugeicons-exchange-01 text-[24px]"></span>}

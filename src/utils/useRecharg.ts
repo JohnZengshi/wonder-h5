@@ -14,6 +14,8 @@ import { Toast } from "antd-mobile";
 import { useEffect, useRef, useState } from "react";
 import { BaseError, parseUnits } from "viem";
 import { bsc, bscTestnet, tron } from "viem/chains";
+import { useAppKitWallet } from "@reown/appkit-wallet-button/react";
+import { useConnect } from "wagmi";
 
 export type ChainType = 1 | 2; // 1 bsc 2 trx
 /**
@@ -23,11 +25,21 @@ export type ChainType = 1 | 2; // 1 bsc 2 trx
  */
 function useRecharg({ successCallback }: { successCallback?: () => void }) {
   const { open } = useAppKit();
+  const { isReady, isPending, connect } = useAppKitWallet({
+    onSuccess() {
+      // ...
+    },
+    onError(error) {
+      // ...
+    },
+  });
   const { address, isConnected } = useAppKitAccount();
   const isConnectedRef = useRef(isConnected);
   const addressRef = useRef(address);
   const [paying, setPaying] = useState(false);
+  const [payFail, setPayFail] = useState(false);
   const { disconnect } = useDisconnect();
+  const { connectAsync } = useConnect();
   const { navigate } = useRouter();
   const { transcationStatus, startPollingCheckBuyStatus } =
     usePollingCheckBuyStatus();
@@ -51,6 +63,7 @@ function useRecharg({ successCallback }: { successCallback?: () => void }) {
    */
   async function recharg(chainType: ChainType, payAmount: string) {
     if (!isConnected) {
+      // await connect("imtoken");
       await open();
       // 等待钱包连接状态更新
 
@@ -90,6 +103,7 @@ function useRecharg({ successCallback }: { successCallback?: () => void }) {
     const amountWei = parseUnits(Number(amount).toFixed(18), 18);
     try {
       setPaying(true);
+      setPayFail(false);
       var res = await payByContract(
         amountWei,
         order,
@@ -99,6 +113,7 @@ function useRecharg({ successCallback }: { successCallback?: () => void }) {
     } catch (error) {
       var _error = error as BaseError;
       setPaying(false);
+      setPayFail(true);
       console.log(_error);
       disconnect();
       Toast.show(_error.details ?? _error.shortMessage ?? _error.message);
@@ -112,6 +127,7 @@ function useRecharg({ successCallback }: { successCallback?: () => void }) {
     // chainType,
     // setChainType,
     paying,
+    payFail,
   };
 }
 

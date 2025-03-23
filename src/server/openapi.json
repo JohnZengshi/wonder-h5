@@ -4536,6 +4536,11 @@
           "usdtPay": {
             "type": "string",
             "description": "USDT 最小支付比例  暂时不用"
+          },
+          "machineConfigLevel": {
+            "type": "integer",
+            "format": "int32",
+            "description": "矿机等级"
           }
         },
         "description": "商品类型表"
@@ -5194,6 +5199,18 @@
             "type": "string",
             "example": null,
             "description": "用户头像"
+          },
+          "teamAmount": {
+            "type": "integer",
+            "format": "int32",
+            "example": 0,
+            "description": "团队业绩"
+          },
+          "userAmount": {
+            "type": "integer",
+            "format": "int32",
+            "example": 0,
+            "description": "个人业绩"
           }
         },
         "description": "推荐人用户信息"

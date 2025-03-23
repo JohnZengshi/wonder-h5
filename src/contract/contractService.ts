@@ -236,6 +236,8 @@ export async function payByContract(
   await ensureCorrectNetwork(chain); // 传入目标链
 
   const currentConfig = await getChainConfig();
+  const currentChainId = getChainId(config);
+  console.log("当前网络：", currentChainId);
   console.log("pay buy contract params", { amount, orderID });
   console.log("NETWORK_USDT:", currentConfig.usdt.address);
 
@@ -301,8 +303,8 @@ export async function payByContract(
 async function ensureCorrectNetwork(chain: Chain) {
   try {
     const currentChainId = getChainId(config);
-    console.log("需要切换的网络", chain);
-    console.log("当前网络:", currentChainId, chain.id);
+    console.log("需要切换的网络", chain.id);
+    console.log("当前网络:", currentChainId);
 
     if (currentChainId === chain.id) return;
     // 尝试直接切换网络

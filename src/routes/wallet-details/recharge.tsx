@@ -258,7 +258,6 @@ function RouteComponent() {
               if (isMobileBrowser) {
                 showWalletModal({
                   onConfirm: (walletType) => {
-                    // 移动端使用 MetaMask deep link
                     const { origin, pathname } = window.location;
                     var path: FileRouteTypes["to"] = "/wallet-details/pendding";
                     var params: penddingRouterParams = {
@@ -270,16 +269,23 @@ function RouteComponent() {
                     const targetUrl = encodeURIComponent(
                       `${origin}${pathname}?${new URLSearchParams(params as any).toString()}#${path}`
                     );
-                    const deeplink =
-                      walletType === "metamask"
-                        ? `https://metamask.app.link/dapp/${targetUrl}`
-                        : `imtokenv2://navigate/DappView?url=${targetUrl}`; //TODO 替换为 MetaMask 的 deep link
-                    window.location.href = deeplink;
+                    if (walletType == "imtoken") {
+                      const deeplink = `imtokenv2://navigate/DappView?url=${targetUrl}`; //TODO 替换为 MetaMask 的 deep link
+                      window.location.href = deeplink;
+                      return;
+                    } else {
+                      const deeplink = `https://metamask.app.link/dapp/${targetUrl}`; //TODO 替换为 MetaMask 的 deep link
+                      window.location.href = deeplink;
+                      return;
+                    }
+                    // recharg(chainType, payAmount);
                   },
                 });
               } else {
                 recharg(chainType, payAmount);
               }
+
+              // recharg(chainType, payAmount);
             }}
           />
         </div>

@@ -4,6 +4,11 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useAsyncEffect } from "ahooks";
 import { Empty, ErrorBlock, Swiper, Image } from "antd-mobile";
 import { useState } from "react";
+import tuiguangzhuanqiang from "@/assets/tuiguangzhuanqiang.svg";
+import lianxikefu from "@/assets/lianxikefu.svg";
+import guangwangrukou from "@/assets/guangwangrukou.svg";
+import statusUp from "@/assets/status-up.svg";
+import { BaseBtn } from "@/components/BaseBtn";
 
 export const Route = createFileRoute("/home/")({
   component: RouteComponent,
@@ -37,20 +42,22 @@ function RouteComponent() {
   return (
     <div className="flex flex-auto flex-col items-center px-[14px] py-[12px] gap-[16px]">
       {/* banner */}
-      <div className="relative w-[347px] rounded-[15px] overflow-hidden">
-        <Swiper autoplay>
-          {banner?.map((v, i) => (
-            <Swiper.Item key={i}>
-              <div
-                className="h-[220px] flex items-center justify-center"
-                onClick={() => {}}
-              >
-                <Image className="w-full h-full" src={v.imageUrl} alt="" />
-              </div>
-            </Swiper.Item>
-          ))}
-        </Swiper>
-      </div>
+      {banner?.length ? (
+        <div className="relative w-[347px] rounded-[15px] overflow-hidden">
+          <Swiper autoplay>
+            {banner?.map((v, i) => (
+              <Swiper.Item key={i}>
+                <div
+                  className="h-[220px] flex items-center justify-center"
+                  onClick={() => {}}
+                >
+                  <Image className="w-full h-full" src={v.imageUrl} alt="" />
+                </div>
+              </Swiper.Item>
+            ))}
+          </Swiper>
+        </div>
+      ) : null}
 
       {/* 公告 */}
       <div className="w-full flex items-center gap-[14px] px-[14px] h-[54px] rounded-[10px] bg-[#1F1F1F]">
@@ -62,7 +69,7 @@ function RouteComponent() {
       </div>
 
       <div
-        className="w-[347px] h-[200px] rounded-[10px] bg-[#1F1F1F]"
+        className="w-[347px] h-[200px] rounded-[10px] "
         onClick={() => {
           navigate({ to: "/product", search: { goodsId: menberPackage?.id } });
         }}
@@ -72,18 +79,43 @@ function RouteComponent() {
 
       <ul className="w-full h-[108px] flex gap-[10px]">
         {[
-          { title: "推广赚钱" },
-          { title: "联系客服" },
-          { title: "官网入口" },
-          { title: "官网入口" },
+          {
+            title: "推广赚钱",
+            icon: tuiguangzhuanqiang,
+            borderColor: "#FFEDFE",
+            shadowColor: "rgba(255, 237, 254, 0.6)",
+          },
+          {
+            title: "联系客服",
+            icon: lianxikefu,
+            borderColor: "#F9E3BA",
+            shadowColor: "rgba(249, 227, 186, 0.6)",
+          },
+          {
+            title: "官网入口",
+            icon: guangwangrukou,
+            borderColor: "#FFFFFF",
+            shadowColor: "rgba(255, 162, 229, 0.6)",
+          },
+          {
+            title: "官网入口",
+            icon: statusUp,
+            borderColor: "#C7FFBA",
+            shadowColor: "rgba(199, 255, 186, 0.6)",
+          },
         ].map((v, i) => (
           <li
             key={i}
-            className="rounded-[10px] flex-1 h-full bg-[#1F1F1F] relative"
+            className="rounded-[10px] flex-1 h-full flex flex-col items-center justify-center gap-[10px] bg-[#1F1F1F] relative"
           >
-            <span className="text-[14px] absolute bottom-[7px] left-1/2 -translate-x-1/2 whitespace-nowrap">
-              {v.title}
-            </span>
+            <BaseBtn
+              className="w-[56px] h-[56px]"
+              borderColor={v.borderColor}
+              shadowColor={v.shadowColor}
+            >
+              <img src={v.icon} alt="" />
+            </BaseBtn>
+            <span className="text-[14px] whitespace-nowrap">{v.title}</span>
           </li>
         ))}
       </ul>
@@ -105,7 +137,8 @@ function RouteComponent() {
 function ZoneGoodsList({ commodityTypeId }: { commodityTypeId: number }) {
   const { navigate } = useRouter();
 
-  const [goodsList, setGoodsList] = useState<components["schemas"]["Page"]>();
+  const [goodsList, setGoodsList] =
+    useState<components["schemas"]["Commodity对象"][]>();
 
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/frontPage/pageCommodity", {
@@ -118,14 +151,14 @@ function ZoneGoodsList({ commodityTypeId }: { commodityTypeId: number }) {
       },
     });
 
-    setGoodsList(data?.data);
+    setGoodsList(data?.data?.records as any);
   }, []);
 
   return (
     <>
-      {goodsList?.records?.length ? (
+      {goodsList?.length ? (
         <ul className="w-full pt-[13px] pb-[27px] gap-[8px] grid grid-cols-2">
-          {goodsList?.records?.map((v, i) => (
+          {goodsList?.map((v, i) => (
             <li
               key={i}
               className="w-[172px] max-w-[172px] h-[226px] flex flex-col gap-[6px] bg-[#1F1F1F]"

@@ -92,13 +92,13 @@ function RouteComponent() {
           {[
             {
               icon: <span className="i-mdi-invite"></span>,
-              title: "直推人数",
-              num: userInfo?.shareNum ?? 0,
+              title: "直推业绩",
+              num: userInfo?.userAmount ?? 0,
             },
             {
               icon: <span className="i-mdi-people-group-outline"></span>,
-              title: "团队人数",
-              num: userInfo?.teamNum ?? 0,
+              title: "团队业绩",
+              num: (userInfo?.teamAmount ?? 0) - (userInfo?.userAmount ?? 0),
             },
           ].map((v, i) => (
             <div
