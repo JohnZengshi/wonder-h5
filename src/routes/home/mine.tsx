@@ -49,7 +49,19 @@ function RouteComponent() {
             </div>
             <span className="text-[14px] flex items-center gap-[4px] text-[#999999]">
               ID账号：<span className="text-[#E9E9E9]">{userInfo?.uid} </span>
-              <span className="i-hugeicons-copy-01 text-[14px] text-[#E9E9E9]"></span>{" "}
+              <span
+                className="i-hugeicons-copy-01 text-[14px] text-[#E9E9E9]"
+                onClick={async () => {
+                  try {
+                    if (userInfo.uid) {
+                      await navigator.clipboard.writeText(userInfo.uid);
+                      Toast.show("已复制ID账号");
+                    }
+                  } catch (err) {
+                    Toast.show("复制失败，请手动选择复制");
+                  }
+                }}
+              ></span>{" "}
             </span>
           </div>
           <button

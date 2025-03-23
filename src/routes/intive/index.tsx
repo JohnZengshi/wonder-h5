@@ -155,7 +155,12 @@ function RouteComponent() {
             }
           }}
         >
-          <img src={qrCodeUrl} alt="邀请二维码" ref={qrCodeRef} />
+          <img
+            className="w-full h-full"
+            src={qrCodeUrl}
+            alt="邀请二维码"
+            ref={qrCodeRef}
+          />
         </div>
 
         <span className="text-[16px] mt-[16px]">点击二维码保存到手机</span>

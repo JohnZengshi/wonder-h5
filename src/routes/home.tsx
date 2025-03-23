@@ -52,7 +52,8 @@ function RouteComponent() {
           <img src={logo} className="w-[32px] h-[32px]" alt="" />
           {token ? (
             <>
-              <div
+              <Link
+                to="/home/mine"
                 className={clsx(
                   css`
                     opacity: 1;
@@ -67,7 +68,7 @@ function RouteComponent() {
                 )}
               >
                 <span className="i-hugeicons-user text-[18px]"></span>
-              </div>
+              </Link>
             </>
           ) : (
             <BaseBtn title="登录" className="w-[87px] h-[36px]" />
