@@ -19,6 +19,10 @@ import { components } from "@/server/api";
 import useStore from "@/store/useStore";
 import { BaseBtn } from "@/components/BaseBtn";
 import { Md5 } from "ts-md5";
+import gif_1 from "@/assets/AI/1.gif";
+import gif_2 from "@/assets/AI/2.gif";
+import gif_3 from "@/assets/AI/3.gif";
+import gif_4 from "@/assets/AI/4.gif";
 
 type ProductSearch = {
   goodsId?: number;
@@ -47,6 +51,36 @@ function RouteComponent() {
     [goodsDetail?.prices, goodsNum]
   );
 
+  const indexImg = useMemo(() => {
+    if (goodsDetail?.type == 4) {
+      switch (goodsDetail.machineConfigLevel) {
+        case 1:
+          return gif_1;
+        case 2:
+          return gif_2;
+        case 3:
+          return gif_3;
+        case 4:
+          return gif_4;
+        default:
+          return goodsDetail?.commodityImg;
+      }
+    } else {
+      return goodsDetail?.commodityImg;
+    }
+  }, [goodsDetail]);
+
+  const banners = useMemo<{ id?: number; url: string }[]>(() => {
+    try {
+      return [
+        { url: indexImg },
+        ...JSON.parse(goodsDetail?.commodityImgs ?? "[]"),
+      ];
+    } catch (error) {
+      return [{ url: indexImg }];
+    }
+  }, [goodsDetail]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []); // 空依赖数组表示只执行一次
@@ -73,10 +107,10 @@ function RouteComponent() {
       <NavBar onBack={() => window.history.back()}></NavBar>
       <div className="flex flex-col flex-auto relative">
         <Swiper>
-          {[goodsDetail?.commodityImg].map((v, i) => (
+          {banners.map((v, i) => (
             <Swiper.Item key={i}>
               <div className="h-[296px] w-full flex items-start justify-center">
-                <Image src={v} className="!w-[247px] !h-[247px]" alt="" />
+                <Image src={v.url} className="!w-[247px] !h-[247px]" alt="" />
               </div>
             </Swiper.Item>
           ))}
@@ -130,7 +164,7 @@ function RouteComponent() {
                 {packages?.map((v, i) => (
                   <li
                     key={i}
-                    className="w-[56px] min-w-[56px] h-[56px] rounded-[10px] bg-[#3C3C3C]"
+                    className="w-[56px] min-w-[56px] h-[56px] rounded-[10px]"
                   >
                     <Image
                       src={v.commodityImg}
@@ -144,7 +178,7 @@ function RouteComponent() {
           ) : null}
 
           <div
-            className="w-full h-[500px] bg-[#3C3C3C] rounded-[10px] mt-[28px] p-[12px]"
+            className="w-full min-h-[500px] bg-[#3C3C3C] rounded-[10px] mt-[28px] p-[12px]"
             dangerouslySetInnerHTML={{
               __html: goodsDetail?.illustrate || "",
             }}

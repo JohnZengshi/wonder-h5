@@ -12,6 +12,7 @@ import { Md5 } from "ts-md5";
 import useStore from "@/store/useStore";
 import { downloadImage } from "@/utils";
 import defaultUserIcon from "@/assets/defaultUserIcon.svg";
+import mineCoindPointBg from "@/assets/mineCoindPointBg.png";
 
 export const Route = createFileRoute("/home/mine")({
   component: RouteComponent,
@@ -128,7 +129,7 @@ function RouteComponent() {
                   width: 168px;
                   height: 70px;
                   opacity: 1;
-                  box-sizing: border-box;
+                  /* box-sizing: border-box;
                   border: 0.5px solid;
                   border-image: linear-gradient(
                       128deg,
@@ -136,9 +137,9 @@ function RouteComponent() {
                       rgba(252, 252, 252, 0.13) 21%,
                       rgba(255, 162, 229, 0.1) 111%
                     )
-                    0.5;
+                    0.5; */
                 `,
-                "px-[13px] py-[13px] flex flex-col items-start justify-center gap-[5px]"
+                "relative px-[13px] py-[13px] flex flex-col items-start justify-center gap-[5px] rounded-[10px]"
               )}
               onClick={() => {
                 navigate({
@@ -147,6 +148,11 @@ function RouteComponent() {
                 });
               }}
             >
+              <img
+                src={mineCoindPointBg}
+                className="absolute top-0 left-0 w-full h-full"
+                alt=""
+              />
               <span className="text-[12px] text-[#999999]">{v.title}</span>
               <span className="text-[16px] font-bold text-nowrap whitespace-nowrap">
                 {v.value}
@@ -248,6 +254,18 @@ function RouteComponent() {
                 shadowColor: "rgba(158, 165, 235, 0.6)",
               }}
             />
+            {/* <LabelItem
+              label="测试"
+              showArrow={false}
+              icon={<span className="i-hugeicons-help-circle" />}
+              iconStyle={{
+                borderColor: "#9795E9",
+                shadowColor: "rgba(158, 165, 235, 0.6)",
+              }}
+              onClick={() => {
+                navigate({ to: "/test" });
+              }}
+            /> */}
           </LabelWrap>
         </div>
       </div>

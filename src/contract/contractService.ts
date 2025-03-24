@@ -232,13 +232,12 @@ export async function payByContract(
   if (import.meta.env.MODE == "production") {
     chain = chainType == "bsc" ? bsc : tron;
   } else {
-    chain = chainType == "bsc" ? bscTestnet : tron; // TODO 使用主网测试
+    chain = chainType == "bsc" ? bscTestnet : tronTestnet; // TODO 使用主网测试
   }
   await ensureCorrectNetwork(chain); // 传入目标链
-
   const currentConfig = await getChainConfig();
   const currentChainId = getChainId(config);
-  console.log("当前网络：", currentChainId);
+  console.log("当前网络：", currentChainId, currentConfig);
   console.log("pay buy contract params", { amount, orderID });
   console.log("NETWORK_USDT:", currentConfig.usdt.address);
 
@@ -312,7 +311,7 @@ async function ensureCorrectNetwork(chain: Chain) {
     // 尝试直接切换网络
     await switchChain(config, { chainId: chain.id });
   } catch (switchError) {
-    throw new BaseError(`请手动切换${chain.name}网络`);
+    // throw new BaseError(`请手动切换${chain.name}网络`);
     // 切换失败时添加网络
     const walletClient = createWalletClient({
       transport: custom(window.ethereum as any),

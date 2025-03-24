@@ -2,13 +2,19 @@ import FetchClient from "@/server";
 import { components } from "@/server/api";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useAsyncEffect } from "ahooks";
-import { Empty, ErrorBlock, Swiper, Image } from "antd-mobile";
+import { Empty, ErrorBlock, Swiper, Image, NoticeBar } from "antd-mobile";
 import { useState } from "react";
 import tuiguangzhuanqiang from "@/assets/tuiguangzhuanqiang.svg";
 import lianxikefu from "@/assets/lianxikefu.svg";
 import guangwangrukou from "@/assets/guangwangrukou.svg";
 import statusUp from "@/assets/status-up.svg";
 import { BaseBtn } from "@/components/BaseBtn";
+import gif_1 from "@/assets/AI/1.gif";
+import gif_2 from "@/assets/AI/2.gif";
+import gif_3 from "@/assets/AI/3.gif";
+import gif_4 from "@/assets/AI/4.gif";
+import clsx from "clsx";
+import { css } from "@/lib/emotion";
 
 export const Route = createFileRoute("/home/")({
   component: RouteComponent,
@@ -60,13 +66,24 @@ function RouteComponent() {
       ) : null}
 
       {/* 公告 */}
-      <div className="w-full flex items-center gap-[14px] px-[14px] h-[54px] rounded-[10px] bg-[#1F1F1F]">
+      {/* <div className="w-full flex items-center gap-[14px] px-[14px] h-[54px] rounded-[10px] bg-[#1F1F1F]">
         <span className="i-hugeicons-volume-high text-[#9795E9] text-[24px]"></span>
-        <span className="text-[14px]">
-          {/* 这里是很长很长的一句话可以滚动的公告内容 */}
-          {notice?.noticeTitle}
-        </span>
-      </div>
+        <span className="text-[14px]">{notice?.noticeTitle}</span>
+      </div> */}
+      <NoticeBar
+        className={clsx(
+          "w-full flex items-center gap-[14px] !px-[14px] !h-[54px] !rounded-[10px] !bg-[#1F1F1F] !border-none",
+          css`
+            .adm-notice-bar-left {
+              color: #9795e9;
+            }
+            .adm-notice-bar-content-inner {
+              font-size: 14px !important;
+            }
+          `
+        )}
+        content={notice?.noticeTitle}
+      />
 
       <div
         className="w-[347px] h-[200px] rounded-[10px] "
@@ -161,13 +178,36 @@ function ZoneGoodsList({ commodityTypeId }: { commodityTypeId: number }) {
           {goodsList?.map((v, i) => (
             <li
               key={i}
-              className="w-[172px] max-w-[172px] h-[226px] flex flex-col gap-[6px] bg-[#1F1F1F]"
+              className="w-[172px] max-w-[172px] h-[226px] flex flex-col gap-[6px] bg-[#1F1F1F] rounded-[10px]"
               onClick={() => {
                 navigate({ to: "/product", search: { goodsId: v.id } });
               }}
             >
               <div className="w-full h-[172px] rounded-[12px] p-[11px]">
-                <Image src={v.commodityImg} className="w-full h-full" alt="" />
+                {v.type == 4 ? (
+                  <>
+                    {v.machineConfigLevel == 1 && (
+                      <img src={gif_1} className="w-full h-full" alt="" />
+                    )}
+                    {v.machineConfigLevel == 2 && (
+                      <img src={gif_2} className="w-full h-full" alt="" />
+                    )}
+                    {v.machineConfigLevel == 3 && (
+                      <img src={gif_3} className="w-full h-full" alt="" />
+                    )}
+                    {v.machineConfigLevel == 4 && (
+                      <img src={gif_4} className="w-full h-full" alt="" />
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <Image
+                      src={v.commodityImg}
+                      className="w-full h-full"
+                      alt=""
+                    />
+                  </>
+                )}
               </div>
               <div className="flex flex-col items-start px-[12px] pb-[8px] overflow-hidden">
                 <span className="text-[14px] text-ellipsis whitespace-nowrap w-full overflow-hidden">

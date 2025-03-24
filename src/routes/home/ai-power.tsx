@@ -11,6 +11,7 @@ import gif_1 from "@/assets/AI/1.gif";
 import gif_2 from "@/assets/AI/2.gif";
 import gif_3 from "@/assets/AI/3.gif";
 import gif_4 from "@/assets/AI/4.gif";
+import aiPowerCardBg from "@/assets/aiPowerCardBg.png";
 
 export const Route = createFileRoute("/home/ai-power")({
   component: RouteComponent,
@@ -66,34 +67,41 @@ function RouteComponent() {
   }
   return (
     <div className="flex flex-col px-[14px] py-[12px]">
-      <div className="bg-[#1A1A1A] rounded-[10px] border-[#9795E9] border px-[16px] py-[13px] flex flex-col gap-[8px]">
-        <ul className="flex items-center justify-between">
-          <CardItem
-            title="我的算力"
-            value={statistics?.currentComputingPower ?? "0"}
-            unit="USDT"
-          />
-          <CardItem
-            title="我的AI云算力机"
-            value={statistics?.miningMachineCountNumber ?? "0"}
-            unit="个"
-            className="items-end"
-          />
-        </ul>
+      <div className="relative">
+        <div className="z-10 relative flex flex-col gap-[8px] px-[16px] py-[13px] rounded-[10px]">
+          <ul className="flex items-center justify-between">
+            <CardItem
+              title="我的算力"
+              value={statistics?.currentComputingPower ?? "0"}
+              unit="USDT"
+            />
+            <CardItem
+              title="我的AI云算力机"
+              value={statistics?.miningMachineCountNumber ?? "0"}
+              unit="个"
+              className="items-end"
+            />
+          </ul>
 
-        <ul className="flex items-center justify-between">
-          <CardItem
-            title="总收益"
-            value={statistics?.totalRevenue ?? "0"}
-            unit="USDT"
-          />
-          <CardItem
-            title="正在运行"
-            value={`${statistics?.miningMachineNumber ?? "0"}`}
-            unit="个"
-            className="items-end"
-          />
-        </ul>
+          <ul className="flex items-center justify-between">
+            <CardItem
+              title="总收益"
+              value={statistics?.totalRevenue ?? "0"}
+              unit="USDT"
+            />
+            <CardItem
+              title="正在运行"
+              value={`${statistics?.miningMachineNumber ?? "0"}`}
+              unit="个"
+              className="items-end"
+            />
+          </ul>
+        </div>
+        <img
+          src={aiPowerCardBg}
+          className="w-full h-full absolute top-0 left-0 z-0"
+          alt=""
+        />
       </div>
       <div className="flex items-center justify-between mt-[19px]">
         <CustomSegmented

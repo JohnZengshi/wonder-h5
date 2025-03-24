@@ -27,10 +27,11 @@ export function BaseBtn({
     <div
       onClick={() => !disabled && onClick?.()}
       className={clsx(
-        "flex items-center justify-center gap-[8px] rounded-[10px] overflow-hidden",
+        "flex items-center justify-center gap-[8px] rounded-[10px] overflow-hidden bg-transparent",
         css`
           opacity: 1;
-          background: rgba(0, 0, 0, 1);
+          /* background: rgba(0, 0, 0, 1); */
+
           box-sizing: border-box;
           border: 1px solid ${borderColor ?? "#9795e9"};
           box-shadow:

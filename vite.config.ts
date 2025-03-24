@@ -18,7 +18,6 @@ export default defineConfig({
   },
   server: {
     host: "0.0.0.0", // 允许局域网访问
-    port: 7777,
   },
   define: {
     // 兼容旧式 process 写法

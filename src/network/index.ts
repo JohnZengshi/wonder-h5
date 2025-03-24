@@ -10,12 +10,12 @@ export const tronTestnet = {
     symbol: "TRX",
   },
   rpcUrls: {
-    default: { http: ["https://nile-rpc.trongrid.io"] },
+    default: { http: ["https://nile.trongrid.io"] },
   },
   blockExplorers: {
     default: {
       name: "Tronscan",
-      url: "https://nile.tronscan.org",
+      url: "https://nile.tronscan.org/tx/",
     },
   },
 };

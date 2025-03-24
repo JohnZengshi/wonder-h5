@@ -9,6 +9,7 @@ import { useAsyncEffect } from "ahooks";
 import { components } from "@/server/api";
 import FetchClient from "@/server";
 import { downloadImage } from "@/utils";
+import inviteCardBg from "@/assets/inviteCardBg.png";
 
 export const Route = createFileRoute("/intive/")({
   component: RouteComponent,
@@ -103,13 +104,13 @@ function RouteComponent() {
           ].map((v, i) => (
             <div
               className={clsx(
-                "flex flex-auto items-center h-[70px] px-[13px] justify-between",
+                "relative flex flex-auto items-center h-[70px] px-[13px] justify-between",
                 css`
                   border-radius: 10px;
                   opacity: 1;
-                  background: rgba(252, 252, 252, 0.1);
-                  box-sizing: border-box;
-                  border: 0.5px solid;
+                  /* background: rgba(252, 252, 252, 0.1); */
+                  /* box-sizing: border-box; */
+                  /* border: 0.5px solid;
                   border-image: linear-gradient(
                       129deg,
                       #9795e9 1%,
@@ -117,7 +118,7 @@ function RouteComponent() {
                       rgba(255, 162, 229, 0.1) 112%
                     )
                     0.5;
-                  backdrop-filter: blur(60px);
+                  backdrop-filter: blur(60px); */
                 `
               )}
               key={i}
@@ -125,6 +126,11 @@ function RouteComponent() {
                 navigate({ to: "/intive/invite-list" });
               }}
             >
+              <img
+                src={inviteCardBg}
+                className="absolute top-0 left-0 w-full h-full"
+                alt=""
+              />
               <div className="flex flex-col gap-[5px]">
                 <span className="text-[12px] text-[#999999]">{v.title}</span>
                 <span className="text-[16px] font-bold">{v.num}</span>

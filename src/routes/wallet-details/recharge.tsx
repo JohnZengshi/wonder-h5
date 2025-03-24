@@ -142,6 +142,7 @@ function RouteComponent() {
                 default: chainType == 1 ? "BSC" : "TRON",
                 onConfirm: (network) => {
                   // 处理网络选择逻辑
+                  if (network == "TRON") return Toast.show("TRON暂不支持");
                   console.log("Selected network:", network);
                   setChainType(network == "BSC" ? 1 : 2);
                 },

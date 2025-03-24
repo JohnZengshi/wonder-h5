@@ -36,7 +36,7 @@ export function CustomSegmented({ options, value, onChange }: SegmentedProps) {
               border: none;
               padding: 0 16px;
               background: transparent;
-              color: #fff;
+              color: #999999;
               font-family: Alibaba PuHuiTi 2;
               font-size: 14px;
               transition: all 0.3s ease;
@@ -49,6 +49,7 @@ export function CustomSegmented({ options, value, onChange }: SegmentedProps) {
               &.active {
                 border-radius: 104px;
                 background-color: #9695e934;
+                color: #9795e9;
               }
             `,
             { active: value === option.value }

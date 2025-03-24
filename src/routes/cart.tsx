@@ -4,6 +4,7 @@ import { showPaymentPassword } from "@/utils/payment";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import {
   Button,
+  Empty,
   Image,
   NavBar,
   NumberKeyboard,
@@ -153,6 +154,9 @@ function RouteComponent() {
                 <BaseBtn
                   title="去购物"
                   className="px-[69px] h-[44px] rounded-[22px]"
+                  onClick={() => {
+                    navigate({ to: "/home" });
+                  }}
                 />
               </div>
             </>
@@ -180,6 +184,11 @@ function RouteComponent() {
               </div>
             </li>
           ))}
+          {recommended?.length == 0 && (
+            <div className="w-full">
+              <Empty />
+            </div>
+          )}
         </ul>
         <div className="h-[56px]"></div>
         <SafeArea position="bottom" />
@@ -190,7 +199,7 @@ function RouteComponent() {
               className="flex items-center gap-[7px]"
               onClick={() => toggleSelectAll()}
             >
-              {cart.every((v) => v.selected) ? (
+              {cart.length != 0 && cart.every((v) => v.selected) ? (
                 <span className="i-mdi-check-circle text-[18px] text-[#9795E9]"></span>
               ) : (
                 <>
