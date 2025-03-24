@@ -6,8 +6,8 @@ import {
   mainnet,
   AppKitNetwork,
   bsc,
-  tron,
   bscTestnet,
+  tron,
 } from "@reown/appkit/networks";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";

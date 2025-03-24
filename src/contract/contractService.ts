@@ -22,7 +22,7 @@ import tronBusinessAbi from "@/contract/tron.json";
 
 import { BaseError } from "wagmi";
 import { wagmiAdapter } from "@/AppKitProvider";
-import { bsc, bscTestnet, tron } from "viem/chains";
+import { bsc, bscTestnet } from "viem/chains";
 import { addChain } from "viem/actions";
 import { Chain, createWalletClient, custom } from "viem";
 /*
@@ -32,7 +32,8 @@ import { Chain, createWalletClient, custom } from "viem";
  * @Author: John
  */
 import { useRef, useState } from "react";
-import { tronTestnet } from "@/network";
+import { tron, tronTestnet } from "@/network";
+import { Toast } from "antd-mobile";
 
 const config = wagmiAdapter.wagmiConfig;
 
@@ -231,7 +232,7 @@ export async function payByContract(
   if (import.meta.env.MODE == "production") {
     chain = chainType == "bsc" ? bsc : tron;
   } else {
-    chain = chainType == "bsc" ? bscTestnet : tronTestnet;
+    chain = chainType == "bsc" ? bscTestnet : tron; // TODO 使用主网测试
   }
   await ensureCorrectNetwork(chain); // 传入目标链
 
@@ -303,13 +304,15 @@ export async function payByContract(
 async function ensureCorrectNetwork(chain: Chain) {
   try {
     const currentChainId = getChainId(config);
-    console.log("需要切换的网络", chain.id);
+    console.log("需要切换的网络", chain.id, chain);
     console.log("当前网络:", currentChainId);
 
     if (currentChainId === chain.id) return;
+
     // 尝试直接切换网络
     await switchChain(config, { chainId: chain.id });
   } catch (switchError) {
+    throw new BaseError(`请手动切换${chain.name}网络`);
     // 切换失败时添加网络
     const walletClient = createWalletClient({
       transport: custom(window.ethereum as any),

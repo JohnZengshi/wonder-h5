@@ -1,0 +1,13 @@
+diff --git a/node_modules/viem/chains/definitions/tron.ts b/node_modules/viem/chains/definitions/tron.ts
+index 2280378..8bf7919 100644
+--- a/node_modules/viem/chains/definitions/tron.ts
++++ b/node_modules/viem/chains/definitions/tron.ts
+@@ -3,7 +3,7 @@ import { defineChain } from '../../utils/chain/defineChain.js'
+ export const tron = /*#__PURE__*/ defineChain({
+   id: 728126428,
+   name: 'Tron',
+-  nativeCurrency: { name: 'TRON', symbol: 'TRX', decimals: 6 },
++  nativeCurrency: { name: 'TRON', symbol: 'TRX', decimals: 18 },
+   rpcUrls: {
+     default: {
+       http: ['https://api.trongrid.io/jsonrpc'],

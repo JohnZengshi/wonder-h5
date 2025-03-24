@@ -1,3 +1,5 @@
+import { defineChain } from "viem";
+
 export const tronTestnet = {
   id: 3448148188,
   name: "Nile Testnet",
@@ -17,3 +19,21 @@ export const tronTestnet = {
     },
   },
 };
+
+export const tron = /*#__PURE__*/ defineChain({
+  id: 728126428,
+  name: "Tron",
+  nativeCurrency: { name: "TRON", symbol: "TRX", decimals: 18 },
+  rpcUrls: {
+    default: {
+      http: ["https://tron-mainnet.token.im"],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: "Tronscan",
+      url: "https://tronscan.io",
+      apiUrl: "https://apilist.tronscanapi.com/api",
+    },
+  },
+});

@@ -2,7 +2,6 @@ import {
   payByContract,
   usePollingCheckBuyStatus,
 } from "@/contract/contractService";
-import { tronTestnet } from "@/network";
 import FetchClient from "@/server";
 import {
   useAppKit,
@@ -13,7 +12,6 @@ import { useRouter } from "@tanstack/react-router";
 import { Toast } from "antd-mobile";
 import { useEffect, useRef, useState } from "react";
 import { BaseError, parseUnits } from "viem";
-import { bsc, bscTestnet, tron } from "viem/chains";
 import { useAppKitWallet } from "@reown/appkit-wallet-button/react";
 import { useConnect } from "wagmi";
 
@@ -100,7 +98,14 @@ function useRecharg({ successCallback }: { successCallback?: () => void }) {
     var order = data?.data?.orderNumber;
     var amount = data?.data?.amount;
     if (!order) return;
-    const amountWei = parseUnits(Number(amount).toFixed(18), 18);
+
+    var amountWei = parseUnits(Number(amount).toFixed(18), 18);
+
+    // 转换为18位精度（实际TRX精度6位 + 补丁增加的12位）
+    if (chainType == 2) {
+      // TRX 精度转换（6位转18位）
+      amountWei = parseUnits(Number(amount).toFixed(6), 6); // 自
+    }
     try {
       setPaying(true);
       setPayFail(false);

@@ -1,10 +1,10 @@
-import { tronTestnet } from "@/network";
+import { tron, tronTestnet } from "@/network";
 import useRecharg, { ChainType } from "@/utils/useRecharg";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useAsyncEffect } from "ahooks";
 import { NavBar, ResultPage } from "antd-mobile";
 import { useEffect, useState } from "react";
-import { bsc, bscTestnet, tron } from "viem/chains";
+import { bsc, bscTestnet } from "viem/chains";
 
 export type penddingRouterParams = {
   anmout: string;
@@ -58,7 +58,7 @@ function RouteComponent() {
     <div className="flex flex-col">
       <NavBar className="!h-[44px] bg-[#9795E9]" backIcon={null}></NavBar>
       <ResultPage
-        status="success"
+        status={payFail ? "error" : "success"}
         title={payFail ? "充值失败" : "充值中"}
         description={payFail ? "请返回网页重新支付" : "请不要关闭此页面"}
         details={[
