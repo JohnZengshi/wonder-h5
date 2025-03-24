@@ -12,7 +12,7 @@ import gif_2 from "@/assets/AI/2.gif";
 import gif_3 from "@/assets/AI/3.gif";
 import gif_4 from "@/assets/AI/4.gif";
 
-export const Route = createFileRoute("/home/ai-power/")({
+export const Route = createFileRoute("/home/ai-power")({
   component: RouteComponent,
 });
 
@@ -126,7 +126,7 @@ function RouteComponent() {
           const now = Date.now();
           console.log(new Date(start), new Date(end));
           if (isNaN(start) || isNaN(end) || start >= end) {
-            return 0; // 添加更严格的校验
+            return null; // 添加更严格的校验
           }
 
           const percent =

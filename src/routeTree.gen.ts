@@ -29,8 +29,8 @@ import { Route as IntiveInviteListImport } from './routes/intive/invite-list'
 import { Route as HomeMineImport } from './routes/home/mine'
 import { Route as HomeLogImport } from './routes/home/log'
 import { Route as HomeCategoryImport } from './routes/home/category'
+import { Route as HomeAiPowerImport } from './routes/home/ai-power'
 import { Route as AiPowerRevenueDetailsImport } from './routes/ai-power/revenue-details'
-import { Route as HomeAiPowerIndexImport } from './routes/home/ai-power/index'
 
 // Create/Update Routes
 
@@ -143,16 +143,16 @@ const HomeCategoryRoute = HomeCategoryImport.update({
   getParentRoute: () => HomeRoute,
 } as any)
 
+const HomeAiPowerRoute = HomeAiPowerImport.update({
+  id: '/ai-power',
+  path: '/ai-power',
+  getParentRoute: () => HomeRoute,
+} as any)
+
 const AiPowerRevenueDetailsRoute = AiPowerRevenueDetailsImport.update({
   id: '/ai-power/revenue-details',
   path: '/ai-power/revenue-details',
   getParentRoute: () => rootRoute,
-} as any)
-
-const HomeAiPowerIndexRoute = HomeAiPowerIndexImport.update({
-  id: '/ai-power/',
-  path: '/ai-power/',
-  getParentRoute: () => HomeRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -207,6 +207,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/ai-power/revenue-details'
       preLoaderRoute: typeof AiPowerRevenueDetailsImport
       parentRoute: typeof rootRoute
+    }
+    '/home/ai-power': {
+      id: '/home/ai-power'
+      path: '/ai-power'
+      fullPath: '/home/ai-power'
+      preLoaderRoute: typeof HomeAiPowerImport
+      parentRoute: typeof HomeImport
     }
     '/home/category': {
       id: '/home/category'
@@ -292,32 +299,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WalletDetailsIndexImport
       parentRoute: typeof rootRoute
     }
-    '/home/ai-power/': {
-      id: '/home/ai-power/'
-      path: '/ai-power'
-      fullPath: '/home/ai-power'
-      preLoaderRoute: typeof HomeAiPowerIndexImport
-      parentRoute: typeof HomeImport
-    }
   }
 }
 
 // Create and export the route tree
 
 interface HomeRouteChildren {
+  HomeAiPowerRoute: typeof HomeAiPowerRoute
   HomeCategoryRoute: typeof HomeCategoryRoute
   HomeLogRoute: typeof HomeLogRoute
   HomeMineRoute: typeof HomeMineRoute
   HomeIndexRoute: typeof HomeIndexRoute
-  HomeAiPowerIndexRoute: typeof HomeAiPowerIndexRoute
 }
 
 const HomeRouteChildren: HomeRouteChildren = {
+  HomeAiPowerRoute: HomeAiPowerRoute,
   HomeCategoryRoute: HomeCategoryRoute,
   HomeLogRoute: HomeLogRoute,
   HomeMineRoute: HomeMineRoute,
   HomeIndexRoute: HomeIndexRoute,
-  HomeAiPowerIndexRoute: HomeAiPowerIndexRoute,
 }
 
 const HomeRouteWithChildren = HomeRoute._addFileChildren(HomeRouteChildren)
@@ -330,6 +330,7 @@ export interface FileRoutesByFullPath {
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/ai-power/revenue-details': typeof AiPowerRevenueDetailsRoute
+  '/home/ai-power': typeof HomeAiPowerRoute
   '/home/category': typeof HomeCategoryRoute
   '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
@@ -342,7 +343,6 @@ export interface FileRoutesByFullPath {
   '/home/': typeof HomeIndexRoute
   '/intive': typeof IntiveIndexRoute
   '/wallet-details': typeof WalletDetailsIndexRoute
-  '/home/ai-power': typeof HomeAiPowerIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -352,6 +352,7 @@ export interface FileRoutesByTo {
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/ai-power/revenue-details': typeof AiPowerRevenueDetailsRoute
+  '/home/ai-power': typeof HomeAiPowerRoute
   '/home/category': typeof HomeCategoryRoute
   '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
@@ -364,7 +365,6 @@ export interface FileRoutesByTo {
   '/home': typeof HomeIndexRoute
   '/intive': typeof IntiveIndexRoute
   '/wallet-details': typeof WalletDetailsIndexRoute
-  '/home/ai-power': typeof HomeAiPowerIndexRoute
 }
 
 export interface FileRoutesById {
@@ -376,6 +376,7 @@ export interface FileRoutesById {
   '/order': typeof OrderRoute
   '/product': typeof ProductRoute
   '/ai-power/revenue-details': typeof AiPowerRevenueDetailsRoute
+  '/home/ai-power': typeof HomeAiPowerRoute
   '/home/category': typeof HomeCategoryRoute
   '/home/log': typeof HomeLogRoute
   '/home/mine': typeof HomeMineRoute
@@ -388,7 +389,6 @@ export interface FileRoutesById {
   '/home/': typeof HomeIndexRoute
   '/intive/': typeof IntiveIndexRoute
   '/wallet-details/': typeof WalletDetailsIndexRoute
-  '/home/ai-power/': typeof HomeAiPowerIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -401,6 +401,7 @@ export interface FileRouteTypes {
     | '/order'
     | '/product'
     | '/ai-power/revenue-details'
+    | '/home/ai-power'
     | '/home/category'
     | '/home/log'
     | '/home/mine'
@@ -413,7 +414,6 @@ export interface FileRouteTypes {
     | '/home/'
     | '/intive'
     | '/wallet-details'
-    | '/home/ai-power'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -422,6 +422,7 @@ export interface FileRouteTypes {
     | '/order'
     | '/product'
     | '/ai-power/revenue-details'
+    | '/home/ai-power'
     | '/home/category'
     | '/home/log'
     | '/home/mine'
@@ -434,7 +435,6 @@ export interface FileRouteTypes {
     | '/home'
     | '/intive'
     | '/wallet-details'
-    | '/home/ai-power'
   id:
     | '__root__'
     | '/'
@@ -444,6 +444,7 @@ export interface FileRouteTypes {
     | '/order'
     | '/product'
     | '/ai-power/revenue-details'
+    | '/home/ai-power'
     | '/home/category'
     | '/home/log'
     | '/home/mine'
@@ -456,7 +457,6 @@ export interface FileRouteTypes {
     | '/home/'
     | '/intive/'
     | '/wallet-details/'
-    | '/home/ai-power/'
   fileRoutesById: FileRoutesById
 }
 
@@ -535,11 +535,11 @@ export const routeTree = rootRoute
     "/home": {
       "filePath": "home.tsx",
       "children": [
+        "/home/ai-power",
         "/home/category",
         "/home/log",
         "/home/mine",
-        "/home/",
-        "/home/ai-power/"
+        "/home/"
       ]
     },
     "/order": {
@@ -550,6 +550,10 @@ export const routeTree = rootRoute
     },
     "/ai-power/revenue-details": {
       "filePath": "ai-power/revenue-details.tsx"
+    },
+    "/home/ai-power": {
+      "filePath": "home/ai-power.tsx",
+      "parent": "/home"
     },
     "/home/category": {
       "filePath": "home/category.tsx",
@@ -590,10 +594,6 @@ export const routeTree = rootRoute
     },
     "/wallet-details/": {
       "filePath": "wallet-details/index.tsx"
-    },
-    "/home/ai-power/": {
-      "filePath": "home/ai-power/index.tsx",
-      "parent": "/home"
     }
   }
 }
