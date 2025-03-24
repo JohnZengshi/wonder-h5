@@ -258,7 +258,7 @@ function RouteComponent() {
               if (isMobileBrowser) {
                 showWalletModal({
                   onConfirm: (walletType) => {
-                    const { origin, pathname } = window.location;
+                    const { origin, pathname, host } = window.location;
                     var path: FileRouteTypes["to"] = "/wallet-details/pendding";
                     var params: penddingRouterParams = {
                       anmout: payAmount,
@@ -266,15 +266,17 @@ function RouteComponent() {
                       token: token,
                       account: account,
                     };
-                    const targetUrl = encodeURIComponent(
-                      `${origin}${pathname}?${new URLSearchParams(params as any).toString()}#${path}`
-                    );
+
                     if (walletType == "imtoken") {
-                      const deeplink = `imtokenv2://navigate/DappView?url=${targetUrl}`; //TODO 替换为 MetaMask 的 deep link
+                      const targetUrl = `${origin}${pathname}?${new URLSearchParams(params as any).toString()}#${path}`;
+
+                      const deeplink = `imtokenv2://navigate/DappView?url=${encodeURIComponent(targetUrl)}`;
                       window.location.href = deeplink;
                       return;
                     } else {
-                      const deeplink = `https://metamask.app.link/dapp/${targetUrl}`; //TODO 替换为 MetaMask 的 deep link
+                      const targetUrl = `${host}${pathname}?${new URLSearchParams(params as any).toString()}#${path}`;
+
+                      const deeplink = `dapp://${targetUrl}`;
                       window.location.href = deeplink;
                       return;
                     }

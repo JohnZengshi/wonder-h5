@@ -2,7 +2,7 @@ import { css } from "@/lib/emotion";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { Button, Modal, NavBar, SafeArea, Toast, Image } from "antd-mobile";
 import clsx from "clsx";
-import { PropsWithChildren, ReactNode, useState } from "react";
+import { PropsWithChildren, ReactNode, useMemo, useState } from "react";
 import { useAsyncEffect } from "ahooks";
 import FetchClient from "@/server";
 import { components } from "@/server/api";
@@ -24,6 +24,25 @@ function RouteComponent() {
   const { userInfo } = useStore();
 
   const { setUserInfo } = useStore();
+
+  const balance = useMemo(() => {
+    const balance = parseFloat(
+      userInfo?.userWallets?.find((v) => v.coinId == 2)?.balance ?? "0"
+    );
+    const frozen = parseFloat(
+      userInfo?.userWallets?.find((v) => v.coinId == 2)?.frozen ?? "0"
+    );
+    return balance + frozen;
+  }, [userInfo]);
+  const point = useMemo(() => {
+    const balance = parseFloat(
+      userInfo?.userWallets?.find((v) => v.coinId == 1)?.balance ?? "0"
+    );
+    const frozen = parseFloat(
+      userInfo?.userWallets?.find((v) => v.coinId == 1)?.frozen ?? "0"
+    );
+    return balance + frozen;
+  }, [userInfo]);
   useAsyncEffect(async () => {
     const { data } = await FetchClient.GET("/api/account/findUser");
     if (data?.data) setUserInfo(data?.data);
@@ -38,14 +57,21 @@ function RouteComponent() {
             alt=""
           />
           <div className="flex flex-col gap-[8px]">
-            <div className="flex items-center gap-[8px]">
+            <div className="flex flex-col gap-[2px]">
               <span className="text-[16px] text-white">
                 {userInfo?.userName}
               </span>
-              <span className="text-[16px] text-[#4EFC27]">
-                LV{userInfo?.level}
-              </span>
-              <span className="i-mdi-award text-[24px] text-[#9795E9]"></span>
+              <div className="flex items-center gap-[8px]">
+                <span className="text-[16px] text-[#4EFC27]">
+                  {/* -1表示非会员   0表示会员，就不要显示等级了     1表示会员1级  */}
+                  {userInfo?.level === -1
+                    ? "非会员"
+                    : userInfo?.level === 0
+                      ? "会员"
+                      : `会员 LV${userInfo?.level}`}
+                </span>
+                <span className="i-mdi-award text-[24px] text-[#9795E9]"></span>
+              </div>
             </div>
             <span className="text-[14px] flex items-center gap-[4px] text-[#999999]">
               ID账号：<span className="text-[#E9E9E9]">{userInfo?.uid} </span>
@@ -87,12 +113,12 @@ function RouteComponent() {
             {
               key: "2",
               title: "平台代币($)",
-              value: `$ ${userInfo?.userWallets?.find((v) => v.coinId == 2)?.balance ?? 0}`,
+              value: `$ ${balance}`,
             },
             {
               key: "1",
               title: "平台积分($)",
-              value: `$ ${userInfo?.userWallets?.find((v) => v.coinId == 1)?.balance ?? 0}`,
+              value: `$ ${point}`,
             },
           ].map((v, i) => (
             <li
@@ -122,7 +148,9 @@ function RouteComponent() {
               }}
             >
               <span className="text-[12px] text-[#999999]">{v.title}</span>
-              <span className="text-[16px] font-bold">{v.value}</span>
+              <span className="text-[16px] font-bold text-nowrap whitespace-nowrap">
+                {v.value}
+              </span>
             </li>
           ))}
         </ul>

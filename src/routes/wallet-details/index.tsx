@@ -77,18 +77,38 @@ function RouteComponent() {
       </NavBar>
 
       <div className="flex flex-col px-[14px]">
-        <span className="text-[14px] text-[#999]">
-          {type === "points" ? "平台积分" : "平台代币"}
-        </span>
-        <span className="text-[14px] flex items-center gap-[6px]">
-          <span className="text-[38px] font-bold">
-            {type == "points"
-              ? (userInfo.userWallets?.find((v) => v.coinId == 1)?.balance ?? 0)
-              : (userInfo.userWallets?.find((v) => v.coinId == 2)?.balance ??
-                0)}
-          </span>
-          $
-        </span>
+        <div className="flex items-center gap-[10px]">
+          <div className="flex flex-col flex-1">
+            <span className="text-[14px] text-[#999]">
+              {type === "points" ? "可用积分" : "可用代币"}
+            </span>
+            <span className="text-[14px] flex items-center gap-[6px]">
+              <span className="text-[38px] font-bold">
+                {type == "points"
+                  ? (userInfo.userWallets?.find((v) => v.coinId == 1)
+                      ?.balance ?? 0)
+                  : (userInfo.userWallets?.find((v) => v.coinId == 2)
+                      ?.balance ?? 0)}
+              </span>
+              $
+            </span>
+          </div>
+          <div className="flex flex-col flex-1">
+            <span className="text-[14px] text-[#999]">
+              {type === "points" ? "冻结积分" : "冻结代币"}
+            </span>
+            <span className="text-[14px] flex items-center gap-[6px]">
+              <span className="text-[38px] font-bold">
+                {type == "points"
+                  ? (userInfo.userWallets?.find((v) => v.coinId == 1)?.frozen ??
+                    0)
+                  : (userInfo.userWallets?.find((v) => v.coinId == 2)?.frozen ??
+                    0)}
+              </span>
+              $
+            </span>
+          </div>
+        </div>
 
         <ul className="flex items-center gap-[16.5px] mt-[7px]">
           <BaseBtn
